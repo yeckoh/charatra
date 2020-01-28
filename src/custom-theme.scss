@@ -1,0 +1,72 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+
+$mat-mine: (
+  50: #ffebee,
+  100: #4fcdd2,
+  200: #4f9a9a,
+  300: #457373,
+  400: #4f5350,
+  500: #444336,
+  600: #453935,
+  700: #432f2f,
+  800: #462828,
+  900: #471c1c,
+  A100: #4f8a80,
+  A200: #4f5252,
+  A400: #4f1744,
+  A700: #450000,
+  contrast: (
+    50: $black-87-opacity,
+    100: $black-87-opacity,
+    200: $black-87-opacity,
+    300: $black-87-opacity,
+    400: $black-87-opacity,
+    500: white,
+    600: white,
+    700: white,
+    800: $white-87-opacity,
+    900: $white-87-opacity,
+    A100: $black-87-opacity,
+    A200: white,
+    A400: white,
+    A700: white,
+  )
+);
+
+$material-primary: mat-palette($mat-blue, 800);
+$material-accent: mat-palette($mat-grey, 500);
+
+// The warn palette is optional (defaults to red).
+$material-warn: mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$material-theme: mat-dark-theme($material-primary, $material-accent, $material-warn);
+
+
+
+//$my-primary: mat-palette($mat-pink);
+//$my-secondary: mat-palette();
+//$my-accent: mat-palette();
+//$my-warn: mat-palette();
+
+//$my-material-theme:($my-primary, $my-secondary, $my-accent, $my-warn);
+
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($material-theme);
+//@include angular-material-theme($my-material-theme);

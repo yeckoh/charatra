@@ -1,3 +1,15 @@
+# charatra
+MEAN stack
+ng serve to run frontend
+node server to run backend
+
+./controllers	-express. define get post behavior
+./models		-express. define object and fields
+./src			-angular
+./src/app/mymat	-angular material stuff importer
+/app/shared		-angular collection definitions and data holders. these call express funcs
+
+
 # Material
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.23.

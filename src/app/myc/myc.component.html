@@ -1,0 +1,30 @@
+<div style='background:#444444'>
+<mat-tab-group style='background:#222222'>
+<mat-tab label="first">
+    <p class='mat-display-1'>mat display 1 works</p>
+    <br>
+    <p>button presses: {{counter}}</p>
+    <br>
+    <mat-label>wasdfg</mat-label>
+    <br>
+    <button mat-button color='primary' (click)='increment()'>increase</button>
+    <br>
+    <button mat-button color='secondary' (click)='increment()'>increase</button>
+    <br>
+    <button mat-button (click)='increment()'>increase</button>
+    <br>
+    <br>
+    <button mat-flat-button color='primary' (click)='increment()'>increase</button>
+    <br>
+    <button mat-flat-button (click)='increment()'>increase</button>
+    <br>
+    <button mat-flat-button color='accent' (click)='increment()'>increase</button>
+    <br>
+    <button mat-raised-button color='accent' (click)='increment()'>increase</button>
+    <br>
+    </mat-tab>
+    <mat-tab label="second">
+      <app-chara></app-chara>
+</mat-tab>
+</mat-tab-group>
+</div>
