@@ -6,15 +6,18 @@ bodyparser parses incoming requests for the handlers
 const express = require('express');
 const bodyParser = require('body-parser');
 const { mongoose } = require('./dbconnect.js');
+const cors = require('cors');
+
 const port = 3000;
 const app = express()
-.use(bodyParser.json());
+.use(bodyParser.json())
+.use(cors({ origin: 'http://localhost:4200' }));
 
 
 // import the controller so we can CRUD
 var charaController = require('./controllers/charas.controller');
 
-// define localhost:3000/charas, chara.controller
+// define localhost:3000/charas, charas.controller
 app.use('/charas', charaController);
 
 

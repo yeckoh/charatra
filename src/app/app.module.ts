@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 import { MymatModule } from './mymat/mymat.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -15,13 +16,14 @@ import { CharaComponent } from './chara/chara.component';
     AppComponent,
     MycComponent,
     SidenavComponent,
-    CharaComponent,
+    CharaComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MymatModule
+    MymatModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
