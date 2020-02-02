@@ -1,0 +1,13 @@
+.my-card {
+  color: primary;
+  min-width: 150px;
+  max-width: 300px;
+  width: 100%;
+}
+
+.my-form {
+  color: accent;
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}

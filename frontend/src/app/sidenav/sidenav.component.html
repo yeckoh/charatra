@@ -1,0 +1,25 @@
+<mat-sidenav-container style="min-height: 100%;">
+  <mat-sidenav mode="side" opened fixedInViewport='true'>
+      <mat-nav-list>
+        <a [routerLink]="['/signin']"><mat-list-item>Account</mat-list-item></a>
+        <a [routerLink]="['/']"><mat-list-item>Home</mat-list-item></a>
+        <hr>
+        <a [routerLink]="['/chara123']"><mat-list-item>chara123</mat-list-item></a>
+        <mat-list-item>chara2</mat-list-item>
+        <mat-list-item>Character1</mat-list-item>
+        <mat-list-item>Character2</mat-list-item>
+        <mat-list-item>Character3</mat-list-item>
+        <mat-list-item>Character4</mat-list-item>
+        <mat-list-item>Character5</mat-list-item>
+        <mat-list-item>Character6</mat-list-item>
+      </mat-nav-list>
+
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <!-- <mat-card-title class='mycardtitle'>selected character name</mat-card-title> -->
+    <router-outlet></router-outlet>
+
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

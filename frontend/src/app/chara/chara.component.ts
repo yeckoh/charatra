@@ -12,6 +12,17 @@ import { CharaService } from '../shared/chara.service';
 })
 export class CharaComponent implements OnInit {
 
+  public cardTitleName = 'hello world';
+  public counter = 0;
+
+  /**
+   * increment
+   */
+  public increment() {
+    this.counter++;
+  }
+
+
   constructor(private charaService: CharaService ) { }
 
   ngOnInit() {
