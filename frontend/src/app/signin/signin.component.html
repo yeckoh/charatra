@@ -1,7 +1,7 @@
 <div>
   <mat-toolbar><span>Sign in</span></mat-toolbar>
 
-  <form (submit)="onSigninSubmit">
+  <form (submit)="onSigninSubmit()">
     <mat-card>
 
   <div>
@@ -26,7 +26,7 @@
     <div>
       <mat-card-subtitle mat-hint>don't have an account?</mat-card-subtitle>
     </div>
-  <a [routerLink]="['/signup']"><button mat-raised-button color="accent">Sign up</button></a>
+  <a [routerLink]="['/signup']"><button mat-raised-button color="accent">Sign up!</button></a>
 
 
   </div>

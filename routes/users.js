@@ -19,8 +19,10 @@ router.post('/register', (req, res, next) => {
   User.addUser(newUser, (err, user) => {
     if(err){
       res.json({success: false, msg:'Failed to register user'});
+      console.log('a register failed');
     } else {
       res.json({success: true, msg:'User registered'});
+      console.log('a register was successful');
     }
   });
 });
@@ -32,8 +34,10 @@ router.post('/authenticate', (req, res, next) => {
 
   User.getUserByUsername(username, (err, user) => { // if exists
     if(err) throw err;
-    if(!user)
-    return res.json({success: false, msg: 'user not found'});
+    if(!user) {
+      console.log('/auth tried to post a missing user');
+      return res.json({success: false, msg: 'user not found'});
+    }
     User.comparePassword(password, user.password,(err, isMatch)=> { // match by password
       if(err) throw err;
       if(isMatch){
@@ -49,8 +53,9 @@ router.post('/authenticate', (req, res, next) => {
             email: user.email
           }
         });
+        console.log('/auth post authentication success')
       }
-      else return res.json({success: false, msg: 'wrong pasword'});
+      else { console.log('/auth wrong pass supplied'); return res.json({success: false, msg: 'wrong pasword'}); }
     });
   });
 });

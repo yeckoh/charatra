@@ -15,13 +15,15 @@ import { SignupComponent } from './signup/signup.component';
 // formsModule is getting imported in mymat importer component
 
 import { ValidateService } from './shared/validate.service';
+import { AuthService } from './shared/auth.service';
+import {FlashMessagesModule} from 'angular2-flash-messages';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'signin', component: SigninComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'chara123', component: CharaComponent }
-  //{ path: 'board', component: DashComponent }
+  // { path: 'board', component: DashComponent }
  ];
 
 @NgModule({
@@ -39,9 +41,10 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     MymatModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    FlashMessagesModule.forRoot()
   ],
-  providers: [ValidateService],
+  providers: [ValidateService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

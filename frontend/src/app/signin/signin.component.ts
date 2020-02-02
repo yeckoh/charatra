@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, createPlatformFactory } from '@angular/core';
 
 @Component({
   selector: 'app-signin',
@@ -7,13 +7,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SigninComponent implements OnInit {
 
-  username: String;
-  email: String;
-  password: String;
+  username: string;
+  email: string;
+  password: string;
 
   constructor() { }
 
   ngOnInit() {
   }
+
+  onSigninSubmit() {
+    // do something
+  }
+
 
 }
