@@ -1,13 +1,31 @@
-# charatra
-MEAN stack
-ng serve to run frontend
-node server to run backend
+install nodejs
 
-./controllers	-express. define get post behavior
-./models		-express. define object and fields
-./src			-angular
-./src/app/mymat	-angular material stuff importer
-/app/shared		-angular collection definitions and data holders. these call express funcs
+install mongodb. mongo-compass is like mysqlworkbench, you can check records and CRUD. New connection: localhost:27017
+
+mongo\bin\mongod.exe --dbpath [path to a folder]
+
+/charatra/ npm init
+
+
+# charatra
+you might need to npm i -g @angular/cli
+
+/frontend/ ng serve |to run angular
+
+/node server        |to run backend
+
+
+./controllers	-express. define GET & POST behavior for http reqs
+
+./models		-express. define objects for Express, +some related functions
+
+./frontend			-angular folder
+
+./frontend/routes   -express? where do http requests from Angular:4200 --> Node:3000 go
+
+./frontend/src/app/mymat	-angular. material stuff importer
+
+.../app/shared		-angular. services/rxjs-observers, +object definitions for Angular
 
 
 # Material
