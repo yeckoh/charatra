@@ -4,18 +4,18 @@
     <mat-card>
       <div>
   <mat-form-field>
-    <input matInput type="text" [(ngModel)]="username" name="username" placeholder="username">
+    <input matInput type="text" required [(ngModel)]="username" name="username" placeholder="username" value="">
   </mat-form-field>
   </div>
   <div>
   <mat-form-field>
-    <input matInput type="text" [(ngModel)]="email" name="email" placeholder="email">
+    <input matInput type="text" required [(ngModel)]="email" name="email" placeholder="email" value="">
     <mat-hint>I won't sell your data</mat-hint>
   </mat-form-field>
 </div>
 <div>
   <mat-form-field>
-    <input matInput type="password" [(ngModel)]="password" name="password" placeholder="PaSsWoRd">
+    <input matInput type="password" required [(ngModel)]="password" name="password" placeholder="PaSsWoRd" value="">
     <mat-hint></mat-hint>
   </mat-form-field>
 </div>

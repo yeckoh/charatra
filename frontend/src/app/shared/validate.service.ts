@@ -9,9 +9,16 @@ export class ValidateService {
 
 
   validateSignup(user) {
-    if (user.name === '' || user.email === '' || user.password === '') {
-    return false;
-    } else { return true; }
+    console.log(user);
+    if (user.username == null || user.email == null || user.password == null) { // they never entered anything in
+      console.log('something was undefined');
+      return false;
+    }
+    if (user.username === '' || user.email === '' || user.password === '') { // something was put in and then made blank
+      console.log('something was blank');
+      return false;
+    }
+    return true;
   }
 
   validateEmail(email) {
@@ -20,9 +27,7 @@ export class ValidateService {
     return re.test(email);
   }
 
-  uniqueSignup(user) {
-
-  }
+//  uniqueSignup(user) {} if we have nothing else to do, do this
 
 
 

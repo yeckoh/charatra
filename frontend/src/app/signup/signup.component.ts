@@ -40,7 +40,8 @@ export class SignupComponent implements OnInit {
     // req fields
     if (!this.validateService.validateSignup(user)) {
       // tell them to fill in everything
-      console.log('some fields are blank');
+      // console.log('some fields are blank');
+      // console.log(user);
       this.flashMessage.show('All fields must be filled in', {timeout: 3500});
       return false;
     }
@@ -57,10 +58,9 @@ export class SignupComponent implements OnInit {
     this.authService.signupUser(user).subscribe(data => {
       if (data) {
         this.flashMessage.show('Sign up successful', {timeout: 3000});
-        // you re now registered and can login
+        // you're now registered and can login
         this.router.navigate(['/signin']);
-      }
-      else {
+      } else {
         this.flashMessage.show('Sign up was unsuccessful', {timeout: 4000});
         this.router.navigate(['/signup']);
         // u arent registered
