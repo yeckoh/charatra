@@ -45,7 +45,7 @@ router.post('/authenticate', (req, res, next) => {
           expiresIn: 604800 // one week
         });
         res.json({ // send on match
-          success: 'we got a successful match',
+          success: true,
           token: `Bearer ${token}`,
           user: {
             id: user._id,
