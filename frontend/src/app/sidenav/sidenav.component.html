@@ -2,6 +2,7 @@
   <mat-sidenav mode="side" opened fixedInViewport='true'>
       <mat-nav-list>
         <a [routerLink]="['/signin']"><mat-list-item>Account</mat-list-item></a>
+        <a href="#" (click)="onSignoutClick()"><mat-list-item>Signout (LoggedIn)</mat-list-item></a>
         <a [routerLink]="['/']"><mat-list-item>Home</mat-list-item></a>
         <hr>
         <a [routerLink]="['/chara123']"><mat-list-item>chara123</mat-list-item></a>

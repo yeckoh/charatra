@@ -61,4 +61,10 @@ export class AuthService {
     this.user = user;
   }
 
+  signout() {
+    this.authToken = null;
+    this.user = null;
+    localStorage.clear();
+  }
+
 }
