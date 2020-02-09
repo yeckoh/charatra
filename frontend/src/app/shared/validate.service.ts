@@ -1,3 +1,6 @@
+/*
+/// this defines the signup validation behavior
+*/
 import { Injectable } from '@angular/core';
 
 @Injectable({
