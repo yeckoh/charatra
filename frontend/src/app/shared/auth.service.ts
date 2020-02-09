@@ -32,7 +32,7 @@ export class AuthService {
     // post req to routes/adduser
     return this.http.post('http://localhost:3000/users/register', user, httpOptions).pipe(map(res => JSON.stringify(res)));
     // .pipe(map(res => JSON.stringify(res))); returns a string, which happens to contain the object
-    // MAYBE we want the object so we use .pipe res => res
+    // if we want object properties, use JSON.parse(res) in wherever that called this func
   }
 
   // auth a user
@@ -47,11 +47,16 @@ export class AuthService {
       })
     };
 
-    // post req to routes/adduser
+    // post req to routes/getuserbyusername, comparepassword
     return this.http.post('http://localhost:3000/users/authenticate', user, httpOptions).pipe(map(res => JSON.stringify(res)));
     // its gnona return: [if success] a token for users to store,
     // and the user info, which we're gonna want to store that
   }
 
+
+  storeUserData(token, user) {
+    localStorage.setItem('id_token', token);
+    localStorage.setItem('user', JSON.stringify(user));
+  }
 
 }

@@ -29,14 +29,22 @@ export class SigninComponent implements OnInit {
       password: this.password
     };
 
+
+    if (user.password == null || user.password === '') {
+      this.flashMsg.show('Invalid login credentials', { timeout: 2000});
+      this.router.navigate(['signin']);
+      return;
+    }
     // take object and submit it through auth service to the backend authenticate router
     // uses authService
     this.authServ.authenticateUser(user).subscribe(data => {
-      console.log(data); // should be no user found, wrong password, or token + user:_id
-      if (data) { // how do we 'blindly' check for a json object's property? we know success: exists but its just an object here
-        console.log('success goes here');
+      const returndata = JSON.parse(data);
+      if (returndata.success) {
+        this.authServ.storeUserData(returndata.token, returndata.user);
+        this.flashMsg.show('You are now logged in', {timeout: 2000});
+        this.router.navigate(['/']);
       } else {
-        this.flashMsg.show('Invalid login credentials', {timeout: 3500});
+        this.flashMsg.show('Invalid login credentials', { timeout: 3000});
         this.router.navigate(['signin']);
       }
     });
