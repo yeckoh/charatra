@@ -38,13 +38,14 @@ router.post('/authenticate', (req, res, next) => {
       console.log('/auth tried to post a missing user');
       return res.json({success: false, msg: 'user not found'});
     }
-    User.comparePassword(password, user.password,(err, isMatch)=> { // match by password
+    User.comparePassword(password, user.password, (err, isMatch) => { // match by password
       if(err) throw err;
-      if(isMatch){
+      if(isMatch) {
         const token = jwt.sign({data: user}, db.secret, {
           expiresIn: 604800 // one week
         });
-        res.json({ // send on match
+        console.log('/auth post authentication success');
+        res.send({ // send on match
           success: true,
           token: `Bearer ${token}`,
           user: {
@@ -53,7 +54,7 @@ router.post('/authenticate', (req, res, next) => {
             email: user.email
           }
         });
-        console.log('/auth post authentication success')
+
       }
       else { console.log('/auth wrong pass supplied'); return res.json({success: false, msg: 'wrong pasword'}); }
     });
@@ -61,7 +62,7 @@ router.post('/authenticate', (req, res, next) => {
 });
 
 // profile protection route
-router.get('/profile', passport.authenticate('jwt', {session:false}), (req, res, next) => {
+router.get('/profile', passport.authenticate('jwt', {session: false}), (req, res, next) => {
   res.json({
     user: {
       _id: req.user._id,
