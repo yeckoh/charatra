@@ -17,6 +17,7 @@ import { SignupComponent } from './signup/signup.component';
 import { ValidateService } from './shared/validate.service';
 import { AuthService } from './shared/auth.service';
 import {FlashMessagesModule} from 'angular2-flash-messages';
+import { ColeTestButtonComponent } from './cole-test-button/cole-test-button.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -33,7 +34,8 @@ const appRoutes: Routes = [
     CharaComponent,
     SigninComponent,
     HomeComponent,
-    SignupComponent
+    SignupComponent,
+    ColeTestButtonComponent
   ],
   imports: [
     BrowserModule,
