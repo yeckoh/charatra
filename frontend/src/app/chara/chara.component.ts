@@ -13,19 +13,50 @@ import { CharaService } from '../shared/chara.service';
 export class CharaComponent implements OnInit {
 
   public cardTitleName = 'hello world';
-  public counter = 0;
+  public presses = 0;
+  protected id: string;
+
+  constructor(private charaService: CharaService ) { }
+
+
+  ngOnInit() {
+    this.charaService.getCounter().subscribe(data => {
+      const returndata = JSON.parse(data);
+      console.log(returndata);
+      if (returndata == null) {
+          console.log('the collection is empty; charaService.getCounter; no data');
+          const newdata = {
+            presses: 0,
+            other_presses: 123
+          };
+          this.charaService.postadoc(newdata);
+      }
+      this.id = returndata._id;
+      this.presses = returndata.presses;
+    });
+}
 
   /**
    * increment
    */
   public increment() {
-    this.counter++;
+    // this.presses++;
+
+    const obj = {
+      _id: this.id,
+      presses: ++this.presses,
+      other_presses: this.presses + 10
+    };
+
+    this.charaService.pullPresses(obj).subscribe();
+    this.charaService.getCounter();
+
   }
 
 
-  constructor(private charaService: CharaService ) { }
 
-  ngOnInit() {
-  }
+
+
+
 
 }

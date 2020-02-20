@@ -34,6 +34,8 @@ const app = express()
 const users = require('./routes/users');
 app.use('/users', users);
 
+const btn_counters = require('./routes/btn');
+app.use('/mybutton', btn_counters);
 
 // passport middleware for JWT
 app.use(passport.initialize())
