@@ -19,9 +19,10 @@ export class CharaComponent implements OnInit {
   constructor(private charaService: CharaService ) { }
 
 
+  /// TODO: clean up logic?
   ngOnInit() {
     this.charaService.getCounter().subscribe(data => {
-      const returndata = JSON.parse(data);
+      let returndata = JSON.parse(data);
       console.log(returndata);
       if (returndata == null) {
           console.log('the collection is empty; charaService.getCounter; no data');
@@ -29,10 +30,15 @@ export class CharaComponent implements OnInit {
             presses: 0,
             other_presses: 123
           };
-          this.charaService.postadoc(newdata);
-      }
+          this.charaService.postadoc(newdata).subscribe((moredata) => {
+            returndata = JSON.parse(moredata);
+            this.id = returndata._id;
+            this.presses = returndata.presses;
+          });
+      } else {
       this.id = returndata._id;
       this.presses = returndata.presses;
+    }
     });
 }
 
@@ -49,7 +55,7 @@ export class CharaComponent implements OnInit {
     };
 
     this.charaService.pullPresses(obj).subscribe();
-    this.charaService.getCounter();
+    // this.charaService.getCounter();
 
   }
 
