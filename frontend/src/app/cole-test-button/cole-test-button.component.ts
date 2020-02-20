@@ -7,8 +7,12 @@ import { Component, OnInit} from '@angular/core';
 })
 export class ColeTestButtonComponent implements OnInit {
 
+  color;
+  numOfButtons: number;
+  counter;
+
   constructor() {
-    this.color = "accent";
+    this.color = 'primary';
     this.numOfButtons = 1;
     this.counter = Array;
   }
