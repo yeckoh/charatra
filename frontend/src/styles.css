@@ -13,3 +13,20 @@ mat-form-field {
   width: 100%;
 }
 */
+
+/* Angular doesnt let u use all the colors in the palette according to stackoverflow; reeeeeeeeeeee */
+.p50 {color: #dbefff; }
+.p100 {color: #b7d6ea; }
+.p200 {color: #97b9d0; }
+.p300 {color: #749cb6; }
+.p400 {color: #5a86a3; }
+.p500 {color: #3e7290; }
+.p600 {color: #31637f; }
+.p700 {color: #225069; }
+.p800 {color: #143e54; }
+.p900 {color: #00293c; }
+
+.a100 {color: #edc7b0; }
+.a200 {color: #d0a48d; }
+.a400 {color: #9b694c; }
+.a700 {color: #693b22; }
