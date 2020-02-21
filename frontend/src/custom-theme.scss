@@ -14,20 +14,20 @@
 // hue. Available color palettes: https://material.io/design/color/
 
 $mat-mine: (
-  50: #ffebee,
-  100: #4fcdd2,
-  200: #4f9a9a,
-  300: #457373,
-  400: #4f5350,
-  500: #444336,
-  600: #453935,
-  700: #432f2f,
-  800: #462828,
-  900: #471c1c,
-  A100: #4f8a80,
-  A200: #4f5252,
-  A400: #4f1744,
-  A700: #450000,
+  50: #dbefff,
+  100: #b7d6ea,
+  200: #97b9d0,
+  300: #749cb6,
+  400: #5a86a3,
+  500: #3e7290,
+  600: #31637f,
+  700: #225069,
+  800: #143e54,
+  900: #00293c,
+  A100: #edc7b0,
+  A200: #d0a48d,
+  A400: #9b694c,
+  A700: #693b22,
   contrast: (
     50: $black-87-opacity,
     100: $black-87-opacity,
@@ -46,27 +46,27 @@ $mat-mine: (
   )
 );
 
-$material-primary: mat-palette($mat-blue, 800);
-$material-accent: mat-palette($mat-grey, 500);
+//$material-primary: mat-palette($mat-blue, 800);
+//$material-accent: mat-palette($mat-grey, 500);
 
 // The warn palette is optional (defaults to red).
 $material-warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$material-theme: mat-dark-theme($material-primary, $material-accent, $material-warn);
+//$material-theme: mat-dark-theme($material-primary, $material-accent, $material-warn);
 
 
+// which $palette, default, lighter, darker
+$my-primary: mat-palette($mat-mine, 500, 300, 800);
+$my-accent: mat-palette($mat-mine, A400, A200, A700);
+$my-warn: mat-palette($mat-red);
 
-//$my-primary: mat-palette($mat-pink);
-//$my-secondary: mat-palette();
-//$my-accent: mat-palette();
-//$my-warn: mat-palette();
-
-//$my-material-theme:($my-primary, $my-secondary, $my-accent, $my-warn);
+$my-material-theme: mat-dark-theme($my-primary, $my-accent, $my-warn);
 
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($material-theme);
-//@include angular-material-theme($my-material-theme);
+//@include angular-material-theme($material-theme);
+@include angular-material-theme($my-material-theme);
+
