@@ -1,0 +1,42 @@
+<div>
+<p class='mat-display-1 p300 boxshadow-4' style="max-width: 32rem;">mat display 1 works</p>
+      <br>
+      <p>button presses: <mat-label>{{presses}}</mat-label>  </p>
+      <br>
+      <mat-label class='a200'>button id: {{id}}</mat-label>
+      <br>
+      <button mat-button class="mat-elevation-z8" color='primary' (click)='increment()'>increase</button>
+      <br>
+
+
+
+      <mat-expansion-panel>
+  <mat-expansion-panel-header>expand dong</mat-expansion-panel-header>
+      <button class="mat-elevation-z2" mat-button color='secondary' (click)='increment()'>increase</button>
+      <br>
+      <button mat-button (click)='increment()'>increese</button>
+      <br>
+      <br>
+      <button mat-flat-button color='primary' (click)='increment()'>inkrease</button>
+      <br>
+      <button mat-flat-button (click)='increment()'>incureas</button>
+      <br>
+      <button mat-flat-button class="mat-elevation-z2" color='accent' (click)='increment()'>REEEEEEse</button>
+      <br>
+      <button mat-raised-button color='accent' (click)='increment()'>increase</button>
+      <br>
+      <app-cole-test-button></app-cole-test-button>
+      </mat-expansion-panel>
+
+
+
+      <div class="example-container">
+        <mat-form-field>
+          <input matInput placeholder="Input">
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+          <textarea matInput placeholder="Textarea"></textarea>
+        </mat-form-field>
+      </div>
+</div>

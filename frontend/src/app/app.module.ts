@@ -17,7 +17,14 @@ import { SignupComponent } from './signup/signup.component';
 import { ValidateService } from './shared/validate.service';
 import { AuthService } from './shared/auth.service';
 import {FlashMessagesModule} from 'angular2-flash-messages';
+
 import { ColeTestButtonComponent } from './cole-test-button/cole-test-button.component';
+
+import { TabOverviewComponent } from './chara/tabs/tab-overview/tab-overview.component';
+import { TabFeatureComponent } from './chara/tabs/tab-feature/tab-feature.component';
+import { TabInventoryComponent } from './chara/tabs/tab-inventory/tab-inventory.component';
+import { TabSpellsComponent } from './chara/tabs/tab-spells/tab-spells.component';
+import { TabPersonaComponent } from './chara/tabs/tab-persona/tab-persona.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -35,7 +42,12 @@ const appRoutes: Routes = [
     SigninComponent,
     HomeComponent,
     SignupComponent,
-    ColeTestButtonComponent
+    ColeTestButtonComponent,
+    TabOverviewComponent,
+    TabFeatureComponent,
+    TabInventoryComponent,
+    TabSpellsComponent,
+    TabPersonaComponent
   ],
   imports: [
     BrowserModule,
