@@ -3,6 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { CharaService } from '../../../shared/chara.service';
 
 
+import { Router } from '@angular/router'; // router to redirect
+import { FlashMessagesService } from 'angular2-flash-messages';
+
+
 @Component({
   selector: 'app-tab-overview',
   templateUrl: './tab-overview.component.html',
@@ -16,28 +20,37 @@ export class TabOverviewComponent implements OnInit {
   public presses = 0;
   protected id: string;
 
-  constructor(private charaService: CharaService ) { }
+  constructor(private charaService: CharaService,
+              private router: Router,
+              private flashMsg: FlashMessagesService) { }
 
 
   /// TODO: clean up logic?
   ngOnInit() {
+    if (localStorage.getItem('id_token') == null) {
+      this.flashMsg.show('You gotta be signed in to view chara123', { timeout: 3000});
+      this.router.navigate(['signin']);
+      return;
+    }
+
     this.charaService.getCounter().subscribe(data => {
       let returndata = JSON.parse(data);
+      console.log('returndata:');
       console.log(returndata);
       if (returndata == null) {
-          console.log('the collection is empty; charaService.getCounter; no data');
+          console.log('getCounter returned nothing!; charaService.getCounter; no data');
           const newdata = {
             presses: 0,
             other_presses: 123
           };
           this.charaService.postadoc(newdata).subscribe((moredata) => {
             returndata = JSON.parse(moredata);
-            this.id = returndata._id;
-            this.presses = returndata.presses;
-          }); // end.of if-returndata
+            this.id = returndata.button._id;
+            this.presses = returndata.button.presses;
+          }); // end.of if-null-returndata
       } else {
-      this.id = returndata._id;
-      this.presses = returndata.presses;
+      this.id = returndata.button._id;
+      this.presses = returndata.button.presses;
     }
     }); // end.of getcounter.subscribe
   } // end.of ngoninit

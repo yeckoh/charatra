@@ -41,7 +41,27 @@ pullPresses(btnobj) {
 
 
 getCounter() {
-  return this.http.get('http://localhost:3000/mybutton').pipe(map(res => JSON.stringify(res)));
+  const headers = new Headers();
+  headers.append('Content-Type', 'application/json');
+
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  };
+
+  const alltestbtns = JSON.parse(localStorage.getItem('user'));
+  const buildurl = 'http://localhost:3000/' + 'users/profile/' + alltestbtns.id + '/getbtn';
+  const strtobtnid = {
+    buttontest_id: alltestbtns.charas[0]
+  };
+  // console.log(strtobtnid);
+  return this.http.post(buildurl, strtobtnid, httpOptions ).pipe(map(res => JSON.stringify(res)));
+
+
+
+
+  // return this.http.get('http://localhost:3000/mybutton').pipe(map(res => JSON.stringify(res)));
       // its gonna return: [if success] the first button object
       // /routes/btn currently uses .findOne
 }
