@@ -5,6 +5,11 @@ const jwt = require('jsonwebtoken');
 const db = require('../dbconnect');
 
 const User = require('../models/user.model');
+const buttonmodel = require('../models/btnc.model');
+
+// import objectId from mongoose
+var ObjectId = require('mongoose').Types.ObjectId;
+
 
 // using localhost:3000/users/
 
@@ -45,13 +50,14 @@ router.post('/authenticate', (req, res, next) => {
           expiresIn: 604800 // one week
         });
         console.log('/auth post authentication success');
-        res.send({ // send on match
+        res.json({ // send on match
           success: true,
           token: `Bearer ${token}`,
           user: {
             id: user._id,
             username: user.username,
-            email: user.email
+            email: user.email,
+            charas: user.buttontest_id
           }
         });
 
@@ -71,6 +77,62 @@ router.get('/profile', passport.authenticate('jwt', {session: false}), (req, res
   }});
 });
 
+// HTTP RFC => no body in GET requests. this is nice for postman but completely dead
+// router.get('/profile/:id/getbtn', (req, res) => {
+//   console.log('users/profile/id/btnget GET called');
+//   if(!ObjectId.isValid(req.body.buttontest_id))
+//   return res.status(400).send(`No record with given buttontest_id : ${req.body.buttontest_id}`);
+//   User.grabButton(req.body.buttontest_id, (err, button) =>{
+//     if(err)
+//     console.log('there was an issue with user.grabButton');
+//     else {
+//       res.send({
+//         button: {
+//           _id: button._id,
+//           presses: button.presses,
+//           other_presses: button.other_presses
+//         }});
+//     }
+//   });
+// });
+
+router.post('/profile/:id/getbtn', (req, res) => {
+  User.grabButton(req.body.buttontest_id, (err, button) =>{
+    if(err)
+    console.log('there was an issue with user.grabButton');
+    else {
+      res.send({
+        button: {
+          _id: button._id,
+          presses: button.presses,
+          other_presses: button.other_presses
+        }});
+    }
+  });
+});
+
+
+
+
+
+router.get('/profile/:id', (req, res) => {
+  
+  // if(!ObjectId.isValid(req.params.id))
+  // return res.status(400).send(`No record with given id : ${req.params.id}`);
+  User.findById(req.params.id, (err, doc) => {
+  if (!err) { res.send(doc); }
+  else console.log('An error has occured when retrieving the chara that exists');
+
+  // const buttonid = req.btn.buttontest_id;
+  // let btnobj = User.
+  // res.json({
+  //   btn: {
+  //     _id: req.btn.buttontest_id,
+  //     presses: req.btn.presses,
+  //     other_presses: req.btn.other_presses
+  //   }
+  });
+});
 
 
 module.exports = router;
