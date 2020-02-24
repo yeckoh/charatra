@@ -26,7 +26,9 @@ export class CharaService {
 
 // make a put req to update
 pullPresses(btnobj) {
-    const IdentifierUrl = 'http://localhost:3000/mybutton/'.concat(btnobj._id);
+    const userdata = JSON.parse(localStorage.getItem('user'));
+
+    const IdentifierUrl = 'http://localhost:3000/buttonroute/'.concat(btnobj._id);
     const objToModel = { // this is kinda ugly but btnobj is an Object: object ?
       _id: btnobj._id,
       presses: btnobj.presses,
