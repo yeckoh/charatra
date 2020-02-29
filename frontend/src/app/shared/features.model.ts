@@ -1,5 +1,9 @@
 export class Features {
   // tslint:disable: variable-name
+
+  selected_color: string;
+  feature_category: number; // 0-3 ? see: chara.model feature_category_names
+
   _id: string;
   descript: string;
   uses: number;

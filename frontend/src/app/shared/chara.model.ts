@@ -2,6 +2,11 @@
 export class Chara {
   // tslint:disable: variable-name
 
+  selected_color: string;
+  feature_category0: string; // user defined feature separation names
+  feature_category1: string;
+  feature_category2: string;
+
   _id: string;
   current_hitpoints: number;
   stats: {
@@ -51,6 +56,15 @@ export class Chara {
   listof_charamanualfeatures: [string];
 
 
+  special_stuff: {
+    superiority_dice: number,
+    expertise_dice: number,
+    sorcery_points: number,
+    ki_points: number,
+    rage_dmg: number,
+    other_name: string,
+    other_number: number
+  };
 
 
 

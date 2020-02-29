@@ -96,22 +96,23 @@ router.get('/profile', passport.authenticate('jwt', {session: false}), (req, res
 //   });
 // });
 
-router.post('/profile/:id/getbtn', (req, res) => {
-  User.grabButton(req.body.buttontest_id, (err, button) =>{
-    if(err)
-    console.log('there was an issue with user.grabButton');
-    else {
-      res.send({
-        button: {
-          _id: button._id,
-          presses: button.presses,
-          other_presses: button.other_presses
-        }});
-    }
-  });
-});
+// router.post('/profile/:id/getbtn', (req, res) => {
+//   User.grabButton(req.body.buttontest_id, (err, button) =>{
+//     if(err)
+//     console.log('there was an issue with user.grabButton');
+//     else {
+//       res.send({
+//         button: {
+//           _id: button._id,
+//           presses: button.presses,
+//           other_presses: button.other_presses
+//         }});
+//     }
+//   });
+// });
 
 
+// router.put('/')
 
 
 

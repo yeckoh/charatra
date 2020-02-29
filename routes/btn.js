@@ -77,11 +77,11 @@ router.get('/:id', (req, res) => {
 // define routes for UPDATE and DELETE
 // UPDATE - given a unique _id, update their info
 router.put('/:id', (req, res) => {
-    console.log('/buttonroute/ put called');
-  if(!ObjectId.isValid(req.params.id)){
-    console.log('a btn put request failed: no valid id supplied!');
-    return res.stats(400).send(`No record with given id : ${req.params.id}`);
-  }
+//     console.log('/buttonroute/ put called');
+//   if(!ObjectId.isValid(req.params.id)){
+//     console.log('a btn put request failed: no valid id supplied!');
+//     return res.stats(400).send(`No record with given id : ${req.params.id}`);
+//   }
     var btn = { // normal object - send json data containing keyvalues
       presses: req.body.presses,
       other_presses: req.body.other_presses

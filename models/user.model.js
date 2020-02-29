@@ -20,8 +20,8 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  //listof_characters: [Schema.types.ObjectId]
-  buttontest_id: [mongoose.Schema.Types.ObjectId]
+  listof_characters: [mongoose.Schema.types.ObjectId]
+  //buttontest_id: [mongoose.Schema.Types.ObjectId]
 });
 
 const User = module.exports = mongoose.model('User', UserSchema);
