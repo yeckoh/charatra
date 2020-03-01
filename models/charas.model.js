@@ -6,7 +6,11 @@ const mongoose = require('mongoose');
 
 // create a chara model
 var CharaShema = mongoose.Schema({
-  name: String,
+  selected_color: String,
+  feature_category0: String, // user defined feature separation names
+  feature_category1: String,
+  feature_category2: String,
+  
   current_hitpoints: Number,
 
   stats:{
@@ -40,22 +44,32 @@ var CharaShema = mongoose.Schema({
     name: String,
     race: {
       actualrace: String,
-      listof_racefeatures: [mongoose.Schema.types.ObjectId],
-      racespelllist: mongoose.Schema.types.ObjectId
+      listof_racefeatures: [mongoose.Schema.Types.ObjectId],
+      racespelllist: mongoose.Schema.Types.ObjectId
     },
     background: {
       actualbackground: String,
-      listof_backgroundfeatures: [mongoose.Schema.types.ObjectId]
+      listof_backgroundfeatures: [mongoose.Schema.Types.ObjectId]
     },
     ideals: String,
     bonds: String
   },
 
-  skills: mongoose.Schema.types.ObjectId,
+  skills: mongoose.Schema.Types.ObjectId,
 
-  listof_characlass: [mongoose.Schema.types.ObjectId],
-  listof_charainventorylist: [mongoose.Schema.types.ObjectId],
-  listof_charamanualfeatures: [mongoose.Schema.types.ObjectId]
+  listof_characlass: [mongoose.Schema.Types.ObjectId],
+  listof_charainventorylist: [mongoose.Schema.Types.ObjectId],
+  listof_charamanualfeatures: [mongoose.Schema.Types.ObjectId],
+
+  special_stuff: {
+    superiority_dice: Number,
+    expertise_dice: Number,
+    sorcery_points: Number,
+    ki_points: Number,
+    rage_dmg: Number,
+    other_name: String,
+    other_number: Number
+  }
 });
 
 

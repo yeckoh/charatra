@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const db = require('../dbconnect');
 //const charaschema = require('./charas.model');
-const btnschema = require('./btnc.model');
+//const btnschema = require('./btnc.model');
+
 
 // user schema
 
@@ -20,7 +21,7 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  listof_characters: [mongoose.Schema.types.ObjectId]
+  listof_characters: [mongoose.Schema.Types.ObjectId]
   //buttontest_id: [mongoose.Schema.Types.ObjectId]
 });
 

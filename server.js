@@ -30,6 +30,14 @@ const app = express()
 .use(bodyParser.json())
 .use(cors({ origin: 'http://localhost:4200' }));
 
+// socketstuff
+// socket io, pass in instance of a http server
+const http = require('http');
+const server = http.Server(app);
+const wsocket = require('socket.io')(server);
+//const io = require(server);
+app.set('socketio', wsocket);
+
 // EXPRESS ROUTES
 const users = require('./routes/users');
 app.use('/users', users);
@@ -38,8 +46,8 @@ app.use('/users', users);
 //app.use('/buttonroute', btn_counters);
 
 
-//const charas = require('./routes/charas');
-//app.use ('/charas', charas);
+// const charas = require('./routes/charas');
+// app.use ('/charas', charas);
 
 
 // passport middleware for JWT
@@ -54,6 +62,36 @@ app.use(express.static(path.join(__dirname, 'frontend/src')));
 
 
 // start server
-app.listen(port, function(){
-    console.log('server started on port ' + port + '...');
+// app.listen(port, function(){
+//     console.log('server started on port ' + port + '...');
+// });
+
+
+
+// capture whenever someone connects to server
+// .on ()
+// .emit (event name, what to send when the emit is called)
+let socket_ids = [];
+wsocket.on('connection', function(socket) {
+  require('./routes/ondisconnect')(socket_ids, socket);
+
+  console.log('\n');
+  console.log('new connection!');
+  console.log('list of all socketids:');
+  console.log(socket_ids);
+  console.log('\n');
+  
+  require('./routes/sockettester')(socket);
+  return socket;
+});
+
+
+
+
+
+
+
+
+server.listen(3000, function() {
+  console.log('WSocket server started on port ' + port + '...');
 });
