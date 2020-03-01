@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken');
 const db = require('../dbconnect');
 
 const User = require('../models/user.model');
-const buttonmodel = require('../models/btnc.model');
 
 // import objectId from mongoose
 var ObjectId = require('mongoose').Types.ObjectId;
@@ -55,7 +54,7 @@ router.post('/authenticate', (req, res, next) => {
             id: user._id,
             username: user.username,
             email: user.email,
-            charas: user.buttontest_id
+            charas: user.listof_characters
           }
         });
 
@@ -78,7 +77,7 @@ router.get('/profile', passport.authenticate('jwt', {session: false}), (req, res
 router.get('/profile/:id', (req, res) => {
   User.findById(req.params.id, (err, doc) => {
   if (!err) { res.send(doc); }
-  else console.log('An error has occured when retrieving the chara that exists');
+  else console.log('An error has occured when retrieving a user that exists');
   });
 });
 

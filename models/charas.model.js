@@ -5,7 +5,7 @@
 const mongoose = require('mongoose');
 
 // create a chara model
-var CharaShema = mongoose.Schema({
+var CharaSchema = mongoose.Schema({
   selected_color: String,
   feature_category0: String, // user defined feature separation names
   feature_category1: String,
@@ -73,7 +73,7 @@ var CharaShema = mongoose.Schema({
 });
 
 
-const Character = module.exports = mongoose.model('Character', CharaSchema);
+const Character = module.exports = mongoose.model('Characters', CharaSchema);
 
 // schema model functions -> {mongoose functions}
 

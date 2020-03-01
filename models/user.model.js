@@ -22,7 +22,6 @@ const UserSchema = mongoose.Schema({
     required: true
   },
   listof_characters: [mongoose.Schema.Types.ObjectId]
-  //buttontest_id: [mongoose.Schema.Types.ObjectId]
 });
 
 const User = module.exports = mongoose.model('User', UserSchema);
@@ -53,14 +52,4 @@ bcrypt.compare(password, hash, (err, isMatch) => {
   if(err) throw err;
   callback(null, isMatch);
 });
-};
-
-/// TODO: actually use the character model and stuff, not the supersimple button
-/// also: post, get, put, delete || ie:[create, read, update, delete]
-// module.exports.UserAddCharacter = function(newCharacter, callback) {
-//   charaschema.addCharacter(newCharacter, callback);
-// };
-
-module.exports.grabButton = function(buttonid, callback) {
-  btnschema.getButton(buttonid, callback);
 };

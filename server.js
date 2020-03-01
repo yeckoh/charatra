@@ -35,20 +35,11 @@ const app = express()
 const http = require('http');
 const server = http.Server(app);
 const wsocket = require('socket.io')(server);
-//const io = require(server);
 app.set('socketio', wsocket);
 
 // EXPRESS ROUTES
 const users = require('./routes/users');
 app.use('/users', users);
-
-//const btn_counters = require('./routes/btn');
-//app.use('/buttonroute', btn_counters);
-
-
-// const charas = require('./routes/charas');
-// app.use ('/charas', charas);
-
 
 // passport middleware for JWT
 app.use(passport.initialize())
@@ -57,7 +48,7 @@ require('./controllers/passport')(passport);
 
 
 
-// set index.html folder for localhost:3000
+// try to set index.html folder for localhost:3000
 app.use(express.static(path.join(__dirname, 'frontend/src')));
 
 
@@ -69,7 +60,7 @@ app.use(express.static(path.join(__dirname, 'frontend/src')));
 
 
 // capture whenever someone connects to server
-// .on ()
+// defines ALL the hooks
 // .emit (event name, what to send when the emit is called)
 let socket_ids = [];
 wsocket.on('connection', function(socket) {

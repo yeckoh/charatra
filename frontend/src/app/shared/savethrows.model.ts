@@ -1,5 +1,8 @@
 export class Savethrows {
   // tslint:disable: variable-name
+
+  selected_color: string;
+
   _id: string;
   ownerfeature_id: string;
   // ownerchara_id:, <-- for stats{} ?
