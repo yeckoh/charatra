@@ -1,8 +1,9 @@
-/// defines the entrypoint for the chara model, or table columns
-// routes specify get and post behavior
-// models specify what objects we're getting from mongoDB, including what fields they oughtta have
+/// defines the entrypoint for the chara model
 
 const mongoose = require('mongoose');
+
+/// TODO: DEATHSAVES, CLASSES_HITDICE, ITEM_ATTUNEMENT
+
 
 // create a chara model
 var CharaSchema = mongoose.Schema({
@@ -77,6 +78,15 @@ const Character = module.exports = mongoose.model('Characters', CharaSchema);
 
 // schema model functions -> {mongoose functions}
 
-module.exports.addCharacter = function(charaobj, callback) {
-  Character.save(charaobj);
+
+
+//=========================================================================
+// stuff for socket hooks
+//=========================================================================
+
+module.exports.SaveCharacter = function(charaobj) {
+  charaobj.save();
+  // charaobj.save(function(err, forwarddata) {
+  //   return forwarddata;
+  // } );
 }

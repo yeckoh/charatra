@@ -1,13 +1,11 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const db = require('../dbconnect');
-//const charaschema = require('./charas.model');
-//const btnschema = require('./btnc.model');
 
+// Make Mongoose use `findOneAndUpdate()`. Note that this option is `true`
+// by default, you need to set it to false.
+mongoose.set('useFindAndModify', false);
 
 // user schema
-
-
 const UserSchema = mongoose.Schema({
   username: {
     type: String,
@@ -25,6 +23,10 @@ const UserSchema = mongoose.Schema({
 });
 
 const User = module.exports = mongoose.model('User', UserSchema);
+
+//=========================================================================
+// stuff for passport
+//=========================================================================
 
 // schema model functions -> {mongoose functions}
 module.exports.getUserById = function(id, callback){
@@ -53,3 +55,15 @@ bcrypt.compare(password, hash, (err, isMatch) => {
   callback(null, isMatch);
 });
 };
+
+
+
+//=========================================================================
+// stuff for socket hooks
+//=========================================================================
+
+
+module.exports.AddToListofbyid = function(id, charaid) {
+  User.findByIdAndUpdate(id, {$push: {listof_characters: [charaid] }}).exec(); //equivalent
+  //User.findOneAndUpdate(id, {$push: { listof_characters: [charaid] }}).exec();
+}
