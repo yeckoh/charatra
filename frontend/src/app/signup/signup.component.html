@@ -1,6 +1,6 @@
 <div>
   <mat-toolbar><span>signup</span></mat-toolbar>
-  <form (submit)="onSignupSubmit()">
+  <form class='signform' (submit)="onSignupSubmit()">
     <mat-card>
       <div>
   <mat-form-field>
@@ -26,7 +26,7 @@
   <mat-divider></mat-divider>
   <br><br>
 
-  <a [routerLink]="['/signin']"><button mat-raised-button color="accent">actually, I want to sign in</button></a>
+  <a [routerLink]="['/signin']"><button mat-raised-button color="accent">Actually I want to sign in</button></a>
   </mat-card>
   </form>
 </div>
