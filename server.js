@@ -17,7 +17,7 @@ mongoose.connect(dbconnect.database, {useNewUrlParser:true, useUnifiedTopology: 
 
 // On Connection
 mongoose.connection.on('connected', () => {
-  console.log('Connected to database '+dbconnect.database);
+  console.log('Connected to database '+ "\x1b[36m"+ dbconnect.database + "\x1b[0m");
 });
 // On Error
 mongoose.connection.on('error', (err) => {
@@ -86,5 +86,5 @@ wsocket.on('connection', function(socket) {
 
 
 server.listen(3000, function() {
-  console.log('WSocket server started on port ' + port + '...');
+  console.log('WSocket server started on port ' +"\x1b[36m"+ port + '...' +"\x1b[0m");
 });

@@ -11,7 +11,7 @@ var ObjectId = require('mongoose');
 // just append require(filepath) to server.js
 // pass in socket from server.js
 module.exports = function(socket) {
-    console.log('ws-loaded: character_hooks');
+    console.log("\x1b[34m"+'ws-loaded:'+"\x1b[0m"+'character_hooks');
 
     // when 'testevent' gets fired...
     socket.on('makenewchara', function(sent_in_data) {
@@ -19,8 +19,6 @@ module.exports = function(socket) {
         // we can perform regular CRUD ops on our models using mongoose
         // let newbtn = new buttonmodel({ presses: 123, other_presses: 456});
         // newbtn.save();
-
-
 
         let newchara = new Character( {
             _id: ObjectId.Types.ObjectId(),
