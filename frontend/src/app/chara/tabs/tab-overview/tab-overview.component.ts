@@ -5,6 +5,7 @@ import * as wsocket from 'socket.io-client';
 import { Router } from '@angular/router'; // router to redirect
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { CharaComponent } from '../../chara.component';
+import { SecretSocketComponent } from 'src/app/secret-socket/secret-socket.component';
 
 
 @Component({
@@ -22,9 +23,5 @@ export class TabOverviewComponent implements OnInit {
               private flashMsg: FlashMessagesService) { }
 
   ngOnInit() { }
-
-  callmemaybe() {
-    CharaComponent.callmemaybe();
-  }
 
 }

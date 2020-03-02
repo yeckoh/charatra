@@ -25,6 +25,8 @@ import { TabFeatureComponent } from './chara/tabs/tab-feature/tab-feature.compon
 import { TabInventoryComponent } from './chara/tabs/tab-inventory/tab-inventory.component';
 import { TabSpellsComponent } from './chara/tabs/tab-spells/tab-spells.component';
 import { TabPersonaComponent } from './chara/tabs/tab-persona/tab-persona.component';
+import { DialogNewcharaComponent } from './dialogs/dialog-newchara/dialog-newchara.component';
+import { SecretSocketComponent } from './secret-socket/secret-socket.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -47,7 +49,9 @@ const appRoutes: Routes = [
     TabFeatureComponent,
     TabInventoryComponent,
     TabSpellsComponent,
-    TabPersonaComponent
+    TabPersonaComponent,
+    DialogNewcharaComponent,
+    SecretSocketComponent
   ],
   imports: [
     BrowserModule,
