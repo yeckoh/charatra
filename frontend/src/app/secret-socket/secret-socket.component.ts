@@ -7,15 +7,14 @@ import * as wsocket from 'socket.io-client';
   styleUrls: ['./secret-socket.component.css']
 })
 export class SecretSocketComponent implements OnInit, OnDestroy {
-
+    // tslint:disable: variable-name
   static mysock: any;
   constructor() { }
 
   static newCharacter(incomingdata) {
     // send an event to the hook, 'newchara'
 
-    // tslint:disable-next-line: prefer-const
-    let forwardingdata = {
+    const forwardingdata = {
       userid: JSON.parse(localStorage.getItem('user')).id,
       name: incomingdata.name,
       gender: incomingdata.gender,
@@ -27,11 +26,27 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
   }
 
   static getUserCharacters() {
-    // console.log('calling getusercharacters');
-    const characterids = JSON.parse(localStorage.getItem('user')).charas;
-    // console.log(characterids);
-    this.mysock.emit('getallusercharas', characterids);
+    const userAndCharacter_ids = {
+      userid: JSON.parse(localStorage.getItem('user')).id,
+      characterids: JSON.parse(localStorage.getItem('user')).charas
+    };
+    this.mysock.emit('getallusercharas', userAndCharacter_ids);
   }
+
+  // filter hook events by user
+  static joinUserRoom() {
+    // call this when signing in
+    // this is only for updating the character list in localstorage and the sidebar
+    const room_identifier = JSON.parse(localStorage.getItem('user')).id;
+    this.mysock.emit('joinUserRoom', room_identifier);
+  }
+
+  // filter hook events by character
+  static joinCharacterRoom() {
+    // call this when clicking on a specific character
+    // this is for ignoring updates of all other characters not currently being viewed
+  }
+
 
   ngOnDestroy() { // this works for now
     SecretSocketComponent.mysock.disconnect();
@@ -80,6 +95,9 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
 
   connectToSocket() {
     SecretSocketComponent.mysock = wsocket('http://localhost:3000');
+    if(localStorage.getItem('user') != null) {
+      SecretSocketComponent.joinUserRoom();
+    }
     const keypair = {is_active: true};
     sessionStorage.setItem('active_socket', JSON.stringify(keypair)); // dont need this already
   }

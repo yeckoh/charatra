@@ -104,9 +104,9 @@ module.exports = function(socket) {
         // update user, append id to listof_charas
         User.AddToListofbyid(sent_in_data.userid, newchara.id);
 
-        // forward to everyone else in the namespace
-        socket.emit('madenewchara', newchara); // send back to client who called
-        socket.broadcast.emit('madenewchara', newchara); // send to everyone but the caller
+        // forward to everyone else in the room
+        socket.in(sent_in_data.userid).emit('madenewchara', newchara); // send back to client who called
+        socket.broadcast.in(sent_in_data.userid).emit('madenewchara', newchara); // send to everyone but the caller
         
 
 
@@ -115,9 +115,9 @@ module.exports = function(socket) {
     // hook to act upon when angular fires 'getallusercharas'
     socket.on('getallusercharas', function(sent_in_data) {
         // a_promise.then -> do stuff with the data
-        Character.GetAllCharacters(sent_in_data).then(function(allcharacters) {
-            socket.emit('sendallusercharas', allcharacters);
-            // also broadcast to all other connected people, preferably in the right namespace
+        Character.GetAllCharacters(sent_in_data.characterids).then(function(allcharacters) {
+            socket.emit('sendallusercharas', allcharacters); // send back to self
+            socket.in(sent_in_data.userid).emit('sendallusercharas', allcharacters); // send to all in the room
         });
     });
 
