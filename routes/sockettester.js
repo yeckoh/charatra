@@ -1,12 +1,3 @@
-const express = require('express');
-const router = express.Router();
-const db = require('../dbconnect');
-
-const Character = require('../models/charas.model');
-
-// import objectId from mongoose
-var ObjectId = require('mongoose').Types.ObjectId;
-
 // const buttonmodel = require('../models/btnc.model');
 
 // emitters can be separated into their own files

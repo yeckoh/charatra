@@ -64,7 +64,10 @@ app.use(express.static(path.join(__dirname, 'frontend/src')));
 // .emit (event name, what to send when the emit is called)
 let socket_ids = [];
 wsocket.on('connection', function(socket) {
+  socket_ids.push(socket.id);
+
   require('./routes/ondisconnect')(socket_ids, socket);
+  require('./routes/character_hooks')(socket);
 
   console.log('\n');
   console.log('new connection!');
