@@ -6,9 +6,13 @@ export class Chara {
   feature_category0: string; // user defined feature separation names
   feature_category1: string;
   feature_category2: string;
+  feature_category3: string;
 
   _id: string;
+
   current_hitpoints: number;
+  deathsaves: number;
+
   stats: {
     stranth: number,
     dex: number,
@@ -17,7 +21,10 @@ export class Chara {
     wis: number,
     cha: number,
     NatAC: number,
+    total_AC: number,
+    total_speed: number,
     total_hitpoints: number,
+    // total_hitdice: number, <-- potentially separate into its own model
     total_level: number,
     total_proficiencybonus: number,
     total_casterlevel: number
@@ -37,6 +44,11 @@ export class Chara {
 
   persona: {
     name: string,
+    gender: string,
+    description: string,
+    personality: string,
+    ideals: string,
+    bonds: string,
     race: {
       actualrace: string,
       listof_racefeatures: string,
@@ -45,9 +57,7 @@ export class Chara {
     background: {
       actualbackground: string,
       listof_backgroundfeatures: [string]
-    };
-    ideals: string,
-    bonds: string
+    }
   };
 
   skills: string;
