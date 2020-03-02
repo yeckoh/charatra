@@ -1,0 +1,12 @@
+.dialogdiv {
+  width: 32rem;
+  height: 32rem;
+}
+
+.dialogtext {
+  width: 32rem;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  overflow:hidden;
+  resize:none;
+}

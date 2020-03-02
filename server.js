@@ -30,17 +30,16 @@ const app = express()
 .use(bodyParser.json())
 .use(cors({ origin: 'http://localhost:4200' }));
 
+// socketstuff
+// socket io, pass in instance of a http server
+const http = require('http');
+const server = http.Server(app);
+const wsocket = require('socket.io')(server);
+app.set('socketio', wsocket);
+
 // EXPRESS ROUTES
 const users = require('./routes/users');
 app.use('/users', users);
-
-const btn_counters = require('./routes/btn');
-app.use('/buttonroute', btn_counters);
-
-
-//const charas = require('./routes/charas');
-//app.use ('/charas', charas);
-
 
 // passport middleware for JWT
 app.use(passport.initialize())
@@ -49,11 +48,44 @@ require('./controllers/passport')(passport);
 
 
 
-// set index.html folder for localhost:3000
+// try to set index.html folder for localhost:3000
 app.use(express.static(path.join(__dirname, 'frontend/src')));
 
 
 // start server
-app.listen(port, function(){
-    console.log('server started on port ' + port + '...');
+// app.listen(port, function(){
+//     console.log('server started on port ' + port + '...');
+// });
+
+
+
+// capture whenever someone connects to server
+// defines ALL the hooks
+// .emit (event name, what to send when the emit is called)
+let socket_ids = [];
+wsocket.on('connection', function(socket) {
+  socket_ids.push(socket.id);
+
+  require('./routes/ondisconnect')(socket_ids, socket);
+  require('./routes/character_hooks')(socket);
+
+  console.log('\n');
+  console.log('new connection!');
+  console.log('list of all socketids:');
+  console.log(socket_ids);
+  console.log('\n');
+  
+  require('./routes/sockettester')(socket);
+  return socket;
+});
+
+
+
+
+
+
+
+
+server.listen(3000, function() {
+  console.log('WSocket server started on port ' + port + '...');
 });

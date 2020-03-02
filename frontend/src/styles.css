@@ -6,7 +6,7 @@
 body { background-color: #222222; margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 /*p{ color: #ffffff;}*/
 span {font-size: larger; height:50%; }
-mat-card { max-width: 16rem; }
+mat-card { max-width: 18rem; }
 
 mat-expansion-panel { max-width: 24rem; }
 
@@ -35,3 +35,13 @@ mat-form-field {
 .a200 {color: #d0a48d; }
 .a400 {color: #9b694c; }
 .a700 {color: #693b22; }
+
+
+.signform {
+  margin: auto;
+  width: auto;
+  height: auto;
+  display: flex;
+  justify-content: center;
+
+}

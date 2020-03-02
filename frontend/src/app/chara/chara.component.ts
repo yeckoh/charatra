@@ -1,17 +1,19 @@
 /// defines the forms and stuff for chara
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, OnDestroy} from '@angular/core';
+
+import { CharaService } from '../shared/chara.service';
 
 @Component({
   selector: 'app-chara',
   templateUrl: './chara.component.html',
   styleUrls: ['./chara.component.css'],
+
+  providers: [CharaService]
 })
 export class CharaComponent implements OnInit {
 
-  constructor() { }
+  constructor(private charaService: CharaService) { }
 
-
-  /// TODO: clean up logic?
-  ngOnInit() { }
+   ngOnInit() { } // end.of ngoninit
 
 }

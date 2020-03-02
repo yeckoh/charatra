@@ -1,20 +1,78 @@
 /// define the chara class to match fields from mongodb
 export class Chara {
-  // _id: string;
-  // name: string;
-  // desc: string;
-  // str: number;
-  // dex: number;
-  // con: number;
-  // int: number;
-  // wis: number;
-  // cha: number;
-  // ac: number;
-  // lvl: number;
-  // tslint:disable-next-line: variable-name
+  // tslint:disable: variable-name
+
+  selected_color: string;
+  feature_category0: string; // user defined feature separation names
+  feature_category1: string;
+  feature_category2: string;
+
   _id: string;
-  presses: number;
-  // tslint:disable-next-line: variable-name
-  other_presses: number;
+  current_hitpoints: number;
+  stats: {
+    stranth: number,
+    dex: number,
+    con: number,
+    int: number,
+    wis: number,
+    cha: number,
+    NatAC: number,
+    total_hitpoints: number,
+    total_level: number,
+    total_proficiencybonus: number,
+    total_casterlevel: number
+  };
+
+  spellslots: {
+    first: number,
+    secnd: number,
+    third: number,
+    fourth: number,
+    fifth: number,
+    sixth: number,
+    seventh: number,
+    eightth: number,
+    ninth: number
+  };
+
+  persona: {
+    name: string,
+    race: {
+      actualrace: string,
+      listof_racefeatures: string,
+      racespelllist: string
+    },
+    background: {
+      actualbackground: string,
+      listof_backgroundfeatures: [string]
+    };
+    ideals: string,
+    bonds: string
+  };
+
+  skills: string;
+  listof_characlass: [string];
+  listof_charainventorylist: [string];
+  listof_charamanualfeatures: [string];
+
+
+  special_stuff: {
+    superiority_dice: number,
+    expertise_dice: number,
+    sorcery_points: number,
+    ki_points: number,
+    rage_dmg: number,
+    other_name: string,
+    other_number: number
+  };
+
+
+
+
+
+  // _id: string;
+  // presses: number;
+  // // tslint:disable-next-line: variable-name
+  // other_presses: number;
 
 }
