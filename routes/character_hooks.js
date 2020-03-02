@@ -11,7 +11,7 @@ var ObjectId = require('mongoose');
 // just append require(filepath) to server.js
 // pass in socket from server.js
 module.exports = function(socket) {
-    console.log('charagen loaded');
+    console.log('ws-loaded: character_hooks');
 
     // when 'testevent' gets fired...
     socket.on('makenewchara', function(sent_in_data) {
@@ -28,11 +28,12 @@ module.exports = function(socket) {
             feature_category0:'none', // user defined feature separation names
             feature_category1:'none',
             feature_category2:'none',
+            feature_category3:'none',
             
             current_hitpoints: 0,
+            deathsaves: 0,
 
             stats:{
-                desc: 'no idea what this was supposed to be',
                 str: 10,
                 dex: 10,
                 con: 10,
@@ -40,7 +41,10 @@ module.exports = function(socket) {
                 wis: 10,
                 cha: 10,
                 NatAC: 10,
+                total_AC: 10,
+                total_speed: 0,
                 total_hitpoints: 0,
+                // total_hitdice: 0, <-- potentially separate into its own model
                 total_lvl: 0,
                 total_proficiencybonus: 1,
                 total_casterlvl: 0
@@ -60,17 +64,20 @@ module.exports = function(socket) {
 
             persona: {
                 name: sent_in_data.name,
+                gender: sent_in_data.gender,
+                description: undefined,
+                personality: undefined,
+                ideals: undefined,
+                bonds: undefined,
                 race: {
-                actualrace: sent_in_data.race,
-                listof_racefeatures: [],
-                racespelllist: undefined
+                    actualrace: sent_in_data.race,
+                    listof_racefeatures: [],
+                    racespelllist: undefined
                 },
                 background: {
-                actualbackground: undefined,
-                listof_backgroundfeatures: []
-                },
-                ideals: undefined,
-                bonds: undefined
+                    actualbackground: undefined,
+                    listof_backgroundfeatures: []
+                }
             },
 
             skills: undefined,
@@ -104,6 +111,16 @@ module.exports = function(socket) {
 
 
     });
+
+    // hook to act upon when angular fires 'getallusercharas'
+    socket.on('getallusercharas', function(sent_in_data) {
+        // a_promise.then -> do stuff with the data
+        Character.GetAllCharacters(sent_in_data).then(function(allcharacters) {
+            socket.emit('sendallusercharas', allcharacters);
+            // also broadcast to all other connected people, preferably in the right namespace
+        });
+    });
+
 }
 
 

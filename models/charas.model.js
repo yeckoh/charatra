@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 
-/// TODO: DEATHSAVES, CLASSES_HITDICE, ITEM_ATTUNEMENT
+/// TODO: HITDICE
 
 
 // create a chara model
@@ -11,11 +11,12 @@ var CharaSchema = mongoose.Schema({
   feature_category0: String, // user defined feature separation names
   feature_category1: String,
   feature_category2: String,
+  feature_category3: String,
   
   current_hitpoints: Number,
+  deathsaves: Number, // -3 to 3 for now. -3:3 maps -> 3fails, 3successes
 
   stats:{
-    desc: String,
     str: Number,
     dex: Number,
     con: Number,
@@ -23,7 +24,10 @@ var CharaSchema = mongoose.Schema({
     wis: Number,
     cha: Number,
     NatAC: Number,
+    total_AC: Number,
+    total_speed: Number,
     total_hitpoints: Number,
+    // total_hitdice: Number, <-- potentially separate into its own model
     total_lvl: Number,
     total_proficiencybonus: Number,
     total_casterlvl: Number
@@ -43,6 +47,11 @@ var CharaSchema = mongoose.Schema({
 
   persona: {
     name: String,
+    gender: String,
+    description: String,
+    personality: String,
+    ideals: String,
+    bonds: String,
     race: {
       actualrace: String,
       listof_racefeatures: [mongoose.Schema.Types.ObjectId],
@@ -51,9 +60,7 @@ var CharaSchema = mongoose.Schema({
     background: {
       actualbackground: String,
       listof_backgroundfeatures: [mongoose.Schema.Types.ObjectId]
-    },
-    ideals: String,
-    bonds: String
+    }
   },
 
   skills: mongoose.Schema.Types.ObjectId,
@@ -85,8 +92,15 @@ const Character = module.exports = mongoose.model('Characters', CharaSchema);
 //=========================================================================
 
 module.exports.SaveCharacter = function(charaobj) {
-  charaobj.save();
+  charaobj.save(); // equivalent
   // charaobj.save(function(err, forwarddata) {
   //   return forwarddata;
   // } );
+}
+
+module.exports.GetAllCharacters = function(allids) {
+  console.log(allids);
+  // returns a promise
+  var query = Character.find().where('_id').in(allids).exec();
+  return query;
 }

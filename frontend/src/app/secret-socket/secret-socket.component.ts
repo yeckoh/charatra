@@ -22,7 +22,15 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
       race: incomingdata.race
     };
     this.mysock.emit('makenewchara', forwardingdata);
+
    // .mysock.emit('testevent', {data_sent_AngularToNode: 'lets goooooo'});
+  }
+
+  static getUserCharacters() {
+    // console.log('calling getusercharacters');
+    const characterids = JSON.parse(localStorage.getItem('user')).charas;
+    // console.log(characterids);
+    this.mysock.emit('getallusercharas', characterids);
   }
 
   ngOnDestroy() { // this works for now
@@ -38,8 +46,27 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
       this.connectToSocket();
     // }
 
-    // define a hook to listen for, called 'testevent'
-      SecretSocketComponent.mysock.on('madenewchara', (data) => console.log(data));
+    // define a hook to listen for, called 'madenewchara'
+      SecretSocketComponent.mysock.on('madenewchara', (data) => {
+        console.log(data);
+        // get all characterids in user localstorage obj
+        // append this new chara id
+        // set localstorage new characterlist
+        const userinfo = JSON.parse(localStorage.getItem('user'));
+        userinfo.charas.push(data._id);
+        localStorage.setItem('user', JSON.stringify(userinfo));
+        // probably update the sidebar list here too
+      });
+
+      SecretSocketComponent.mysock.on('sendallusercharas', (data) => {
+        // pull all characters belonging to the logged-in user only
+        // console.log(data);
+        let i = 0;
+        data.forEach(element => {
+          console.log(i++);
+          console.log(element);
+        });
+      });
   }
 
 
