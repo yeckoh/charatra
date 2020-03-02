@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { DialogNewcharaComponent } from '../dialogs/dialog-newchara/dialog-newchara.component';
+import { SecretSocketComponent } from '../secret-socket/secret-socket.component';
 
 @Component({
   selector: 'app-home',
@@ -18,6 +19,14 @@ export class HomeComponent {
     // component, optional_configuration
     this.dialog.open(DialogNewcharaComponent);
   }
+
+
+  pullallusercharacters() {
+    SecretSocketComponent.getUserCharacters();
+  }
+
+
+
 }
 
 

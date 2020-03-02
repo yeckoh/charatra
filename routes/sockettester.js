@@ -4,7 +4,7 @@
 // just append require(filepath) to server.js
 // pass in socket from server.js
 module.exports = function(socket) {
-    console.log('socktester loaded');
+    console.log('ws-loaded: sockettester');
 
     // when 'testevent' gets fired...
     socket.on('testevent', function(sent_in_data) {

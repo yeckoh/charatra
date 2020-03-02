@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 
-/// TODO: DEATHSAVES, CLASSES_HITDICE, ITEM_ATTUNEMENT, SAVINGTHROWS
+/// TODO: HITDICE
 
 
 // create a chara model
@@ -92,8 +92,15 @@ const Character = module.exports = mongoose.model('Characters', CharaSchema);
 //=========================================================================
 
 module.exports.SaveCharacter = function(charaobj) {
-  charaobj.save();
+  charaobj.save(); // equivalent
   // charaobj.save(function(err, forwarddata) {
   //   return forwarddata;
   // } );
+}
+
+module.exports.GetAllCharacters = function(allids) {
+  console.log(allids);
+  // returns a promise
+  var query = Character.find().where('_id').in(allids).exec();
+  return query;
 }

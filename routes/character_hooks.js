@@ -11,7 +11,7 @@ var ObjectId = require('mongoose');
 // just append require(filepath) to server.js
 // pass in socket from server.js
 module.exports = function(socket) {
-    console.log('character_hooks loaded');
+    console.log('ws-loaded: character_hooks');
 
     // when 'testevent' gets fired...
     socket.on('makenewchara', function(sent_in_data) {
@@ -111,6 +111,16 @@ module.exports = function(socket) {
 
 
     });
+
+    // hook to act upon when angular fires 'getallusercharas'
+    socket.on('getallusercharas', function(sent_in_data) {
+        // a_promise.then -> do stuff with the data
+        Character.GetAllCharacters(sent_in_data).then(function(allcharacters) {
+            socket.emit('sendallusercharas', allcharacters);
+            // also broadcast to all other connected people, preferably in the right namespace
+        });
+    });
+
 }
 
 
