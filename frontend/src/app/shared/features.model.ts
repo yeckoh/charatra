@@ -8,6 +8,8 @@ export class Features {
   descript: string;
   uses: number;
   uses_left: number;
+  toggleable: boolean;
+  is_enabled: boolean;
   listof_atks: [string];
   listof_saves: [string];
   listof_featureprofs: [string];
