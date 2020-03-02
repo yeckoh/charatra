@@ -5,25 +5,16 @@ const Character = require('../models/charas.model');
 const User = require('../models/user.model');
 
 // import mongoose just to generate a _id: right here, right now
-var ObjectId = require('mongoose');
+var mongoose = require('mongoose');
 
-// emitters can be separated into their own files
-// just append require(filepath) to server.js
-// pass in socket from server.js
 module.exports = function(socket) {
-    console.log('ws-loaded: character_hooks');
+    console.log("\x1b[34m"+'ws-loaded:'+"\x1b[0m"+'character_hooks');
 
     // when 'testevent' gets fired...
-    socket.on('makenewchara', function(sent_in_data) {
-
-        // we can perform regular CRUD ops on our models using mongoose
-        // let newbtn = new buttonmodel({ presses: 123, other_presses: 456});
-        // newbtn.save();
-
-
+    socket.on('Make_new_chara', function(sent_in_data) {
 
         let newchara = new Character( {
-            _id: ObjectId.Types.ObjectId(),
+            _id: mongoose.Types.ObjectId(),
             selected_color: 'none',
             feature_category0:'none', // user defined feature separation names
             feature_category1:'none',
@@ -104,20 +95,19 @@ module.exports = function(socket) {
         // update user, append id to listof_charas
         User.AddToListofbyid(sent_in_data.userid, newchara.id);
 
-        // forward to everyone else in the namespace
-        socket.emit('madenewchara', newchara); // send back to client who called
-        socket.broadcast.emit('madenewchara', newchara); // send to everyone but the caller
+        socket.emit('Made_new_chara', newchara); // send back to client who called
+        socket.broadcast.in(sent_in_data.userid).emit('Made_new_chara', newchara); // send to all in the room but the caller
         
 
 
     });
 
-    // hook to act upon when angular fires 'getallusercharas'
-    socket.on('getallusercharas', function(sent_in_data) {
+    // when 'Get_all_user_charas' gets fired...
+    socket.on('Get_all_user_charas', function(sent_in_data) {
         // a_promise.then -> do stuff with the data
-        Character.GetAllCharacters(sent_in_data).then(function(allcharacters) {
-            socket.emit('sendallusercharas', allcharacters);
-            // also broadcast to all other connected people, preferably in the right namespace
+        Character.GetAllCharacters(sent_in_data.characterids).then(function(allcharacters) {
+            socket.emit('Receive_all_user_charas', allcharacters); // send back to self
+            socket.in(sent_in_data.userid).emit('Receive_all_user_charas', allcharacters); // send to all in the room but the caller
         });
     });
 

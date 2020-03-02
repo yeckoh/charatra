@@ -3,6 +3,7 @@ import { Component, OnInit, createPlatformFactory } from '@angular/core';
 import { AuthService } from '../shared/auth.service';
 import { Router } from '@angular/router'; // router to redirect
 import { FlashMessagesService } from 'angular2-flash-messages';
+import { SecretSocketComponent } from '../secret-socket/secret-socket.component';
 
 @Component({
   selector: 'app-signin',
@@ -41,6 +42,7 @@ export class SigninComponent implements OnInit {
       const returndata = JSON.parse(data);
       if (returndata.success) {
         this.authServ.storeUserData(returndata.token, returndata.user);
+        SecretSocketComponent.joinUserRoom();
         this.flashMsg.show('You are now logged in', {timeout: 2000});
         this.router.navigate(['/']);
       } else {

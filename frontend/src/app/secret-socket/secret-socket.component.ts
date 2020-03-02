@@ -7,31 +7,45 @@ import * as wsocket from 'socket.io-client';
   styleUrls: ['./secret-socket.component.css']
 })
 export class SecretSocketComponent implements OnInit, OnDestroy {
-
+    // tslint:disable: variable-name
   static mysock: any;
   constructor() { }
 
+  // send an event to the hook, 'Make_new_chara'
   static newCharacter(incomingdata) {
-    // send an event to the hook, 'newchara'
-
-    // tslint:disable-next-line: prefer-const
-    let forwardingdata = {
+    const forwardingdata = {
       userid: JSON.parse(localStorage.getItem('user')).id,
       name: incomingdata.name,
       gender: incomingdata.gender,
       race: incomingdata.race
     };
-    this.mysock.emit('makenewchara', forwardingdata);
-
-   // .mysock.emit('testevent', {data_sent_AngularToNode: 'lets goooooo'});
+    this.mysock.emit('Make_new_chara', forwardingdata);
   }
 
+  // send an event to the hook, 'Get_all_user_charas'
   static getUserCharacters() {
-    // console.log('calling getusercharacters');
-    const characterids = JSON.parse(localStorage.getItem('user')).charas;
-    // console.log(characterids);
-    this.mysock.emit('getallusercharas', characterids);
+    const userAndCharacter_ids = {
+      userid: JSON.parse(localStorage.getItem('user')).id,
+      characterids: JSON.parse(localStorage.getItem('user')).charas
+    };
+    this.mysock.emit('Get_all_user_charas', userAndCharacter_ids);
   }
+
+  // filter hook events by user
+  static joinUserRoom() {
+    // call this when signing in
+    // this is only for updating the character list in localstorage and the sidebar
+    const room_identifier = JSON.parse(localStorage.getItem('user')).id;
+    this.mysock.emit('Join_user_room', room_identifier);
+  }
+
+  // filter hook events by character
+  static joinCharacterRoom() {
+    // call this when clicking on a specific character
+    // this is for ignoring updates of all other characters not currently being viewed
+    // emit('Join_character_room',
+  }
+
 
   ngOnDestroy() { // this works for now
     SecretSocketComponent.mysock.disconnect();
@@ -39,15 +53,10 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // if (localStorage.getItem('id_token') == null) {
-    //   return;
-    // }
-    // if (sessionStorage.getItem('active_socket') == null) {
       this.connectToSocket();
-    // }
 
-    // define a hook to listen for, called 'madenewchara'
-      SecretSocketComponent.mysock.on('madenewchara', (data) => {
+    // define a hook to listen for, called 'Made_new_chara'
+      SecretSocketComponent.mysock.on('Made_new_chara', (data) => {
         console.log(data);
         // get all characterids in user localstorage obj
         // append this new chara id
@@ -58,7 +67,8 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
         // probably update the sidebar list here too
       });
 
-      SecretSocketComponent.mysock.on('sendallusercharas', (data) => {
+      // define hook to listen for, called 'Receive_all_user_charas'
+      SecretSocketComponent.mysock.on('Receive_all_user_charas', (data) => {
         // pull all characters belonging to the logged-in user only
         // console.log(data);
         let i = 0;
@@ -80,8 +90,9 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
 
   connectToSocket() {
     SecretSocketComponent.mysock = wsocket('http://localhost:3000');
-    const keypair = {is_active: true};
-    sessionStorage.setItem('active_socket', JSON.stringify(keypair)); // dont need this already
+    if(localStorage.getItem('user') != null) {
+      SecretSocketComponent.joinUserRoom();
+    }
   }
 
 

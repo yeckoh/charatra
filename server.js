@@ -17,7 +17,7 @@ mongoose.connect(dbconnect.database, {useNewUrlParser:true, useUnifiedTopology: 
 
 // On Connection
 mongoose.connection.on('connected', () => {
-  console.log('Connected to database '+dbconnect.database);
+  console.log('Connected to database '+ "\x1b[36m"+ dbconnect.database + "\x1b[0m");
 });
 // On Error
 mongoose.connection.on('error', (err) => {
@@ -66,16 +66,15 @@ let socket_ids = [];
 wsocket.on('connection', function(socket) {
   socket_ids.push(socket.id);
 
+  require('./routes/room_hooks')(socket);
   require('./routes/ondisconnect')(socket_ids, socket);
   require('./routes/character_hooks')(socket);
 
-  console.log('\n');
-  console.log('new connection!');
   console.log('list of all socketids:');
   console.log(socket_ids);
   console.log('\n');
   
-  require('./routes/sockettester')(socket);
+  // require('./routes/sockettester')(socket);
   return socket;
 });
 
@@ -87,5 +86,5 @@ wsocket.on('connection', function(socket) {
 
 
 server.listen(3000, function() {
-  console.log('WSocket server started on port ' + port + '...');
+  console.log('WSocket server started on port ' +"\x1b[36m"+ port + '...' +"\x1b[0m");
 });
