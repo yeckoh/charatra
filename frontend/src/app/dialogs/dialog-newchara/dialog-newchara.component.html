@@ -1,0 +1,37 @@
+<div class='dialogdiv'>
+  <div>
+    <mat-card-title>New Character</mat-card-title>
+  </div>
+
+  <mat-card-content>Character basics: no worries, you can always change these later</mat-card-content>
+  <div>
+    <form (submit)="onNewCharaSubmit()">
+
+      <div><mat-form-field class='dialogtext'>
+        <input matInput autocomplete="false" placeholder="character name" [(ngModel)]="charaname" name="charaname">
+      </mat-form-field></div>
+
+      <div><mat-form-field class='dialogtext'>
+        <input matInput autocomplete='false' placeholder='gender' [(ngModel)]="gender" name="gender">
+      </mat-form-field></div>
+
+      <div><mat-form-field class='dialogtext'>
+        <input matInput autocomplete='false' placeholder='race' [(ngModel)]="race" name="race">
+      </mat-form-field></div>
+
+      <button mat-button>submit!</button>
+    </form>
+  </div>
+
+  <!-- sample_card
+  <div>
+    <mat-form-field class='dialogtext'  appearance="fill">
+      <input matInput autocomplete='false' class='dialogtext' style='height: auto'>
+    </mat-form-field>
+    <br>
+    <mat-form-field class='dialogtext'  appearance="fill">
+      <textarea matInput autocomplete="false" class='dialogtext' style='height: 16rem'>{{cardcontent}}</textarea>
+    </mat-form-field>
+  </div>
+    -->
+</div>
