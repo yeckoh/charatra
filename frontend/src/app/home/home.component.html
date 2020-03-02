@@ -1,1 +1,36 @@
-<mat-toolbar><span>home landing</span></mat-toolbar>
+<div class='center'>
+  <mat-toolbar><span>home landing</span></mat-toolbar>
+
+  <mat-label class='mat-h1'>make a new character</mat-label>
+  <br>
+  <button class='p500' mat-flat-button (click)='openDialog()'>open dialog</button>
+  <mat-divider></mat-divider>
+  <mat-label class='a400' (click)='openDialog()'>a clickable label</mat-label>
+  <div style='max-width: 18rem; padding: 1rem;'>
+
+    <div ng-model='samplecard' class='mat-elevation-z8' style='background-color: rgb(141, 91, 82);'>
+      <mat-card-title style='padding: 6px;' (click)='openDialog(cardtitle, cardcontent)'>
+        {{cardtitle}}
+      </mat-card-title>
+
+      <mat-card style='padding: 0px; border-radius: 0px'>
+        <mat-card-content style='padding: 1rem;'>
+          {{cardcontent}}
+        </mat-card-content>
+        <mat-card-actions style='padding-left: 1rem;'><button class='mat-elevation-z4' mat-button>use</button><button class='mat-elevation-z4' mat-button>reset</button></mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+
+  <!--
+  <div class='mat-elevation-z8' style='max-width: 18rem;'>
+    <div class='mat-h4'>
+      this is my title
+    </div>
+    <mat-card>
+    <mat-card-content>this is card content</mat-card-content>
+    <mat-card-actions style='padding: 1rem;'><button class='mat-elevation-z4' mat-button>use</button><button class='mat-elevation-z4' mat-button>reset</button></mat-card-actions>
+    </mat-card>
+  </div>
+  -->
+</div>
