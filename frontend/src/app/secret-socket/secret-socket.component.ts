@@ -90,7 +90,7 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
 
   connectToSocket() {
     SecretSocketComponent.mysock = wsocket('http://localhost:3000');
-    if(localStorage.getItem('user') != null) {
+    if (localStorage.getItem('user') != null) {
       SecretSocketComponent.joinUserRoom();
     }
   }
