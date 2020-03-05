@@ -50,10 +50,14 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
   }
 
   // filter hook events by character
-  static joinCharacterRoom() {
+  static joinCharacterRoom(characterid) {
     // call this when clicking on a specific character
     // this is for ignoring updates of all other characters not currently being viewed
-    // emit('Join_character_room',
+    this.mysock.emit('Join_character_room', characterid);
+  }
+
+  static leaveCharacterRoom(characterid) {
+    this.mysock.emit('Leave_character_room');
   }
 
 

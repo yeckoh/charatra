@@ -4,6 +4,7 @@ import { AuthService } from '../shared/auth.service';
 import { Router } from '@angular/router'; // router to redirect
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { CharaService } from '../shared/chara.service';
+import { SecretSocketComponent } from '../secret-socket/secret-socket.component';
 
 
 @Component({
@@ -28,6 +29,14 @@ export class SidenavComponent implements OnInit {
     this.flashMsg.show('You\'ve been logged out', {timeout: 3000});
     this.router.navigate(['/signin']);
     return false;
+  }
+
+  loadCharacterIdAndRoom(chara) {
+    if (this.charaservice.desiredId != null) { // leave this room
+      SecretSocketComponent.leaveCharacterRoom(this.charaservice.desiredId);
+    }
+    this.charaservice.desiredId = chara._id;
+    SecretSocketComponent.joinCharacterRoom(this.charaservice.desiredId);
   }
 
 }
