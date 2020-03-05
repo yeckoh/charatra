@@ -3,8 +3,12 @@
   <p [ngClass]="'mat-display-1 p500 boxshadow-4'" style="max-width: 32rem;">mat display 1 works</p>
 
 
-  <button mat-button class='p400 mat-elevation-z2' (click)='callmemaybe()'>press me</button>
+  <button mat-button class='p400 mat-elevation-z2' (click)='callmemaybe()'>callmemaybe</button>
+  <button mat-button class='p400 mat-elevation-z2' (click)='showloadeddata()'>printtoconsoleloadeddata</button>
+  <p *ngFor="let item of this.charaserv.allCharas">charaservdata:
 
+    {{item._id}}
+  </p>
 
 
 

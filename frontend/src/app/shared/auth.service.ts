@@ -13,10 +13,11 @@ import { filter, map } from 'rxjs/operators';
 })
 export class AuthService {
 
+  constructor(private http: HttpClient) { }
+
   authToken: any;
   user: any;
-
-  constructor(private http: HttpClient) { }
+  isLoggedIn = localStorage.getItem('user') != null;
 
 
   signupUser(user) {
@@ -59,12 +60,14 @@ export class AuthService {
     localStorage.setItem('user', JSON.stringify(user));
     this.authToken = token;
     this.user = user;
+    this.isLoggedIn = true;
   }
 
   signout() {
     this.authToken = null;
     this.user = null;
     localStorage.clear();
+    this.isLoggedIn = false;
   }
 
 }

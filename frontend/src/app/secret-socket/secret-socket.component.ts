@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as wsocket from 'socket.io-client';
+import { CharaService } from '../shared/chara.service';
 
 @Component({
   selector: 'app-secret-socket',
@@ -9,7 +10,7 @@ import * as wsocket from 'socket.io-client';
 export class SecretSocketComponent implements OnInit, OnDestroy {
     // tslint:disable: variable-name
   static mysock: any;
-  constructor() { }
+  constructor( private charaservice: CharaService) { }
 
   // send an event to the hook, 'Make_new_chara'
   static newCharacter(incomingdata) {
@@ -29,6 +30,14 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
       characterids: JSON.parse(localStorage.getItem('user')).charas
     };
     this.mysock.emit('Get_all_user_charas', userAndCharacter_ids);
+  }
+
+  // name implies getUserCharacters was already called
+  static getSelectedCharacter() {
+    const userAndCharacter_ids = {
+      userid: JSON.parse(localStorage.getItem('user')).id,
+      characterids: JSON.parse(localStorage.getItem('user')).charas
+    };
   }
 
   // filter hook events by user
@@ -70,12 +79,14 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
       // define hook to listen for, called 'Receive_all_user_charas'
       SecretSocketComponent.mysock.on('Receive_all_user_charas', (data) => {
         // pull all characters belonging to the logged-in user only
-        // console.log(data);
-        let i = 0;
-        data.forEach(element => {
-          console.log(i++);
-          console.log(element);
-        });
+        // let i = 0;
+        // data.forEach(element => {
+        //   console.log(i++);
+        //   console.log(element);
+        // });
+        console.log('socket on data');
+        console.log(data);
+        this.charaservice.allCharas = data;
       });
   }
 
