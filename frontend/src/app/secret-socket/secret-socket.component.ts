@@ -33,11 +33,12 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
   }
 
   // name implies getUserCharacters was already called
-  static getSelectedCharacter() {
+  static getSelectedCharacter(desiredcharacterid) {
     const userAndCharacter_ids = {
       userid: JSON.parse(localStorage.getItem('user')).id,
-      characterid: this.get,
+      characterid: desiredcharacterid,
     };
+    this.mysock.emit('Get_selected_chara', userAndCharacter_ids);
   }
 
   // filter hook events by user
@@ -62,37 +63,41 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-      this.connectToSocket();
+    this.connectToSocket();
 
     // define a hook to listen for, called 'Made_new_chara'
-      SecretSocketComponent.mysock.on('Made_new_chara', (data) => {
-        console.log(data);
-        // get all characterids in user localstorage obj
-        // append this new chara id
-        // set localstorage new characterlist
-        const userinfo = JSON.parse(localStorage.getItem('user'));
-        userinfo.charas.push(data._id);
-        localStorage.setItem('user', JSON.stringify(userinfo));
-        // probably update the sidebar list here too
-      });
+    SecretSocketComponent.mysock.on('Made_new_chara', (data) => {
+      console.log(data);
+      // get all characterids in user localstorage obj
+      // append this new chara id
+      // set localstorage new characterlist
+      const userinfo = JSON.parse(localStorage.getItem('user'));
+      userinfo.charas.push(data._id);
+      localStorage.setItem('user', JSON.stringify(userinfo));
+      // probably update the sidebar list here too
+      SecretSocketComponent.getUserCharacters();
+    });
 
-      // define hook to listen for, called 'Receive_all_user_charas'
-      SecretSocketComponent.mysock.on('Receive_all_user_charas', (data) => {
-        // pull all characters belonging to the logged-in user only
-        this.charaservice.allCharas = data;
-      });
+    // define hook to listen for, called 'Receive_all_user_charas'
+    SecretSocketComponent.mysock.on('Receive_all_user_charas', (data) => {
+      // pull all characters belonging to the logged-in user only
+      this.charaservice.allCharas = data;
+    });
 
-      if (localStorage.getItem('user') != null) {
-        SecretSocketComponent.getUserCharacters();
-      }
+    SecretSocketComponent.mysock.on('Receive_desired_chara', (data) => {
+      this.charaservice.selectedChara = data;
+      // emit hooks to get all lvl-2 collections here?
+    });
+
+    if (localStorage.getItem('user') != null) { // populate sidebar if reloaded and still logged in
+      SecretSocketComponent.getUserCharacters();
+    }
   }
 
 
 
 
-  get getDesiredCharacterId() {
-    return this.charaservice.desiredId;
-  }
+
 
 
 
