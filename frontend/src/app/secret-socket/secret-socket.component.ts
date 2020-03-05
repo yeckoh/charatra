@@ -79,15 +79,12 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
       // define hook to listen for, called 'Receive_all_user_charas'
       SecretSocketComponent.mysock.on('Receive_all_user_charas', (data) => {
         // pull all characters belonging to the logged-in user only
-        // let i = 0;
-        // data.forEach(element => {
-        //   console.log(i++);
-        //   console.log(element);
-        // });
-        console.log('socket on data');
-        console.log(data);
         this.charaservice.allCharas = data;
       });
+
+      if (localStorage.getItem('user') != null) {
+        SecretSocketComponent.getUserCharacters();
+      }
   }
 
 
