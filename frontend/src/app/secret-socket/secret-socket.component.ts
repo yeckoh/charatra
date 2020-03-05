@@ -36,7 +36,7 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
   static getSelectedCharacter() {
     const userAndCharacter_ids = {
       userid: JSON.parse(localStorage.getItem('user')).id,
-      characterids: JSON.parse(localStorage.getItem('user')).charas
+      characterid: this.get,
     };
   }
 
@@ -90,7 +90,9 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
 
 
 
-
+  get getDesiredCharacterId() {
+    return this.charaservice.desiredId;
+  }
 
 
 

@@ -15,6 +15,7 @@ import { Chara } from './chara.model';
 @Injectable({providedIn: 'root', })
 export class CharaService {
 
+  desiredId: string;
   selectedChara: Chara;
   allCharas: Chara[];
 
