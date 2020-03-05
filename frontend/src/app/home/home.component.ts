@@ -50,13 +50,14 @@ export class HomeComponent implements OnInit {
     this.dialog.open(DialogNewcharaComponent);
   }
 
-  regularFormula(input, output) {
+  regularFormula(input) {
+    let output;
     try {
-      const inside = HomeComponent.reg.exec(input);
+      const inside = HomeComponent.reg.exec(input); // check for {}
       if (inside != null) {
         inside[0] = input.replace(inside[0], '');
         output = inside[0] + evaluate(inside[1], this);
-      } else {
+      } else { // its a 'simple formula'
         output = evaluate(input, this);
         if (output === undefined) { output = input; }
       }
@@ -67,11 +68,11 @@ export class HomeComponent implements OnInit {
   }
 
   atkresult() {
-    this.attackBonus = this.regularFormula(this.input1, this.attackBonus);
+    this.attackBonus = this.regularFormula(this.input1);
     this.dmgresult();
   }
   dmgresult() {
-    this.dmgformuoli = this.regularFormula(this.input2, this.dmgformuoli);
+    this.dmgformuoli = this.regularFormula(this.input2);
     if (this.dmgformuoli === 'NaN') { this.dmgformuoli = this.input2; }
   }
 
