@@ -57,7 +57,7 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
   }
 
   static leaveCharacterRoom(characterid) {
-    this.mysock.emit('Leave_character_room');
+    this.mysock.emit('Leave_character_room', characterid);
   }
 
 
