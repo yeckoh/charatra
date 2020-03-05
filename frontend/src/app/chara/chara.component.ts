@@ -1,5 +1,6 @@
 /// defines the forms and stuff for chara
 import { Component, OnInit} from '@angular/core';
+import { CharaService } from '../shared/chara.service';
 
 @Component({
   selector: 'app-chara',
@@ -8,7 +9,7 @@ import { Component, OnInit} from '@angular/core';
 })
 export class CharaComponent implements OnInit {
 
-  constructor() { }
+  constructor(private charaservice: CharaService) { }
 
    ngOnInit() { } // end.of ngoninit
 
