@@ -29,11 +29,11 @@ import { DialogNewcharaComponent } from './dialogs/dialog-newchara/dialog-newcha
 import { SecretSocketComponent } from './secret-socket/secret-socket.component';
 
 const appRoutes: Routes = [
-  { path: '', component: SigninComponent },
+  { path: '', component: SigninComponent }, // TODO: make a splashpage
   { path: 'home', component: HomeComponent },
   { path: 'signin', component: SigninComponent },
   { path: 'signup', component: SignupComponent },
-  { path: 'chara123', component: CharaComponent }
+  { path: ':_id' , component: CharaComponent }
   // { path: 'board', component: DashComponent }
  ];
 
