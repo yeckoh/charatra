@@ -43,6 +43,7 @@ export class SigninComponent implements OnInit {
       if (returndata.success) {
         this.authServ.storeUserData(returndata.token, returndata.user);
         SecretSocketComponent.joinUserRoom();
+        SecretSocketComponent.getUserCharacters();
         this.flashMsg.show('You are now logged in', {timeout: 2000});
         this.router.navigate(['/']);
       } else {
