@@ -5,6 +5,7 @@ export class Features {
   feature_category: number; // 0-3 ? see: chara.model feature_category_names
 
   _id: string;
+  title: string;
   descript: string;
   uses: number;
   uses_left: number;
