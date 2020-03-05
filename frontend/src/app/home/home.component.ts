@@ -48,7 +48,7 @@ export class HomeComponent implements OnInit {
     // open accepts 2 params (component, optional_configuration)
     this.dialog.open(DialogNewcharaComponent);
   }
-
+  // tslint:disable: one-line
   // tslint:disable: no-conditional-assignment
   regularFormula(input) {
     let mutableInput = input;
@@ -62,6 +62,7 @@ export class HomeComponent implements OnInit {
             HomeComponent.BRACKET_EXPRESSION.lastIndex = 0; // {0} is consumed by replace, now {0} is what was {1}
         }} else {
           if (mutableInput = evaluate(input, this)) { } // simple formula; {} is implied
+
           else {mutableInput = input; } // evaluation failed but didnt throw an error
         }
       return mutableInput;
