@@ -50,82 +50,38 @@ export class HomeComponent implements OnInit {
     this.dialog.open(DialogNewcharaComponent);
   }
 
-  atkresult() {
+  regularFormula(input, output) {
     try {
-      const inside = HomeComponent.reg.exec(this.input1);
-
+      const inside = HomeComponent.reg.exec(input);
       if (inside != null) {
-        // console.log(inside);
-        inside[0] = this.input1.replace(inside[0], '');
-        this.attackBonus = inside[0] + evaluate(inside[1], this);
+        inside[0] = input.replace(inside[0], '');
+        output = inside[0] + evaluate(inside[1], this);
       } else {
-        this.attackBonus = evaluate(this.input1, this);
-        if (this.attackBonus === undefined) {
-          this.attackBonus = this.input1;
-        }
+        output = evaluate(input, this);
+        if (output === undefined) { output = input; }
       }
     } catch (error) {
-      this.attackBonus = 'NaN';
-    } finally {
-      this.dmgresult();
-    }
+      output = 'NaN';
+    // tslint:disable: no-unsafe-finally
+    } finally { return output; }
   }
 
+  atkresult() {
+    this.attackBonus = this.regularFormula(this.input1, this.attackBonus);
+    this.dmgresult();
+  }
   dmgresult() {
-    try {
-      const inside = HomeComponent.reg.exec(this.input2);
-      if (inside != null) {
-        // console.log(inside);
-        inside[0] = this.input2.replace(inside[0], '');
-        this.dmgformuoli = inside[0] + evaluate(inside[1], this);
-      } else {
-        this.dmgformuoli = evaluate(this.input2, this);
-        if (this.dmgformuoli === undefined) {
-          this.dmgformuoli = this.input2;
-        }
-      }
-    } catch (error) {
-      this.dmgformuoli = this.input2;
-    }
+    this.dmgformuoli = this.regularFormula(this.input2, this.dmgformuoli);
+    if (this.dmgformuoli === 'NaN') { this.dmgformuoli = this.input2; }
   }
 
   pullallusercharacters() {
     SecretSocketComponent.getUserCharacters();
   }
 
-
-
 }
 
 
 /// TODO:
-// make a button that makes a sample character with at least one of everything in the database
-// use ngOnChanges to update view when properties change
+// use ngOnChanges or (input) or (change) to update view when properties change
 // or just stick to two-way binding
-
-
-
-/*
-// this is the same as dmgformuoli. the intent is to provide users with a sense of satisfaction
-// if they want to include something like: d4+{5d6}, they MUST use {}
-  atkresult() {
-    try {
-      const inside = HomeComponent.reg.exec(this.input1);
-
-      if (inside != null) {
-        // console.log(inside);
-        inside[0] = this.input1.replace(inside[0], '');
-        this.attackBonus = inside[0] + evaluate(inside[1], this);
-      } else {
-        this.attackBonus = evaluate(this.input1, this);
-        if (this.attackBonus === undefined) {
-          this.attackBonus = this.input1;
-        }
-      }
-    } catch (error) {
-      this.attackBonus = 'NaN';
-    } finally {
-      this.dmgresult();
-    }
-  }
-*/
