@@ -12,7 +12,7 @@ import evaluate, { registerFunction } from 'ts-expression-evaluator';
 export class HomeComponent implements OnInit {
   constructor(public dialog: MatDialog) { }
 
-  static reg: RegExp = /\{(.*?)\}/;
+  static BRACKET_EXPRESSION: RegExp = /\{(.*?)\}/g; // capture {*}    g is for global
 
   public cardcontent = 'feature desription and stuff goes in here';
   public cardtitle = 'sample_featurecard';
@@ -28,8 +28,8 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.updateStranth();
-    this.updateProf();
-    this.atkresult();
+    this.updateProf(); // dupe dmgformula eval but w/e
+    //// this.atkresult();
   }
 
 
@@ -45,35 +45,38 @@ export class HomeComponent implements OnInit {
 
 
   openDialog() {
-    // open accepts 2 params
-    // component, optional_configuration
+    // open accepts 2 params (component, optional_configuration)
     this.dialog.open(DialogNewcharaComponent);
   }
 
+  // tslint:disable: no-conditional-assignment
   regularFormula(input) {
-    let output;
+    let mutableInput = input;
+    HomeComponent.BRACKET_EXPRESSION.lastIndex = 0;
     try {
-      const inside = HomeComponent.reg.exec(input); // check for {}
-      if (inside != null) {
-        inside[0] = input.replace(inside[0], '');
-        output = inside[0] + evaluate(inside[1], this);
-      } else { // its a 'simple formula'
-        output = evaluate(input, this);
-        if (output === undefined) { output = input; }
-      }
+      if (HomeComponent.BRACKET_EXPRESSION.test(input)) {
+          let result;
+          HomeComponent.BRACKET_EXPRESSION.lastIndex = 0; // {0} is consumed by replace, now {0} is what was {1}
+          while (result = HomeComponent.BRACKET_EXPRESSION.exec(mutableInput)) {
+            mutableInput = mutableInput.replace(result[0], evaluate(result[1], this));
+            HomeComponent.BRACKET_EXPRESSION.lastIndex = 0; // {0} is consumed by replace, now {0} is what was {1}
+        }} else {
+          if (mutableInput = evaluate(input, this)) { } // simple formula; {} is implied
+          else {mutableInput = input; } // evaluation failed but didnt throw an error
+        }
+      return mutableInput;
     } catch (error) {
-      output = 'NaN';
-    // tslint:disable: no-unsafe-finally
-    } finally { return output; }
+      return 'NaN';
+    }
   }
 
   atkresult() {
     this.attackBonus = this.regularFormula(this.input1);
     this.dmgresult();
   }
+
   dmgresult() {
     this.dmgformuoli = this.regularFormula(this.input2);
-    if (this.dmgformuoli === 'NaN') { this.dmgformuoli = this.input2; }
   }
 
   pullallusercharacters() {
@@ -85,4 +88,4 @@ export class HomeComponent implements OnInit {
 
 /// TODO:
 // use ngOnChanges or (input) or (change) to update view when properties change
-// or just stick to two-way binding
+// also stick to two-way binding
