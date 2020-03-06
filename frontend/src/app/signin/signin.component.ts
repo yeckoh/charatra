@@ -1,4 +1,4 @@
-import { Component, OnInit, createPlatformFactory } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from '../shared/auth.service';
 import { Router } from '@angular/router'; // router to redirect
@@ -45,7 +45,7 @@ export class SigninComponent implements OnInit {
         SecretSocketComponent.joinUserRoom();
         SecretSocketComponent.getUserCharacters();
         this.flashMsg.show('You are now logged in', {timeout: 2000});
-        this.router.navigate(['/']);
+        this.router.navigate(['/home']);
       } else {
         this.flashMsg.show('Invalid login credentials', { timeout: 3000});
         this.router.navigate(['signin']);

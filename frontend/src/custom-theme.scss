@@ -61,8 +61,36 @@ $my-primary: mat-palette($mat-mine, 500, 300, 800);
 $my-accent: mat-palette($mat-mine, A400, A200, A700);
 $my-warn: mat-palette($mat-red);
 
-$my-material-theme: mat-dark-theme($my-primary, $my-accent, $my-warn);
+$my-dark-theme-background: (
+  status-bar: black,
+  app-bar:    #181818,
+  background: #181818,
+  hover:      rgba(white, 0.04), // TODO(kara): check style with Material Design UX
+  card:       #272727,
+  dialog:     #212121,
+  disabled-button: rgba(white, 0.12),
+  raised-button: map-get($mat-grey, 800),
+  focused-button: $light-focused,
+  selected-button: map_get($mat-grey, 900),
+  selected-disabled-button: #272727,
+  disabled-button-toggle: black,
+  unselected-chip: map_get($mat-grey, 700),
+  disabled-list-option: black,
+);
 
+// same as mat-dark-theme except the background
+@function my-dark-theme($primary, $accent, $warn: mat-palette($mat-red)) {
+  @return (
+    primary: $primary,
+    accent: $accent,
+    warn: $warn,
+    is-dark: true,
+    foreground: $mat-dark-theme-foreground,
+    background: $my-dark-theme-background,
+  );
+}
+
+$my-material-theme: my-dark-theme($my-primary, $my-accent, $my-warn);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
