@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatDialogRef, MatDialogConfig } from '@angular/material';
 // import { DialogNewcharaComponent } from '../dialogs/dialog-newchara/dialog-newchara.component';
 import { DialogFeatureComponent } from '../../../dialogs/dialog-feature/dialog-feature.component';
 import evaluate, { registerFunction } from 'ts-expression-evaluator';
@@ -18,7 +18,7 @@ export class TabFeatureComponent implements OnInit {
 
   openFeatureDialog() {
     // open accepts 2 params (component, optional_configuration)
-    this.dialog.open(DialogFeatureComponent);
+    this.dialog.open(DialogFeatureComponent, {data: this.charaservice});
   }
 
   // tslint:disable: one-line
@@ -43,6 +43,8 @@ export class TabFeatureComponent implements OnInit {
       return 'NaN';
     }
   }
+
+
 
 
   /// load all charaservice atks and saves first then use these

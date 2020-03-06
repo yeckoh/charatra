@@ -19,8 +19,24 @@ import { Spells } from './spells.model';
 // giving all components access to character information (solves data sharing between components)
 
 // singleton service which holds all data for everything
-@Injectable({providedIn: 'root', })
+@Injectable({providedIn: 'root' })
 export class CharaService {
+
+  feature1: string = "hello world";
+  feature1descript: string;
+  feature2: string;
+  feature2descript: string;
+  feature3: string;
+  feature3descript: string;
+  feature4: string;
+  feature4descript: string;
+  feature5: string;
+  feature5descript: string;
+  feature6: string;
+  feature7descript: string;
+
+
+
 
   AttackId: string;
   AttackSelected: Attack;
@@ -71,7 +87,7 @@ export class CharaService {
   SpellAll: Spells[];
 
 
-  constructor() { }
+  constructor() { console.log('charaservice constructor called'); }
 
 
 }

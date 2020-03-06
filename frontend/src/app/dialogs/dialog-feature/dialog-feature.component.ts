@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { SecretSocketComponent } from 'src/app/secret-socket/secret-socket.component';
+import { CharaService } from 'src/app/shared/chara.service';
+import { MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-dialog-feature',
@@ -8,13 +10,15 @@ import { SecretSocketComponent } from 'src/app/secret-socket/secret-socket.compo
 })
 export class DialogFeatureComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) { }
 
   // tslint:disable: variable-name
   selected_color: string;
   feature_category: number; // user defined feature separation names
 
-  title: string;
+  title: string = this.data.feature1;
   descript: string;
   uses: number;
   uses_left: number;
@@ -25,6 +29,12 @@ export class DialogFeatureComponent implements OnInit {
   listof_featureprofs: [string];
 
   ngOnInit() {
+  }
+
+  titleChange() {
+    // console.log(this.title);
+    console.log(this.data);
+    this.data.feature1 = this.title;
   }
 
   onFeatureSubmit() {
@@ -40,8 +50,8 @@ export class DialogFeatureComponent implements OnInit {
       listof_saves: [this.listof_saves],
       listof_featureprofs: [this.listof_featureprofs]
     };
-
-    SecretSocketComponent.featureUpdate(feature);
+    console.log(this.data.feature1);
+    // SecretSocketComponent.featureUpdate(feature);
   }
 
 }
