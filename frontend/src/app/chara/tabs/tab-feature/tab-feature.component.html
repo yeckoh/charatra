@@ -1,18 +1,58 @@
-<p>feature-tab works!</p>
-<p>ideally we'll be using flex-layout + have some dedicated panels that will house active attacks and saving throws. also use ngfor when we can load data</p>
 <!--<div *ngFor='let thisfeature of charaservice.FeatureAll'> -->
+
+  <table>
+    <!-- left column for attacks and saves only -->
+    <tr>
+      <td style='vertical-align: top;'>
+
+    <div style='width: 18rem; padding: 1rem;'>
+      <div class='mat-elevation-z8' style='background-color: rgb(0, 27, 27);'>
+      <mat-card-title style='padding: 6px;' (click)='openFeatureDialog(thisfeature)'>
+        Attacks
+      </mat-card-title>
+      <mat-card style='padding: 0px; border-radius: 0px'>
+        <mat-card-content style='padding: 1rem;'>
+          all attacks go here
+        </mat-card-content>
+      </mat-card>
+      </div>
+    </div>
+
+    <div style='width: 18rem; padding: 1rem;'>
+      <div class='mat-elevation-z8' style='background-color: rgb(0, 27, 27);'>
+      <mat-card-title style='padding: 6px;' (click)='openFeatureDialog(thisfeature)'>
+        Saves
+      </mat-card-title>
+      <mat-card style='padding: 0px; border-radius: 0px'>
+        <mat-card-content style='padding: 1rem;'>
+          all saves go here
+        </mat-card-content>
+      </mat-card>
+      </div>
+    </div>
+
+  </td>
+
+
+
+
+
+
+<!-- regular features go here -->
+
+  <td style='vertical-align: top;'>
+<div style='display: flex; flex-wrap: wrap;'>
 <div>
-  <div style='max-width: 18rem; padding: 1rem;'>
-    <div class='mat-elevation-z8' style='background-color: rgb(141, 91, 82);'>
+  <div style='max-width: 18rem; width: 18rem; padding: 1rem;'>
+    <div class='mat-elevation-z8' style='background-color: rgb(127, 0, 0);'>
     <mat-card-title style='padding: 6px;' (click)='openFeatureDialog(thisfeature)'>
-      feature.title    <-- interpolate this
+     {{feature1}}
     </mat-card-title>
 
     <mat-card style='padding: 0px; border-radius: 0px'>
       <mat-card-content style='padding: 1rem;'>
-        feature.descript
+        {{feature1descript}}
       </mat-card-content>
-      <mat-card-actions style='padding-left: 1rem;'><button class='mat-elevation-z4' mat-button>use</button><button class='mat-elevation-z4' mat-button>reset</button></mat-card-actions>
     </mat-card>
     </div>
   </div>
@@ -20,7 +60,7 @@
 
 
 <div>
-  <div style='max-width: 18rem; padding: 1rem;'>
+  <div style='max-width: 18rem; width: 18rem; padding: 1rem;'>
     <div class='mat-elevation-z8' style='background-color: steelblue;'>
     <mat-card-title style='padding: 6px;' (click)='openFeatureDialog(thisfeature)'>
       this feature title is goign to be super long, how does the title bar compensate or does it cut off at some point
@@ -37,7 +77,7 @@
 </div>
 
 <div>
-  <div style='max-width: 18rem; padding: 1rem;'>
+  <div style='max-width: 18rem; width: 18rem; padding: 1rem;'>
     <div class='mat-elevation-z8' style='background-color: tomato;'>
     <mat-card-title style='padding: 6px;' (click)='openFeatureDialog(thisfeature)'>
       feature.title    <-- interpolate this
@@ -54,7 +94,7 @@
 </div>
 
 <div>
-  <div style='max-width: 18rem; padding: 1rem;'>
+  <div style='max-width: 18rem; width: 18rem; padding: 1rem;'>
     <div class='mat-elevation-z8' style='background-color: blueviolet;'>
     <mat-card-title style='padding: 6px;' (click)='openFeatureDialog(thisfeature)'>
       feature.title    <-- interpolate this
@@ -69,3 +109,8 @@
     </div>
   </div>
 </div>
+
+</div>
+</td>
+</tr>
+</table>
