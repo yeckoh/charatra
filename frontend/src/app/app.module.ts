@@ -27,12 +27,14 @@ import { TabSpellsComponent } from './chara/tabs/tab-spells/tab-spells.component
 import { TabPersonaComponent } from './chara/tabs/tab-persona/tab-persona.component';
 import { DialogNewcharaComponent } from './dialogs/dialog-newchara/dialog-newchara.component';
 import { SecretSocketComponent } from './secret-socket/secret-socket.component';
+import { DialogFeatureComponent } from './dialogs/dialog-feature/dialog-feature.component';
 
 const appRoutes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', component: SigninComponent }, // TODO: make a splashpage
+  { path: 'home', component: HomeComponent },
   { path: 'signin', component: SigninComponent },
   { path: 'signup', component: SignupComponent },
-  { path: 'chara123', component: CharaComponent }
+  { path: ':_id' , component: CharaComponent }
   // { path: 'board', component: DashComponent }
  ];
 
@@ -51,7 +53,8 @@ const appRoutes: Routes = [
     TabSpellsComponent,
     TabPersonaComponent,
     DialogNewcharaComponent,
-    SecretSocketComponent
+    SecretSocketComponent,
+    DialogFeatureComponent
   ],
   imports: [
     BrowserModule,

@@ -36,6 +36,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { DialogNewcharaComponent } from '../dialogs/dialog-newchara/dialog-newchara.component';
+import { DialogFeatureComponent } from '../dialogs/dialog-feature/dialog-feature.component';
 
 
 
@@ -80,7 +81,8 @@ const mymatComponents = [
 @NgModule({
   imports: [mymatComponents],
 
-  entryComponents: [DialogNewcharaComponent],
+  entryComponents: [DialogNewcharaComponent,
+                    DialogFeatureComponent],
 
   exports: [mymatComponents]
 })

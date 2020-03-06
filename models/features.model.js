@@ -4,6 +4,7 @@ var FeatureSchema = mongoose.Schema({
     selected_color: String,
     feature_category: Number, // user defined feature separation names
 
+    title: String,
     descript: String,
     uses: Number,
     uses_left: Number,
