@@ -12,6 +12,36 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
   static mysock: any;
   constructor( private charaservice: CharaService) { }
 
+/// ============================================================================================
+// ROOM EMITTERS ===============================================================================
+/// ============================================================================================
+  // filter hook events by user
+  static joinUserRoom() {
+    // call this when signing in
+    // this is only for updating the character list in localstorage and the sidebar
+    const room_identifier = JSON.parse(localStorage.getItem('user')).id;
+    this.mysock.emit('Join_user_room', room_identifier);
+  }
+
+  // filter hook events by character
+  static joinCharacterRoom(characterid) {
+    // call this when clicking on a specific character
+    // this is for ignoring updates of all other characters not currently being viewed
+    this.mysock.emit('Join_character_room', characterid);
+  }
+
+  static leaveCharacterRoom(characterid) {
+    this.mysock.emit('Leave_character_room', characterid);
+  }
+
+/// ============================================================================================
+// ATTACK EMITTERS ============================================================================
+/// ============================================================================================
+
+
+/// ============================================================================================
+// CHARACTER EMITTERS ==========================================================================
+/// ============================================================================================
   // send an event to the hook, 'Make_new_chara'
   static newCharacter(incomingdata) {
     const forwardingdata = {
@@ -41,34 +71,85 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
     this.mysock.emit('Get_selected_chara', userAndCharacter_ids);
   }
 
-  // filter hook events by user
-  static joinUserRoom() {
-    // call this when signing in
-    // this is only for updating the character list in localstorage and the sidebar
-    const room_identifier = JSON.parse(localStorage.getItem('user')).id;
-    this.mysock.emit('Join_user_room', room_identifier);
+/// ============================================================================================
+// CLASS EMITTERS ============================================================================
+/// ============================================================================================
+
+
+/// ============================================================================================
+// CONTAINER EMITTERS ============================================================================
+/// ============================================================================================
+
+
+/// ============================================================================================
+// EFFECT EMITTERS ============================================================================
+/// ============================================================================================
+
+
+/// ============================================================================================
+// FEATURE EMITTERS ============================================================================
+/// ============================================================================================
+  // update existing
+  static featureUpdate(feature) {
+    // send an emit.
   }
 
-  // filter hook events by character
-  static joinCharacterRoom(characterid) {
-    // call this when clicking on a specific character
-    // this is for ignoring updates of all other characters not currently being viewed
-    this.mysock.emit('Join_character_room', characterid);
-  }
+/// ============================================================================================
+// ITEM EMITTERS ============================================================================
+/// ============================================================================================
 
-  static leaveCharacterRoom(characterid) {
-    this.mysock.emit('Leave_character_room', characterid);
-  }
 
+/// ============================================================================================
+// OTHERPROF EMITTERS ============================================================================
+/// ============================================================================================
+
+
+/// ============================================================================================
+// SAVETHROW EMITTERS ============================================================================
+/// ============================================================================================
+
+
+/// ============================================================================================
+// SKILLPROF EMITTERS ============================================================================
+/// ============================================================================================
+
+
+/// ============================================================================================
+// SPELLLIST EMITTERS ============================================================================
+/// ============================================================================================
+
+
+/// ============================================================================================
+// SPELL EMITTERS ============================================================================
+/// ============================================================================================
+
+
+/// ============================================================================================
+// ng stuff ====================================================================================
+/// ============================================================================================
 
   ngOnDestroy() { // this works for now
     SecretSocketComponent.mysock.disconnect();
     sessionStorage.clear();
   }
 
+/// ============================================================================================
+// ALL HOOK LISTENERS ==========================================================================
+// these define what events to listen for from the server -> angular
+/// ============================================================================================
+
   ngOnInit() {
     this.connectToSocket();
 
+
+
+    // ------------------------------------------------------------
+    // ATTACK LISTEN HOOKS
+    // ------------------------------------------------------------
+
+    // ------------------------------------------------------------
+    // CHARACTER LISTEN HOOKS
+    // ------------------------------------------------------------
     // define a hook to listen for, called 'Made_new_chara'
     SecretSocketComponent.mysock.on('Made_new_chara', (data) => {
       console.log(data);
@@ -85,17 +166,67 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
     // define hook to listen for, called 'Receive_all_user_charas'
     SecretSocketComponent.mysock.on('Receive_all_user_charas', (data) => {
       // pull all characters belonging to the logged-in user only
-      this.charaservice.allCharas = data;
+      this.charaservice.CharaAll = data;
     });
 
     SecretSocketComponent.mysock.on('Receive_desired_chara', (data) => {
-      this.charaservice.selectedChara = data;
+      this.charaservice.CharaSelected = data;
       // emit hooks to get all lvl-2 collections here?
     });
 
-    if (localStorage.getItem('user') != null) { // populate sidebar if reloaded and still logged in
+    // if user is logged in already and just loaded the page
+    if (localStorage.getItem('user') != null) { // populates sidebar
       SecretSocketComponent.getUserCharacters();
     }
+
+    // ------------------------------------------------------------
+    // CLASS LISTEN HOOKS
+    // ------------------------------------------------------------
+
+
+    // ------------------------------------------------------------
+    // CONTAINER LISTEN HOOKS
+    // ------------------------------------------------------------
+
+
+    // ------------------------------------------------------------
+    // EFFECT LISTEN HOOKS
+    // ------------------------------------------------------------
+
+    // ------------------------------------------------------------
+    // FEATURE LISTEN HOOKS
+    // ------------------------------------------------------------
+
+
+    // ------------------------------------------------------------
+    // ITEM LISTEN HOOKS
+    // ------------------------------------------------------------
+
+
+    // ------------------------------------------------------------
+    // OTHERPROF LISTEN HOOKS
+    // ------------------------------------------------------------
+
+
+    // ------------------------------------------------------------
+    // SAVETHROW LISTEN HOOKS
+    // ------------------------------------------------------------
+
+
+    // ------------------------------------------------------------
+    // SKILLPROF LISTEN HOOKS
+    // ------------------------------------------------------------
+
+
+    // ------------------------------------------------------------
+    // SPELLLIST LISTEN HOOKS
+    // ------------------------------------------------------------
+
+
+    // ------------------------------------------------------------
+    // SPELL LISTEN HOOKS
+    // ------------------------------------------------------------
+
   }
 
 

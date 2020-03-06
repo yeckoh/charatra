@@ -27,6 +27,7 @@ import { TabSpellsComponent } from './chara/tabs/tab-spells/tab-spells.component
 import { TabPersonaComponent } from './chara/tabs/tab-persona/tab-persona.component';
 import { DialogNewcharaComponent } from './dialogs/dialog-newchara/dialog-newchara.component';
 import { SecretSocketComponent } from './secret-socket/secret-socket.component';
+import { DialogFeatureComponent } from './dialogs/dialog-feature/dialog-feature.component';
 
 const appRoutes: Routes = [
   { path: '', component: SigninComponent }, // TODO: make a splashpage
@@ -52,7 +53,8 @@ const appRoutes: Routes = [
     TabSpellsComponent,
     TabPersonaComponent,
     DialogNewcharaComponent,
-    SecretSocketComponent
+    SecretSocketComponent,
+    DialogFeatureComponent
   ],
   imports: [
     BrowserModule,

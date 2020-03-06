@@ -6,7 +6,7 @@
         <a *ngIf=authServ.isLoggedIn [routerLink]="['/home']"><mat-list-item>Home</mat-list-item></a>
         <hr>
         <div>
-          <a *ngFor='let chara of charaservice.allCharas' [routerLink]="chara._id" (click)="loadCharacterIdAndRoom(chara)"><mat-list-item>{{chara.persona.name}}</mat-list-item></a>
+          <a *ngFor='let chara of charaservice.CharaAll' [routerLink]="chara._id" (click)="loadCharacterIdAndRoom(chara)"><mat-list-item>{{chara.persona.name}}</mat-list-item></a>
       </div>
       </mat-nav-list>
 

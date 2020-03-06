@@ -24,20 +24,20 @@ export class SidenavComponent implements OnInit {
 
   onSignoutClick() {
     this.authServ.signout(); // dont need an observer so this is good enough
-    this.charaservice.selectedChara = null;
-    this.charaservice.allCharas = null;
+    this.charaservice.CharaSelected = null;
+    this.charaservice.CharaAll = null;
     this.flashMsg.show('You\'ve been logged out', {timeout: 3000});
     this.router.navigate(['/signin']);
     return false;
   }
 
   loadCharacterIdAndRoom(chara) {
-    if (this.charaservice.desiredId != null) { // leave this room
-      SecretSocketComponent.leaveCharacterRoom(this.charaservice.desiredId);
+    if (this.charaservice.CharaId != null) { // leave this room
+      SecretSocketComponent.leaveCharacterRoom(this.charaservice.CharaId);
     }
-    this.charaservice.desiredId = chara._id;
-    SecretSocketComponent.joinCharacterRoom(this.charaservice.desiredId);
-    SecretSocketComponent.getSelectedCharacter(this.charaservice.desiredId);
+    this.charaservice.CharaId = chara._id;
+    SecretSocketComponent.joinCharacterRoom(this.charaservice.CharaId);
+    SecretSocketComponent.getSelectedCharacter(this.charaservice.CharaId);
   }
 
 }

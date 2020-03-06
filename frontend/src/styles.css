@@ -3,7 +3,7 @@
 /* do we just limit component sizes here? seems like an ok idea to me */
 
 /* html, body { height: 100%; } */
-body { background-color: #222222; margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { background-color: #181818; margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 /*p{ color: #ffffff;}*/
 span {font-size: larger; height:50%; }
 mat-card { max-width: 18rem; }

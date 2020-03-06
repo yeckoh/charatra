@@ -28,6 +28,6 @@ export class TabOverviewComponent implements OnInit {
   }
 
   showloadeddata() {
-    console.log(this.charaserv.allCharas);
+    console.log(this.charaserv.CharaAll);
   }
 }

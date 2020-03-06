@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { DialogNewcharaComponent } from '../dialogs/dialog-newchara/dialog-newchara.component';
-import { SecretSocketComponent } from '../secret-socket/secret-socket.component';
 import evaluate, { registerFunction } from 'ts-expression-evaluator';
 
 @Component({
@@ -14,8 +13,6 @@ export class HomeComponent implements OnInit {
 
   static BRACKET_EXPRESSION: RegExp = /\{(.*?)\}/g; // capture {*}    g is for global
 
-  public cardcontent = 'feature desription and stuff goes in here';
-  public cardtitle = 'sample_featurecard';
   stranth = 16;
   stranthMod: number;
   charalevel = 1;
@@ -31,7 +28,6 @@ export class HomeComponent implements OnInit {
     this.updateProf(); // dupe dmgformula eval but w/e
     //// this.atkresult();
   }
-
 
   updateStranth() {
     this.stranthMod = Math.floor((this.stranth - 10) / 2);
@@ -79,14 +75,4 @@ export class HomeComponent implements OnInit {
   dmgresult() {
     this.dmgformuoli = this.regularFormula(this.input2);
   }
-
-  pullallusercharacters() {
-    SecretSocketComponent.getUserCharacters();
-  }
-
 }
-
-
-/// TODO:
-// use ngOnChanges or (input) or (change) to update view when properties change
-// also stick to two-way binding
