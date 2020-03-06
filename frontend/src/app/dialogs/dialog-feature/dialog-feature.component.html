@@ -4,7 +4,7 @@
     <form (submit)="onFeatureSubmit()">
 
       <div><mat-form-field class='dialogtext'>
-        <textarea matInput>feature.descript also goes here</textarea>
+        <textarea matInput [(ngModel)]="data.feature1descript" name='data.feature1descript'></textarea>
       </mat-form-field></div>
 
       <div><mat-label>buttons and stuff for attacks, saves, proficiencies, effects go here</mat-label></div>

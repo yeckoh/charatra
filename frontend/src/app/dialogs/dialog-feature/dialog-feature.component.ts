@@ -15,42 +15,36 @@ export class DialogFeatureComponent implements OnInit {
   ) { }
 
   // tslint:disable: variable-name
-  selected_color: string;
-  feature_category: number; // user defined feature separation names
+  // selected_color: string;
+  // feature_category: number; // user defined feature separation names
 
-  title: string = this.data.feature1;
-  descript: string;
-  uses: number;
-  uses_left: number;
-  toggleable: boolean;
-  is_enabled: boolean;
-  listof_atks: [string];
-  listof_saves: [string];
-  listof_featureprofs: [string];
+  // title: string = this.data.title;
+  // descript: string;
+  // uses: number;
+  // uses_left: number;
+  // toggleable: boolean;
+  // is_enabled: boolean;
+  // listof_atks: [string];
+  // listof_saves: [string];
+  // listof_featureprofs: [string];
 
   ngOnInit() {
   }
 
-  titleChange() {
-    // console.log(this.title);
-    console.log(this.data);
-    this.data.feature1 = this.title;
-  }
-
   onFeatureSubmit() {
 
-    const feature = {
-      title: this.title,
-      descript: this.descript,
-      uses: this.uses,
-      uses_left: this.uses_left,
-      toggleable: this.toggleable,
-      is_enabled: this.is_enabled,
-      listof_atks: [this.listof_atks],
-      listof_saves: [this.listof_saves],
-      listof_featureprofs: [this.listof_featureprofs]
-    };
-    console.log(this.data.feature1);
+    // const feature = {
+    //   title: this.title,
+    //   descript: this.descript,
+    //   uses: this.uses,
+    //   uses_left: this.uses_left,
+    //   toggleable: this.toggleable,
+    //   is_enabled: this.is_enabled,
+    //   listof_atks: [this.listof_atks],
+    //   listof_saves: [this.listof_saves],
+    //   listof_featureprofs: [this.listof_featureprofs]
+    // };
+    // console.log(this.data.feature1);
     // SecretSocketComponent.featureUpdate(feature);
   }
 

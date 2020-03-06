@@ -16,9 +16,11 @@ export class TabFeatureComponent implements OnInit {
 
   BRACKET_EXPRESSION: RegExp = /\{(.*?)\}/g; // capture {*}    g is for global
 
-  openFeatureDialog() {
+  openFeatureDialog(featurename) {
     // open accepts 2 params (component, optional_configuration)
     this.dialog.open(DialogFeatureComponent, {data: this.charaservice});
+    // let selecteddata = {feature1: this.charaservice.feature2, feature1descript: this.charaservice.feature2descript};
+    // this.dialog.open(DialogFeatureComponent, {data: selecteddata});
   }
 
   // tslint:disable: one-line

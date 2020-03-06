@@ -22,7 +22,7 @@ import { Spells } from './spells.model';
 @Injectable({providedIn: 'root' })
 export class CharaService {
 
-  feature1: string = "hello world";
+  feature1: string;
   feature1descript: string;
   feature2: string;
   feature2descript: string;
