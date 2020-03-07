@@ -240,7 +240,8 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
       // this shouldn't ever fail to find
       const replacementIndex = this.charaservice.FeatureAll.findIndex(e => e._id === data._id);
       this.charaservice.FeatureAll[replacementIndex] = data;
-      if (this.charaservice.FeatureSelected._id === data._id) { // if you're the caller, update your selection
+      if (this.charaservice.FeatureSelected !== undefined && this.charaservice.FeatureSelected._id === data._id) {
+        // if you're the caller, update your selection
         this.charaservice.FeatureSelected = this.charaservice.FeatureAll[replacementIndex];
       }
       console.log('updated single feature');
