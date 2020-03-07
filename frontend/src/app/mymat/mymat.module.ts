@@ -35,10 +35,6 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import { DialogNewcharaComponent } from '../dialogs/dialog-newchara/dialog-newchara.component';
-import { DialogFeatureComponent } from '../dialogs/dialog-feature/dialog-feature.component';
-
-
 
 // import { MatInputModule } from '@angular/material';
 
@@ -80,10 +76,6 @@ const mymatComponents = [
 
 @NgModule({
   imports: [mymatComponents],
-
-  entryComponents: [DialogNewcharaComponent,
-                    DialogFeatureComponent],
-
   exports: [mymatComponents]
 })
 export class MymatModule { }

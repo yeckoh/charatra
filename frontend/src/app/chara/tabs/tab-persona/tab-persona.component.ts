@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CharaService } from 'src/app/shared/chara.service';
 
 @Component({
   selector: 'app-tab-persona',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TabPersonaComponent implements OnInit {
 
-  constructor() { }
+  constructor(private charaservice: CharaService) { }
 
   ngOnInit() {
   }

@@ -7,7 +7,7 @@
 
     <div style='width: 18rem; padding: 1rem;'>
       <div class='mat-elevation-z8' style='background-color: rgb(0, 27, 27);'>
-      <mat-card-title style='padding: 6px;' (click)='openFeatureDialog()'>
+      <mat-card-title style='padding: 6px;'>
         Attacks
       </mat-card-title>
       <mat-card style='padding: 0px; border-radius: 0px'>
@@ -20,7 +20,7 @@
 
     <div style='width: 18rem; padding: 1rem;'>
       <div class='mat-elevation-z8' style='background-color: rgb(0, 27, 27);'>
-      <mat-card-title style='padding: 6px;' (click)='openFeatureDialog()'>
+      <mat-card-title style='padding: 6px;'>
         Saves
       </mat-card-title>
       <mat-card style='padding: 0px; border-radius: 0px'>
@@ -30,6 +30,8 @@
       </mat-card>
       </div>
     </div>
+
+    <div><button mat-button (click)='makeNewFeature()'>make new features</button></div>
 
   </td>
 
@@ -42,16 +44,17 @@
 
   <td style='vertical-align: top;'>
 <div style='display: flex; flex-wrap: wrap;'>
-<div>
+
+<div *ngFor="let feature of charaservice.FeatureAll">
   <div style='max-width: 18rem; width: 18rem; padding: 1rem;'>
-    <div class='mat-elevation-z8' style='background-color: rgb(127, 0, 0);'>
-    <mat-card-title style='padding: 6px;' name='feature1' (click)='openFeatureDialog(feature1)'>
-      <label style='padding:0px; margin: 0px;'>{{charaservice.feature1}}</label>
+    <div class='mat-elevation-z8' [style.background-color]="feature.selected_color">
+    <mat-card-title style='padding: 6px;' (click)='openFeatureDialog(feature)'>
+      <label style='padding:0px; margin: 0px;'>{{feature.title}}</label>
     </mat-card-title>
 
     <mat-card style='padding: 0px; border-radius: 0px'>
       <mat-card-content style='padding: 1rem;'>
-        {{charaservice.feature1descript}}
+        {{feature.descript}}
       </mat-card-content>
     </mat-card>
     </div>
@@ -59,56 +62,6 @@
 </div>
 
 
-<div>
-  <div style='max-width: 18rem; width: 18rem; padding: 1rem;'>
-    <div class='mat-elevation-z8' style='background-color: steelblue;'>
-    <mat-card-title style='padding: 6px;' name='feature2' (click)='openFeatureDialog(name)'>
-      {{charaservice.feature2}}
-    </mat-card-title>
-
-    <mat-card style='padding: 0px; border-radius: 0px'>
-      <mat-card-content style='padding: 1rem;'>
-        {{charaservice.feature2descript}}
-      </mat-card-content>
-      <mat-card-actions style='padding-left: 1rem;'><button class='mat-elevation-z4' mat-button>use</button><button class='mat-elevation-z4' mat-button>reset</button></mat-card-actions>
-    </mat-card>
-    </div>
-  </div>
-</div>
-
-<div>
-  <div style='max-width: 18rem; width: 18rem; padding: 1rem;'>
-    <div class='mat-elevation-z8' style='background-color: tomato;'>
-    <mat-card-title style='padding: 6px;' (click)='openFeatureDialog(thisfeature)'>
-      feature.title    <-- interpolate this
-    </mat-card-title>
-
-    <mat-card style='padding: 0px; border-radius: 0px'>
-      <mat-card-content style='padding: 1rem;'>
-        the quick brown fox jumps over the lazy dog the quick brown fox jumps over the lazy dog the quick brown fox jumps over the lazy dog the quick brown fox jumps over the lazy dog the quick brown fox jumps over the lazy dog the quick brown fox jumps over the lazy dog
-      </mat-card-content>
-      <mat-card-actions style='padding-left: 1rem;'><button class='mat-elevation-z4' mat-button>use</button><button class='mat-elevation-z4' mat-button>reset</button></mat-card-actions>
-    </mat-card>
-    </div>
-  </div>
-</div>
-
-<div>
-  <div style='max-width: 18rem; width: 18rem; padding: 1rem;'>
-    <div class='mat-elevation-z8' style='background-color: blueviolet;'>
-    <mat-card-title style='padding: 6px;' (click)='openFeatureDialog(thisfeature)'>
-      feature.title    <-- interpolate this
-    </mat-card-title>
-
-    <mat-card style='padding: 0px; border-radius: 0px'>
-      <mat-card-content style='padding: 1rem;'>
-        feature.descript
-      </mat-card-content>
-      <mat-card-actions style='padding-left: 1rem;'><button class='mat-elevation-z4' mat-button>use</button><button class='mat-elevation-z4' mat-button>reset</button></mat-card-actions>
-    </mat-card>
-    </div>
-  </div>
-</div>
 
 </div>
 </td>

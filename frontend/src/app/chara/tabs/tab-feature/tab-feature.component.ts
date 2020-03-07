@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef, MatDialogConfig } from '@angular/material';
-// import { DialogNewcharaComponent } from '../dialogs/dialog-newchara/dialog-newchara.component';
-import { DialogFeatureComponent } from '../../../dialogs/dialog-feature/dialog-feature.component';
 import evaluate, { registerFunction } from 'ts-expression-evaluator';
 import { CharaService } from 'src/app/shared/chara.service';
+import { DialogFeatureComponent } from 'src/app/dialogs/dialog-feature/dialog-feature.component';
+import { MatDialog } from '@angular/material';
+import { Features } from 'src/app/shared/features.model';
 
 @Component({
   selector: 'app-tab-feature',
@@ -11,17 +11,11 @@ import { CharaService } from 'src/app/shared/chara.service';
   styleUrls: ['./tab-feature.component.css']
 })
 export class TabFeatureComponent implements OnInit {
-  constructor(private charaservice: CharaService,
-              public dialog: MatDialog) { }
+  constructor(private charaservice: CharaService, private featureDialog: MatDialog) { }
 
   BRACKET_EXPRESSION: RegExp = /\{(.*?)\}/g; // capture {*}    g is for global
 
-  openFeatureDialog(featurename) {
-    // open accepts 2 params (component, optional_configuration)
-    this.dialog.open(DialogFeatureComponent, {data: this.charaservice});
-    // let selecteddata = {feature1: this.charaservice.feature2, feature1descript: this.charaservice.feature2descript};
-    // this.dialog.open(DialogFeatureComponent, {data: selecteddata});
-  }
+
 
   // tslint:disable: one-line
   // tslint:disable: no-conditional-assignment
@@ -46,8 +40,32 @@ export class TabFeatureComponent implements OnInit {
     }
   }
 
+  // tslint:disable: variable-name
+  openFeatureDialog(selected_feature) {
+    this.charaservice.FeatureSelected = selected_feature;
+    // open accepts 2 params (component, optional_configuration {data: something})
+    this.featureDialog.open(DialogFeatureComponent);
+  }
 
+  makeNewFeature() {
+    let samplefeature = new Features();
+    samplefeature = {
+      selected_color: 'rgb(127, 0 ,0)',
+      feature_category: 0, // 0-3 ? see: chara.model feature_category_names
 
+      _id: 'string',
+      title: 'title',
+      descript: 'description',
+      uses: 0,
+      uses_left: 0,
+      toggleable: false,
+      is_enabled: true,
+      listof_atks: ['none'],
+      listof_saves: ['none'],
+      listof_featureprofs: ['none']
+    };
+    this.charaservice.FeatureAll.push(samplefeature);
+  }
 
   /// load all charaservice atks and saves first then use these
   // atkresult() {
@@ -70,6 +88,7 @@ export class TabFeatureComponent implements OnInit {
 
 
   ngOnInit() {
+    this.charaservice.FeatureAll = [];
   }
 
 }

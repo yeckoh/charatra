@@ -28,6 +28,7 @@ import { TabPersonaComponent } from './chara/tabs/tab-persona/tab-persona.compon
 import { DialogNewcharaComponent } from './dialogs/dialog-newchara/dialog-newchara.component';
 import { SecretSocketComponent } from './secret-socket/secret-socket.component';
 import { DialogFeatureComponent } from './dialogs/dialog-feature/dialog-feature.component';
+import { CharaService } from './shared/chara.service';
 
 const appRoutes: Routes = [
   { path: '', component: SigninComponent }, // TODO: make a splashpage
@@ -35,7 +36,6 @@ const appRoutes: Routes = [
   { path: 'signin', component: SigninComponent },
   { path: 'signup', component: SignupComponent },
   { path: ':_id' , component: CharaComponent }
-  // { path: 'board', component: DashComponent }
  ];
 
 @NgModule({
@@ -65,7 +65,8 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     FlashMessagesModule.forRoot()
   ],
-  providers: [ValidateService, AuthService],
+  providers: [ValidateService, AuthService, CharaService],
+  entryComponents: [DialogNewcharaComponent, DialogFeatureComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
