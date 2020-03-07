@@ -3,7 +3,7 @@ import evaluate, { registerFunction } from 'ts-expression-evaluator';
 import { CharaService } from 'src/app/shared/chara.service';
 import { DialogFeatureComponent } from 'src/app/dialogs/dialog-feature/dialog-feature.component';
 import { MatDialog } from '@angular/material';
-import { Features } from 'src/app/shared/features.model';
+import { SecretSocketComponent } from 'src/app/secret-socket/secret-socket.component';
 
 @Component({
   selector: 'app-tab-feature',
@@ -48,23 +48,7 @@ export class TabFeatureComponent implements OnInit {
   }
 
   makeNewFeature() {
-    let samplefeature = new Features();
-    samplefeature = {
-      selected_color: 'rgb(127, 0 ,0)',
-      feature_category: 0, // 0-3 ? see: chara.model feature_category_names
-
-      _id: 'string',
-      title: 'title',
-      descript: 'description',
-      uses: 0,
-      uses_left: 0,
-      toggleable: false,
-      is_enabled: true,
-      listof_atks: ['none'],
-      listof_saves: ['none'],
-      listof_featureprofs: ['none']
-    };
-    this.charaservice.FeatureAll.push(samplefeature);
+    SecretSocketComponent.newFeature(this.charaservice.CharaId);
   }
 
   /// load all charaservice atks and saves first then use these

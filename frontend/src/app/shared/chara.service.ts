@@ -22,6 +22,17 @@ import { Spells } from './spells.model';
 @Injectable({providedIn: 'root' })
 export class CharaService {
 
+  CharaSelectedDerivedStats = {
+    stranthMod: 0,
+    dexMod: 0,
+    conMod: 0,
+    intMod: 0,
+    wisMod: 0,
+    chaMod: 0,
+    proficiencyBonus: 1,
+    attackBonus: 1
+  };
+
   AttackId: string;
   AttackSelected: Attack;
   AttackAll: Attack[];
@@ -44,7 +55,7 @@ export class CharaService {
 
   FeatureId: string;
   FeatureSelected: Features;
-  FeatureAll: Features[];
+  FeatureAll: Features[] = [];
 
   ItemId: string;
   ItemSelected: Items;

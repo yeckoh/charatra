@@ -69,6 +69,7 @@ wsocket.on('connection', function(socket) {
   require('./routes/room_hooks')(socket);
   require('./routes/ondisconnect')(socket_ids, socket);
   require('./routes/character_hooks')(socket);
+  require('./routes/feature_hooks')(socket);
 
   console.log('list of all socketids:');
   console.log(socket_ids);

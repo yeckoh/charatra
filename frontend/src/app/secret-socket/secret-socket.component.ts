@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as wsocket from 'socket.io-client';
 import { CharaService } from '../shared/chara.service';
+import { Features } from '../shared/features.model';
 
 @Component({
   selector: 'app-secret-socket',
@@ -89,6 +90,23 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
 /// ============================================================================================
 // FEATURE EMITTERS ============================================================================
 /// ============================================================================================
+  // create new
+  static newFeature(owner) {
+    /// TODO: add data to specify which chara.listof_ we are adding to!
+    const forwardingdata = {
+      chara_id: owner,
+    };
+    this.mysock.emit('Make_new_feature', forwardingdata);
+  }
+
+  static getManualFeatures(featurelist, chararoomid) {
+    const charaAndManualFeature_ids = {
+      charaid: chararoomid,
+      featureids: featurelist
+    };
+    this.mysock.emit('Get_all_chara_features', charaAndManualFeature_ids);
+  }
+
   // update existing
   static featureUpdate(feature) {
     // send an emit.
@@ -152,7 +170,6 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
     // ------------------------------------------------------------
     // define a hook to listen for, called 'Made_new_chara'
     SecretSocketComponent.mysock.on('Made_new_chara', (data) => {
-      console.log(data);
       // get all characterids in user localstorage obj
       // append this new chara id
       // set localstorage new characterlist
@@ -196,7 +213,15 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
     // ------------------------------------------------------------
     // FEATURE LISTEN HOOKS
     // ------------------------------------------------------------
-
+    SecretSocketComponent.mysock.on('Made_new_feature', (data) => {
+      console.log('push new feature id to chara.listof_manual');
+      this.charaservice.CharaSelected.listof_charamanualfeatures.push(data._id);
+      SecretSocketComponent.getManualFeatures(this.charaservice.CharaSelected.listof_charamanualfeatures, this.charaservice.CharaId);
+    });
+    SecretSocketComponent.mysock.on('Receive_all_chara_features', (data) => {
+      this.charaservice.FeatureAll = data;
+      console.log('received all chara features');
+    });
 
     // ------------------------------------------------------------
     // ITEM LISTEN HOOKS

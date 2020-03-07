@@ -12,22 +12,12 @@ import { SecretSocketComponent } from 'src/app/secret-socket/secret-socket.compo
   styleUrls: ['./tab-overview.component.css']
 })
 export class TabOverviewComponent implements OnInit {
-  public cardTitleName = 'hello world';
-  protected id: string;
-  public color: 'p500';
   public classformat: 'mat-display-1 p500 boxshadow-4';
 
   constructor(private router: Router,
               private flashMsg: FlashMessagesService,
-              private charaserv: CharaService) { }
+              private charaservice: CharaService) { }
 
   ngOnInit() { }
 
-  callmemaybe() {
-    SecretSocketComponent.getUserCharacters();
-  }
-
-  showloadeddata() {
-    console.log(this.charaserv.CharaAll);
-  }
 }

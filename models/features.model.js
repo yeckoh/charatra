@@ -25,3 +25,12 @@ const Feature = module.exports = mongoose.model('Features', FeatureSchema);
 //=========================================================================
 // stuff for socket hooks
 //=========================================================================
+
+module.exports.SaveFeature = function(featureobj) {
+    featureobj.save();
+}
+
+module.exports.GetAllFeatures = function(allids) {
+    var query = Feature.find().where('_id').in(allids).exec();
+    return query;
+}

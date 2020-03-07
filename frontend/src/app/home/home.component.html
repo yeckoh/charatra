@@ -5,11 +5,17 @@
   <br>
   <button class='p500' mat-flat-button (click)='openDialog()'>New Chara</button>
   <mat-divider></mat-divider>
-  <mat-label class='a400' (click)='openDialog()'>a clickable label</mat-label>
 
   <div>
-    <hr>
-    stranth: <mat-form-field style='width: 4rem;'><input matInput type="number" (input)='updateStranth()' [(ngModel)]='stranth' name='stranth'></mat-form-field><br>
+    <br>
+    stranth: <mat-form-field style='width: 4rem;'><input matInput type="number" (input)='updateStranth()' [(ngModel)]='charaservice.CharaSelected.stats.str' name='charaservice.CharaSelected.stats.str'></mat-form-field><br>
+    dexterity: <mat-form-field style='width: 4rem;'><input matInput type="number" [(ngModel)]='charaservice.CharaSelected.stats.dex' name='charaservice.CharaSelected.stats.dex'></mat-form-field><br>
+    constitution: <mat-form-field style='width: 4rem;'><input matInput type="number" [(ngModel)]='charaservice.CharaSelected.stats.con' name='charaservice.CharaSelected.stats.con'></mat-form-field><br>
+    intelligence: <mat-form-field style='width: 4rem;'><input matInput type="number" [(ngModel)]='charaservice.CharaSelected.stats.int' name='charaservice.CharaSelected.stats.int'></mat-form-field><br>
+    wisdom: <mat-form-field style='width: 4rem;'><input matInput type="number" [(ngModel)]='charaservice.CharaSelected.stats.wis' name='charaservice.CharaSelected.stats.wis'></mat-form-field><br>
+    charisma: <mat-form-field style='width: 4rem;'><input matInput type="number" [(ngModel)]='charaservice.CharaSelected.stats.cha' name='charaservice.CharaSelected.stats.cha'></mat-form-field><br>
+    <br><hr><br>
+    not {{charaservice.CharaSelected.persona.name}}'s stranth: <mat-form-field style='width: 4rem;'><input matInput type="number" (input)='updateStranth()' [(ngModel)]='stranth' name='stranth'></mat-form-field><br>
     stranthMod: <mat-form-field style='width: 4rem;'><input matInput (input)='atkresult()' disabled [(ngModel)]='stranthMod' name='stranthMod'></mat-form-field><br>
     charalevel: <mat-form-field style='width: 4rem;'><input matInput type="number" (input)='updateProf()' [(ngModel)]='charalevel' name='charalevel'></mat-form-field><br>
     proficiencyBonus: <mat-form-field style='width: 4rem;'><input matInput (input)='atkresult()' disabled [(ngModel)]='proficiencyBonus' name='proficiencyBonus'></mat-form-field>

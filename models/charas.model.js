@@ -104,3 +104,14 @@ module.exports.GetAllCharacters = function(allids) {
   var query = Character.find().where('_id').in(allids).exec();
   return query;
 }
+
+// module.exports.GetSingleCharacter = function(charaid) {
+//     // returns a promise
+//     var query = Character.findById(charaid).exec();
+//     return query;
+// }
+
+/// TODO: supply specification for which character.listof_features
+module.exports.AddToListofbyid = function(charaid, featureid) {
+  Character.findByIdAndUpdate(charaid, {$push: {listof_charamanualfeatures: [featureid] }}).exec(); //equivalent
+}

@@ -15,5 +15,8 @@ module.exports = function(socket) {
         socket.join(sent_in_data);
     });
 
+    socket.on('Leave_character_room', function(sent_in_data) {
+        socket.leave(sent_in_data);
+    });
 
 }

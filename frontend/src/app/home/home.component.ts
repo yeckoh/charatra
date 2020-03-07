@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { DialogNewcharaComponent } from '../dialogs/dialog-newchara/dialog-newchara.component';
 import evaluate, { registerFunction } from 'ts-expression-evaluator';
+import { CharaService } from '../shared/chara.service';
 
 @Component({
   selector: 'app-home',
@@ -9,7 +10,7 @@ import evaluate, { registerFunction } from 'ts-expression-evaluator';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  constructor(public dialog: MatDialog) { }
+  constructor(private charaservice: CharaService, public dialog: MatDialog) { }
 
   static BRACKET_EXPRESSION: RegExp = /\{(.*?)\}/g; // capture {*}    g is for global
 
@@ -30,11 +31,13 @@ export class HomeComponent implements OnInit {
   }
 
   updateStranth() {
+    this.charaservice.CharaSelectedDerivedStats.stranthMod = Math.floor((this.charaservice.CharaSelected.stats.stranth - 10) / 2);
     this.stranthMod = Math.floor((this.stranth - 10) / 2);
     this.atkresult();
   }
 
   updateProf() {
+    this.charaservice.CharaSelectedDerivedStats.proficiencyBonus = 1 + Math.ceil(this.charalevel / 4);
     this.proficiencyBonus = 1 + Math.ceil(this.charalevel / 4);
     this.atkresult();
   }
@@ -52,7 +55,7 @@ export class HomeComponent implements OnInit {
     try {
       if (HomeComponent.BRACKET_EXPRESSION.test(input)) {
           let result;
-          HomeComponent.BRACKET_EXPRESSION.lastIndex = 0; // {0} is consumed by replace, now {0} is what was {1}
+          HomeComponent.BRACKET_EXPRESSION.lastIndex = 0; // {0} is consumed by test, now {0} is what was {1}
           while (result = HomeComponent.BRACKET_EXPRESSION.exec(mutableInput)) {
             mutableInput = mutableInput.replace(result[0], evaluate(result[1], this));
             HomeComponent.BRACKET_EXPRESSION.lastIndex = 0; // {0} is consumed by replace, now {0} is what was {1}
@@ -75,4 +78,19 @@ export class HomeComponent implements OnInit {
   dmgresult() {
     this.dmgformuoli = this.regularFormula(this.input2);
   }
+
+
+  setCharaStats() {
+    // save to the database
+    this.charaservice.CharaSelected.stats.stranth = this.stranth;
+    this.charaservice.CharaSelected.stats.total_level = this.charalevel;
+  }
+
+  getCharaStats() {
+    // get the last selected character's stats
+    this.stranth = this.charaservice.CharaSelected.stats.stranth;
+    this.charalevel = this.charaservice.CharaSelected.stats.total_level;
+
+  }
+
 }
