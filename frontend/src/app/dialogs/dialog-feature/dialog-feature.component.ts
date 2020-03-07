@@ -1,6 +1,6 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CharaService } from 'src/app/shared/chara.service';
-import { Features } from 'src/app/shared/features.model';
+import { SecretSocketComponent } from 'src/app/secret-socket/secret-socket.component';
 
 @Component({
   selector: 'app-dialog-feature',
@@ -16,8 +16,12 @@ export class DialogFeatureComponent implements OnInit {
 
   }
 
-  onFeatureSubmit() {
-
+  sendFeatureDialogUpdate() {
+    console.log('dialog feature component senddialogfeatureupdate');
+    SecretSocketComponent.sendFeatureSelectedUpdate(this.charaservice.FeatureSelected, this.charaservice.CharaId);
   }
+
+
+
 
 }

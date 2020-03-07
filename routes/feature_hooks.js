@@ -11,7 +11,7 @@ var mongoose = require('mongoose');
 module.exports = function(socket) {
     console.log("\x1b[34m"+'ws-loaded:'+"\x1b[0m"+'feature_hooks');
 
-    // when 'make_new_feature' gets fired...
+    // when 'make_new_feature' gets fired... CREATE_ONE
     socket.on('Make_new_feature', function(sent_in_data) {
         let newfeature = new Feature({
             _id: mongoose.Types.ObjectId(),
@@ -39,11 +39,20 @@ module.exports = function(socket) {
     });
 
 
+    // when get all cahra features gets fired... READ_ALL
     socket.on('Get_all_chara_features', function(sent_in_data) {
         // a_promise.then -> do stuff with the data
         Feature.GetAllFeatures(sent_in_data.featureids).then(function(allfeatures) {
             socket.emit('Receive_all_chara_features', allfeatures);
             socket.in(sent_in_data.charaid).emit('Receive_all_chara_features', allfeatures);
+        });
+    });
+
+    // when 'update selected feature' gets fired... UPDATE_ONE
+    socket.on('Update_selected_feature', function(sent_in_data) {
+        Feature.findByIdAndUpdate(sent_in_data.feature._id, sent_in_data.feature, {new: true}, function(err, updatedFeature) {
+            socket.emit('Updated_selected_feature', updatedFeature);
+            socket.in(sent_in_data.charaid).emit('Updated_selected_feature', updatedFeature);
         });
     });
 

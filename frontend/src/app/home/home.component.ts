@@ -14,6 +14,14 @@ export class HomeComponent implements OnInit {
 
   static BRACKET_EXPRESSION: RegExp = /\{(.*?)\}/g; // capture {*}    g is for global
 
+  /// TODO: move this to singleton and update all functions which rely on accessing localStorage
+  static loggedInUser; // currently unused
+  // tslint:disable: member-ordering
+  static getUser() { // currently unused
+    this.loggedInUser = JSON.parse(localStorage.getItem('user'));
+  }
+
+
   stranth = 16;
   stranthMod: number;
   charalevel = 1;
@@ -31,13 +39,11 @@ export class HomeComponent implements OnInit {
   }
 
   updateStranth() {
-    this.charaservice.CharaSelectedDerivedStats.stranthMod = Math.floor((this.charaservice.CharaSelected.stats.stranth - 10) / 2);
     this.stranthMod = Math.floor((this.stranth - 10) / 2);
     this.atkresult();
   }
 
   updateProf() {
-    this.charaservice.CharaSelectedDerivedStats.proficiencyBonus = 1 + Math.ceil(this.charalevel / 4);
     this.proficiencyBonus = 1 + Math.ceil(this.charalevel / 4);
     this.atkresult();
   }
@@ -61,7 +67,6 @@ export class HomeComponent implements OnInit {
             HomeComponent.BRACKET_EXPRESSION.lastIndex = 0; // {0} is consumed by replace, now {0} is what was {1}
         }} else {
           if (mutableInput = evaluate(input, this)) { } // simple formula; {} is implied
-
           else {mutableInput = input; } // evaluation failed but didnt throw an error
         }
       return mutableInput;
@@ -79,18 +84,5 @@ export class HomeComponent implements OnInit {
     this.dmgformuoli = this.regularFormula(this.input2);
   }
 
-
-  setCharaStats() {
-    // save to the database
-    this.charaservice.CharaSelected.stats.stranth = this.stranth;
-    this.charaservice.CharaSelected.stats.total_level = this.charalevel;
-  }
-
-  getCharaStats() {
-    // get the last selected character's stats
-    this.stranth = this.charaservice.CharaSelected.stats.stranth;
-    this.charalevel = this.charaservice.CharaSelected.stats.total_level;
-
-  }
 
 }

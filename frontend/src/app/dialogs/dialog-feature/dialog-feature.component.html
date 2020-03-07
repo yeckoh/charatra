@@ -1,9 +1,9 @@
 <div class='dialogdiv'>
-  <div><mat-form-field><input placeholder='accent color' matInput [(ngModel)]="charaservice.FeatureSelected.selected_color" name='charaservice.FeatureSelected.selected_color'></mat-form-field></div>
-  <mat-card-title><input matInput [(ngModel)]="charaservice.FeatureSelected.title" name='charaservice.FeatureSelected.title'></mat-card-title>
+  <div><mat-form-field><input placeholder='accent color' matInput (change)='sendFeatureDialogUpdate()' [(ngModel)]="charaservice.FeatureSelected.selected_color" name='charaservice.FeatureSelected.selected_color'></mat-form-field></div>
+  <mat-card-title><input matInput (change)='sendFeatureDialogUpdate()' [(ngModel)]="charaservice.FeatureSelected.title" name='charaservice.FeatureSelected.title'></mat-card-title>
 
   <div><mat-form-field class='dialogtext'>
-    <textarea matInput [(ngModel)]="charaservice.FeatureSelected.descript" name='charaservice.FeatureSelected.descript'></textarea>
+    <textarea matInput (change)='sendFeatureDialogUpdate()' [(ngModel)]="charaservice.FeatureSelected.descript" name='charaservice.FeatureSelected.descript'></textarea>
   </mat-form-field></div>
 
 

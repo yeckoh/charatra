@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as wsocket from 'socket.io-client';
 import { CharaService } from '../shared/chara.service';
-import { Features } from '../shared/features.model';
 
 @Component({
   selector: 'app-secret-socket',
@@ -108,8 +107,14 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
   }
 
   // update existing
-  static featureUpdate(feature) {
+  static sendFeatureSelectedUpdate(feature, chararoomid) {
+    console.log('socket sendfeatureselectedupatefunc');
     // send an emit.
+    const forwardingdata = {
+      feature,
+      charaid: chararoomid
+    };
+    this.mysock.emit('Update_selected_feature', forwardingdata);
   }
 
 /// ============================================================================================
@@ -213,14 +218,32 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
     // ------------------------------------------------------------
     // FEATURE LISTEN HOOKS
     // ------------------------------------------------------------
+    // CREATE_ONE
     SecretSocketComponent.mysock.on('Made_new_feature', (data) => {
-      console.log('push new feature id to chara.listof_manual');
       this.charaservice.CharaSelected.listof_charamanualfeatures.push(data._id);
-      SecretSocketComponent.getManualFeatures(this.charaservice.CharaSelected.listof_charamanualfeatures, this.charaservice.CharaId);
+      this.charaservice.FeatureAll.push(data);
+      // unnecessary read_all call
+      // SecretSocketComponent.getManualFeatures(this.charaservice.CharaSelected.listof_charamanualfeatures, this.charaservice.CharaId);
+      console.log('received new chara feature');
     });
+
+    // READ_ALL
     SecretSocketComponent.mysock.on('Receive_all_chara_features', (data) => {
       this.charaservice.FeatureAll = data;
       console.log('received all chara features');
+    });
+
+    // UPDATE_ONE
+    SecretSocketComponent.mysock.on('Updated_selected_feature', (data) => {
+      // if you're the caller, update your selection
+      // you have to find the right one in the list and update it
+      // this shouldn't ever fail to find
+      const replacementIndex = this.charaservice.FeatureAll.findIndex(e => e._id === data._id);
+      this.charaservice.FeatureAll[replacementIndex] = data;
+      if (this.charaservice.FeatureSelected._id === data._id) { // if you're the caller, update your selection
+        this.charaservice.FeatureSelected = this.charaservice.FeatureAll[replacementIndex];
+      }
+      console.log('updated single feature');
     });
 
     // ------------------------------------------------------------
