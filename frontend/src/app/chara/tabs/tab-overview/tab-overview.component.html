@@ -10,9 +10,9 @@
   <div class='mat-elevation-z4 flexdiv floatingbox'>
     <table style='width: 18rem; border-collapse: collapse;'>
       <tr>
-        <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(124, 62, 62);'>16</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Stranth</td>
+        <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(124, 62, 62);'>{{charaservice.CharaSelected.stats.str}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Stranth</td>
     </tr>
-        <tr style='font-size: 24px; text-align: center; background-color:rgb(124, 62, 62);'>+3</tr>
+        <tr style='font-size: 24px; text-align: center; background-color:rgb(124, 62, 62);'>{{charaservice.CharaSelected.stats.str | modifier}}</tr>
     </table>
   </div>
 
@@ -20,7 +20,7 @@
   <div class='mat-elevation-z4 flexdiv floatingbox'>
     <table style='width: 18rem; border-collapse: collapse;'>
       <tr>
-        <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(66, 122, 61);'>14</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Dexterity</td>
+        <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(66, 122, 61);'>{{charaservice.CharaSelected.stats.dex}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Dexterity</td>
     </tr>
         <tr style='font-size: 24px; text-align: center; background-color:rgb(66, 122, 61);'>+2</tr>
     </table>
@@ -30,7 +30,7 @@
   <div class='mat-elevation-z4 flexdiv floatingbox'>
     <table style='width: 18rem; border-collapse: collapse;'>
       <tr>
-        <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(71, 5, 0);'>15</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Constitution</td>
+        <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(71, 5, 0);'>{{charaservice.CharaSelected.stats.con}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Constitution</td>
     </tr>
         <tr style='font-size: 24px; text-align: center; background-color:rgb(71, 5, 0);'>+2</tr>
     </table>
@@ -40,7 +40,7 @@
     <div class='mat-elevation-z4 flexdiv floatingbox'>
       <table style='width: 18rem; border-collapse: collapse;'>
         <tr>
-          <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(62, 103, 124);'>9</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Intelligence</td>
+          <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(62, 103, 124);'>{{charaservice.CharaSelected.stats.int}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Intelligence</td>
       </tr>
           <tr style='font-size: 24px; text-align: center; background-color:rgb(62, 103, 124);'>-1</tr>
       </table>
@@ -50,7 +50,7 @@
   <div class='mat-elevation-z4 flexdiv floatingbox'>
     <table style='width: 18rem; border-collapse: collapse;'>
       <tr>
-        <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(89, 61, 122);'>13</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Wisdom</td>
+        <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(89, 61, 122);'>{{charaservice.CharaSelected.stats.wis}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Wisdom</td>
     </tr>
         <tr style='font-size: 24px; text-align: center; background-color:rgb(89, 61, 122);'>+1</tr>
     </table>
@@ -60,7 +60,7 @@
     <div class='mat-elevation-z4 flexdiv floatingbox'>
       <table style='width: 18rem; border-collapse: collapse;'>
         <tr>
-          <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(122, 122, 61);'>11</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Charisma</td>
+          <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(122, 122, 61);'>{{charaservice.CharaSelected.stats.cha}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Charisma</td>
       </tr>
           <tr style='font-size: 24px; text-align: center; background-color:rgb(122, 122, 61);'>+0</tr>
       </table>

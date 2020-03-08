@@ -29,6 +29,7 @@ import { DialogNewcharaComponent } from './dialogs/dialog-newchara/dialog-newcha
 import { SecretSocketComponent } from './secret-socket/secret-socket.component';
 import { DialogFeatureComponent } from './dialogs/dialog-feature/dialog-feature.component';
 import { CharaService } from './shared/chara.service';
+import { ModifierPipe } from './pipes/modifier.pipe';
 
 const appRoutes: Routes = [
   { path: '', component: SigninComponent }, // TODO: make a splashpage
@@ -54,7 +55,8 @@ const appRoutes: Routes = [
     TabPersonaComponent,
     DialogNewcharaComponent,
     SecretSocketComponent,
-    DialogFeatureComponent
+    DialogFeatureComponent,
+    ModifierPipe
   ],
   imports: [
     BrowserModule,
