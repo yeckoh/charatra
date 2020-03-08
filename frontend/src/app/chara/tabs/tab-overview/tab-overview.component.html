@@ -1,3 +1,7 @@
+<div>
+  <br>
+  <br>
+  Sample Hitpoints:<mat-slider [max]=charaservice.CharaSelected.stats.total_hitpoints [step]='1' [tickInterval]='13.5' [thumbLabel]='true' [(ngModel)]=charaservice.CharaSelected.current_hitpoints (input)='updateVal($event.value)' style='width: 80%'></mat-slider><b style='font-size: 24px;'> {{charaservice.CharaSelected.current_hitpoints}}</b>
 <div class='flexdiv' style='flex-wrap: wrap;'>
 
 <!-- column 1 -->
@@ -151,4 +155,5 @@
         </mat-form-field>
       </div>
     -->
+</div>
 </div>

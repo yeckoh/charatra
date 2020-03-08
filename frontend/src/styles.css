@@ -6,7 +6,7 @@
 body { background-color: #181818; margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 /*p{ color: #ffffff;}*/
 span {font-size: larger; height:50%; }
-mat-card { max-width: 18rem; }
+mat-card { max-width: 20rem; }
 
 mat-expansion-panel { max-width: 24rem; }
 

@@ -5,27 +5,71 @@
     <tr>
       <td style='vertical-align: top;'>
 
-    <div style='width: 18rem; padding: 1rem;'>
+    <div style='width: 22rem; padding: 6px;'>
       <div class='mat-elevation-z8' style='background-color: rgb(0, 27, 27);'>
-      <mat-card-title style='padding: 6px;'>
+      <mat-card-title style='padding: 1rem;'>
         Attacks
       </mat-card-title>
-      <mat-card style='padding: 0px; border-radius: 0px'>
+      <mat-card style='padding: 0px; border-radius: 0px; max-width: 22rem;'>
         <mat-card-content style='padding: 1rem;'>
           all attacks go here
+          <mat-divider></mat-divider>
+          <br>
+          <br>
+          <br>
+          <table>
+            <tr><td rowspan='3' style='font-size: 32px; margin-right: 1rem; padding-right: 1rem;'>+7</td> <td style='font-weight: bold; font-size: 18px;'>greatsword</td>
+              </tr>
+              <tr>
+                <td style='font-size: 18px;'>
+                  2d6 + 4 slashing
+                </td>
+              </tr>
+            </table>
+            <br>
+            <table>
+              <tr><td rowspan='3' style='font-size: 32px; margin-right: 1rem; padding-right: 1rem;'>+7</td> <td style='font-weight: bold; font-size: 18px;'>longsword</td>
+                </tr>
+                <tr>
+                  <td style='font-size: 18px;'>
+                    1d8 + 4 slashing
+                  </td>
+                </tr>
+                <tr>
+                  <td style='font-size: 18px;'>
+                    Versatile (1d10)
+                  </td>
+                </tr>
+              </table>
         </mat-card-content>
       </mat-card>
       </div>
     </div>
 
-    <div style='width: 18rem; padding: 1rem;'>
+    <div style='width: 22rem; padding: 6px;'>
       <div class='mat-elevation-z8' style='background-color: rgb(0, 27, 27);'>
       <mat-card-title style='padding: 6px;'>
-        Saves
+        Saving throws
       </mat-card-title>
-      <mat-card style='padding: 0px; border-radius: 0px'>
-        <mat-card-content style='padding: 1rem;'>
+      <mat-card style='padding: 0px; border-radius: 0px; max-width: 22rem;'>
+        <mat-card-content style='padding: 6px;'>
           all saves go here
+          <br>
+          <br>
+          <table>
+            <tr><td rowspan='3' style='font-size: 32px; margin-right: 1rem; padding-right: 1rem;'>15 Dex</td> <td style='font-weight: bold; font-size: 18px'>3rd Lvl fireball</td>
+              </tr>
+              <tr>
+                <td style='font-size: 18px;'>
+                  8d6 fire
+                </td>
+              </tr>
+              <tr>
+                <td style='font-size: 18px;'>
+                  save for half damage
+                </td>
+              </tr>
+            </table>
         </mat-card-content>
       </mat-card>
       </div>
@@ -46,14 +90,14 @@
 <div style='display: flex; flex-wrap: wrap;'>
 
 <div *ngFor="let feature of charaservice.FeatureAll">
-  <div style='max-width: 18rem; width: 18rem; padding: 1rem;'>
+  <div style='max-width: 20rem; width: 20rem; padding: 6px;'>
     <div class='mat-elevation-z8' [style.background-color]="feature.selected_color">
     <mat-card-title style='padding: 6px;' (click)='openFeatureDialog(feature)'>
       <label style='padding:0px; margin: 0px;'>{{feature.title}}</label>
     </mat-card-title>
 
     <mat-card style='padding: 0px; border-radius: 0px'>
-      <mat-card-content style='padding: 1rem;'>
+      <mat-card-content style='padding: 1rem; font-size: 16px;'>
         {{feature.descript}}
       </mat-card-content>
     </mat-card>

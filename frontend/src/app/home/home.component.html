@@ -17,19 +17,36 @@
     charisma: <mat-form-field style='width: 4rem;'><input matInput type="number" [(ngModel)]='charaservice.CharaSelected.stats.cha' name='charaservice.CharaSelected.stats.cha'></mat-form-field><br>
     </div>
     <br><hr><br>
-    sample stranth: <mat-form-field style='width: 4rem;'><input matInput type="number" (input)='updateStranth()' [(ngModel)]='stranth' name='stranth'></mat-form-field><br>
-    stranthMod: <mat-form-field style='width: 4rem;'><input matInput (input)='atkresult()' disabled [(ngModel)]='stranthMod' name='stranthMod'></mat-form-field><br>
-    charalevel: <mat-form-field style='width: 4rem;'><input matInput type="number" (input)='updateProf()' [(ngModel)]='charalevel' name='charalevel'></mat-form-field><br>
+    <div style='display: flex;'>
+
+      <div>
+    <mat-card style='padding: 1rem; margin: 1rem; text-align: right;'>
+    sample stranth: <mat-form-field style='width: 4rem;'><input matInput type="number" (input)='updateStranth()' [(ngModel)]='stranth' name='stranth'></mat-form-field>
+    </mat-card>
+    <mat-card style='padding: 1rem; margin: 1rem; text-align: right;'>
+    stranthMod: <mat-form-field style='width: 4rem;'><input matInput (input)='atkresult()' disabled [(ngModel)]='stranthMod' name='stranthMod'></mat-form-field>
+    </mat-card>
+    <mat-card style='padding: 1rem; margin: 1rem; text-align: right;'>
+    charalevel: <mat-form-field style='width: 4rem;'><input matInput type="number" (input)='updateProf()' [(ngModel)]='charalevel' name='charalevel'></mat-form-field>
+    </mat-card>
+    <mat-card style='padding: 1rem; margin: 1rem; text-align: right;'>
     proficiencyBonus: <mat-form-field style='width: 4rem;'><input matInput (input)='atkresult()' disabled [(ngModel)]='proficiencyBonus' name='proficiencyBonus'></mat-form-field>
-    <br>
-    attackBonus formula: <mat-form-field style='width: 18rem;'><input matInput (input)='atkresult()' [(ngModel)]='input1' name='input1'></mat-form-field><br>
-    <br>
-    damage formula: <mat-form-field style='width: 18rem;'><input matInput (input)='dmgresult()' [(ngModel)]='input2' name='input2'></mat-form-field><br>
-    <br>
-    <mat-divider></mat-divider>
-    <br>
-    <p>attackBonus: {{attackBonus}}</p>
-    <br>
-    <p>damage: {{dmgformuoli}}</p>
-  </div>
+
+  </mat-card>
+  <mat-card style='padding: 1rem; margin: 1rem; max-width: 26rem; text-align: right;'>
+    attackBonus formula: <mat-form-field style='width: 16rem;'><input matInput (input)='atkresult()' [(ngModel)]='input1' name='input1'></mat-form-field>
+  </mat-card>
+  <mat-card style='padding: 1rem; margin: 1rem; max-width: 26rem; text-align: right;'>
+    damage formula: <mat-form-field style='width: 16rem;'><input matInput (input)='dmgresult()' [(ngModel)]='input2' name='input2'></mat-form-field>
+  </mat-card>
+</div>
+<div>
+<br>
+<p>attackBonus: {{attackBonus}}</p>
+<br>
+<p>damage: {{dmgformuoli}}</p>
+</div>
+</div>
+
+
 </div>

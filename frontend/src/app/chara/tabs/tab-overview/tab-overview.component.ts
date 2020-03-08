@@ -18,6 +18,11 @@ export class TabOverviewComponent implements OnInit {
               private flashMsg: FlashMessagesService,
               private charaservice: CharaService) { }
 
+
+  updateVal(item) {
+    this.charaservice.CharaSelected.current_hitpoints = item;
+  }
+
   ngOnInit() { }
 
 }
