@@ -212,7 +212,7 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
         this.charaservice.CharaSelected = this.charaservice.CharaAll[replacementIndex];
         this.charaservice.CharaId = this.charaservice.CharaSelected._id;
       }
-      this.charaservice.CharaSelected.stats.total_hitpoints = 54;
+      // this.charaservice.CharaSelected.stats.total_hitpoints = 54;
       // emit hooks to get all lvl-2 collections here?
       console.log('read_one chara');
     });
