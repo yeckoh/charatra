@@ -21,6 +21,7 @@ export class TabOverviewComponent implements OnInit {
 
   updateVal(item) {
     this.charaservice.CharaSelected.current_hitpoints = item;
+    SecretSocketComponent.sendCharacterSelectedUpdate(this.charaservice.CharaSelected);
   }
 
   ngOnInit() { }

@@ -12,7 +12,7 @@
       <tr>
         <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(124, 62, 62);'>{{charaservice.CharaSelected.stats.str}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Stranth</td>
     </tr>
-        <tr style='font-size: 24px; text-align: center; background-color:rgb(124, 62, 62);'>{{charaservice.CharaSelected.stats.str | modifier}}</tr>
+        <tr style='font-size: 24px; text-align: center; background-color:rgb(124, 62, 62);'><div *ngIf="charaservice.CharaSelected.stats.str < 10;else plus"></div><ng-template #plus>+</ng-template>{{charaservice.CharaSelected.stats.str | modifier}}</tr>
     </table>
   </div>
 
@@ -22,7 +22,7 @@
       <tr>
         <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(66, 122, 61);'>{{charaservice.CharaSelected.stats.dex}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Dexterity</td>
     </tr>
-        <tr style='font-size: 24px; text-align: center; background-color:rgb(66, 122, 61);'>+2</tr>
+        <tr style='font-size: 24px; text-align: center; background-color:rgb(66, 122, 61);'><div *ngIf="charaservice.CharaSelected.stats.dex < 10;else plus"></div><ng-template #plus>+</ng-template>{{charaservice.CharaSelected.stats.dex | modifier}}</tr>
     </table>
   </div>
 
@@ -32,7 +32,7 @@
       <tr>
         <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(71, 5, 0);'>{{charaservice.CharaSelected.stats.con}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Constitution</td>
     </tr>
-        <tr style='font-size: 24px; text-align: center; background-color:rgb(71, 5, 0);'>+2</tr>
+        <tr style='font-size: 24px; text-align: center; background-color:rgb(71, 5, 0);'><div *ngIf="charaservice.CharaSelected.stats.con < 10;else plus"></div><ng-template #plus>+</ng-template>{{charaservice.CharaSelected.stats.con | modifier}}</tr>
     </table>
   </div>
 
@@ -42,7 +42,7 @@
         <tr>
           <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(62, 103, 124);'>{{charaservice.CharaSelected.stats.int}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Intelligence</td>
       </tr>
-          <tr style='font-size: 24px; text-align: center; background-color:rgb(62, 103, 124);'>-1</tr>
+          <tr style='font-size: 24px; text-align: center; background-color:rgb(62, 103, 124);'><div *ngIf="charaservice.CharaSelected.stats.int < 10;else plus"></div><ng-template #plus>+</ng-template>{{charaservice.CharaSelected.stats.int | modifier}}</tr>
       </table>
     </div>
 
@@ -52,7 +52,7 @@
       <tr>
         <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(89, 61, 122);'>{{charaservice.CharaSelected.stats.wis}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Wisdom</td>
     </tr>
-        <tr style='font-size: 24px; text-align: center; background-color:rgb(89, 61, 122);'>+1</tr>
+        <tr style='font-size: 24px; text-align: center; background-color:rgb(89, 61, 122);'><div *ngIf="charaservice.CharaSelected.stats.wis < 10;else plus"></div><ng-template #plus>+</ng-template>{{charaservice.CharaSelected.stats.wis | modifier}}</tr>
     </table>
   </div>
 
@@ -62,7 +62,7 @@
         <tr>
           <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(122, 122, 61);'>{{charaservice.CharaSelected.stats.cha}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Charisma</td>
       </tr>
-          <tr style='font-size: 24px; text-align: center; background-color:rgb(122, 122, 61);'>+0</tr>
+          <tr style='font-size: 24px; text-align: center; background-color:rgb(122, 122, 61);'><div *ngIf="charaservice.CharaSelected.stats.cha < 10;else plus"></div><ng-template #plus>+</ng-template>{{charaservice.CharaSelected.stats.cha | modifier}}</tr>
       </table>
     </div>
 
