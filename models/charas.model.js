@@ -105,11 +105,17 @@ module.exports.GetAllCharacters = function(allids) {
   return query;
 }
 
-// module.exports.GetSingleCharacter = function(charaid) {
-//     // returns a promise
-//     var query = Character.findById(charaid).exec();
-//     return query;
-// }
+module.exports.GetOneCharacter = function(charaid) {
+  // returns a promise
+  var query = Character.findById(charaid).exec();
+  return query;
+}
+
+module.exports.UpdateOneCharacter = function(charaobj) {
+  Character.findByIdAndUpdate(charaobj._id, charaobj).exec();
+  // charaobj.save(); nogood
+  // Character.save();
+}
 
 /// TODO: supply specification for which character.listof_features
 module.exports.AddToListofbyid = function(charaid, featureid) {

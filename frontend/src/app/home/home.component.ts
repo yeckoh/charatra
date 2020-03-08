@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material';
 import { DialogNewcharaComponent } from '../dialogs/dialog-newchara/dialog-newchara.component';
 import evaluate, { registerFunction } from 'ts-expression-evaluator';
 import { CharaService } from '../shared/chara.service';
+import { SecretSocketComponent } from '../secret-socket/secret-socket.component';
 
 @Component({
   selector: 'app-home',
@@ -82,6 +83,10 @@ export class HomeComponent implements OnInit {
 
   dmgresult() {
     this.dmgformuoli = this.regularFormula(this.input2);
+  }
+
+  updateThisChara() {
+    SecretSocketComponent.sendCharacterSelectedUpdate(this.charaservice.CharaSelected);
   }
 
 

@@ -10,7 +10,7 @@ var mongoose = require('mongoose');
 module.exports = function(socket) {
     console.log("\x1b[34m"+'ws-loaded:'+"\x1b[0m"+'character_hooks');
 
-    // when 'testevent' gets fired...
+    // CREATE_ONE
     socket.on('Make_new_chara', function(sent_in_data) {
 
         let newchara = new Character( {
@@ -102,14 +102,31 @@ module.exports = function(socket) {
 
     });
 
-    // when 'Get_all_user_charas' gets fired...
+    // READ_ALL
+    /// TODO: pull names and ids only to save on data transfers
     socket.on('Get_all_user_charas', function(sent_in_data) {
         // a_promise.then -> do stuff with the data
         Character.GetAllCharacters(sent_in_data.characterids).then(function(allcharacters) {
-            socket.emit('Receive_all_user_charas', allcharacters); // send back to self
-            socket.in(sent_in_data.userid).emit('Receive_all_user_charas', allcharacters); // send to all in the room but the caller
+            socket.emit('Read_all_user_charas', allcharacters); // send to to caller
         });
     });
+
+    // READ_ONE
+    socket.on('Get_selected_chara', function(sent_in_data) {
+        Character.GetOneCharacter(sent_in_data.characterid).then(function(singlechara) {
+            socket.emit('Read_one_chara', singlechara); // send to caller
+        });
+    });
+
+    // UPDATE_ONE
+    socket.on('Update_selected_chara', function(sent_in_data) {
+        Character.UpdateOneCharacter(sent_in_data.chara);
+        /// TODO: after sidenav only reads charaname and id, update charaname only below
+        socket.broadcast.in(sent_in_data.userid).emit('Updated_one_chara', sent_in_data.chara); // send to all same user
+        socket.broadcast.in(sent_in_data.chara._id).emit('Read_one_chara', sent_in_data.chara); // send to all who's viewing this chara
+    });
+
+
 
 }
 

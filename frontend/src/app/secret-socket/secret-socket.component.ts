@@ -42,7 +42,7 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
 /// ============================================================================================
 // CHARACTER EMITTERS ==========================================================================
 /// ============================================================================================
-  // send an event to the hook, 'Make_new_chara'
+  // request to CREATE_ONE
   static newCharacter(incomingdata) {
     const forwardingdata = {
       userid: JSON.parse(localStorage.getItem('user')).id,
@@ -53,22 +53,31 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
     this.mysock.emit('Make_new_chara', forwardingdata);
   }
 
-  // send an event to the hook, 'Get_all_user_charas'
+  // request to READ_ALL
   static getUserCharacters() {
     const userAndCharacter_ids = {
-      userid: JSON.parse(localStorage.getItem('user')).id,
+      userid: JSON.parse(localStorage.getItem('user')).id, // needed for user room. purpose: update sidebar
       characterids: JSON.parse(localStorage.getItem('user')).charas
     };
     this.mysock.emit('Get_all_user_charas', userAndCharacter_ids);
   }
 
-  // name implies getUserCharacters was already called
-  static getSelectedCharacter(desiredcharacterid) {
+  // request to READ_ONE
+  static getSelectedCharacter(charaid) {
     const userAndCharacter_ids = {
-      userid: JSON.parse(localStorage.getItem('user')).id,
-      characterid: desiredcharacterid,
+      userid: JSON.parse(localStorage.getItem('user')).id, // probably not needed for read_one
+      characterid: charaid,
     };
     this.mysock.emit('Get_selected_chara', userAndCharacter_ids);
+  }
+
+  // request to UPDATE_ONE
+  static sendCharacterSelectedUpdate(chara) {
+    const useridAndCharacter = {
+      userid: JSON.parse(localStorage.getItem('user')).id, // needed for user room. purpose: update sidebar for namechange
+      chara,
+    };
+    this.mysock.emit('Update_selected_chara', useridAndCharacter);
   }
 
 /// ============================================================================================
@@ -89,7 +98,7 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
 /// ============================================================================================
 // FEATURE EMITTERS ============================================================================
 /// ============================================================================================
-  // create new
+  // request to CREATE_ONE
   static newFeature(owner) {
     /// TODO: add data to specify which chara.listof_ we are adding to!
     const forwardingdata = {
@@ -98,6 +107,7 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
     this.mysock.emit('Make_new_feature', forwardingdata);
   }
 
+  // request to READ_ALL
   static getManualFeatures(featurelist, chararoomid) {
     const charaAndManualFeature_ids = {
       charaid: chararoomid,
@@ -106,7 +116,7 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
     this.mysock.emit('Get_all_chara_features', charaAndManualFeature_ids);
   }
 
-  // update existing
+  // request to UPDATE_ONE
   static sendFeatureSelectedUpdate(feature, chararoomid) {
     console.log('socket sendfeatureselectedupatefunc');
     // send an emit.
@@ -173,7 +183,7 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
     // ------------------------------------------------------------
     // CHARACTER LISTEN HOOKS
     // ------------------------------------------------------------
-    // define a hook to listen for, called 'Made_new_chara'
+    // CREATE_ONE
     SecretSocketComponent.mysock.on('Made_new_chara', (data) => {
       // get all characterids in user localstorage obj
       // append this new chara id
@@ -183,17 +193,28 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
       localStorage.setItem('user', JSON.stringify(userinfo));
       // probably update the sidebar list here too
       SecretSocketComponent.getUserCharacters();
+      console.log('created_one chara');
     });
 
-    // define hook to listen for, called 'Receive_all_user_charas'
-    SecretSocketComponent.mysock.on('Receive_all_user_charas', (data) => {
+    // READ_ALL
+    SecretSocketComponent.mysock.on('Read_all_user_charas', (data) => {
       // pull all characters belonging to the logged-in user only
       this.charaservice.CharaAll = data;
+      console.log('read_all charas');
     });
 
-    SecretSocketComponent.mysock.on('Receive_desired_chara', (data) => {
-      this.charaservice.CharaSelected = data;
+    // READ / UPDATED_ONE
+    SecretSocketComponent.mysock.on('Read_one_chara', (data) => {
+      const replacementIndex = this.charaservice.CharaAll.findIndex(e => e._id === data._id);
+      this.charaservice.CharaAll[replacementIndex] = data;
+      if (this.charaservice.CharaSelected !== undefined && this.charaservice.CharaSelected._id === data._id) {
+        // if you're the caller, update your selection
+        this.charaservice.CharaSelected = this.charaservice.CharaAll[replacementIndex];
+        this.charaservice.CharaId = this.charaservice.CharaSelected._id;
+      }
+      this.charaservice.CharaSelected.stats.total_hitpoints = 54;
       // emit hooks to get all lvl-2 collections here?
+      console.log('read_one chara');
     });
 
     // if user is logged in already and just loaded the page
@@ -222,15 +243,13 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
     SecretSocketComponent.mysock.on('Made_new_feature', (data) => {
       this.charaservice.CharaSelected.listof_charamanualfeatures.push(data._id);
       this.charaservice.FeatureAll.push(data);
-      // unnecessary read_all call
-      // SecretSocketComponent.getManualFeatures(this.charaservice.CharaSelected.listof_charamanualfeatures, this.charaservice.CharaId);
-      console.log('received new chara feature');
+      console.log('created_one chara feature');
     });
 
     // READ_ALL
     SecretSocketComponent.mysock.on('Receive_all_chara_features', (data) => {
       this.charaservice.FeatureAll = data;
-      console.log('received all chara features');
+      console.log('read_all chara features');
     });
 
     // UPDATE_ONE
@@ -244,7 +263,7 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
         // if you're the caller, update your selection
         this.charaservice.FeatureSelected = this.charaservice.FeatureAll[replacementIndex];
       }
-      console.log('updated single feature');
+      console.log('updated_one feature');
     });
 
     // ------------------------------------------------------------
