@@ -10,7 +10,7 @@ var ContainerSchema = mongoose.Schema({
 
 
 const Container = module.exports = mongoose.model('Containers', ContainerSchema);
-  
+
 // schema model functions -> {mongoose functions}
 
 module.exports.SaveContainers = function(containersobj) {
@@ -20,4 +20,17 @@ module.exports.SaveContainers = function(containersobj) {
 module.exports.GetAllContainers = function(allids) {
     var query = Container.find().where('_id').in(allids).exec();
     return query;
+}
+
+module.exports.AddToListofequippeditems = function(item) {
+  //To Do: push item to equipped Items
+}
+
+module.exports.AddToListofunequippeditems = funtion(item) {
+  //To Do: push item to unequippeditems
+}
+
+module.exports.toggleEquipStatus = funtion(item) {
+  //To Do: inverts the status of the equipment
+  // EX. if equiped make it unequipped
 }

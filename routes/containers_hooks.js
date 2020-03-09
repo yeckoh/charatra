@@ -16,13 +16,13 @@ module.exports = function(socket) {
         let newcontainer = new Container({
             _id: mongoose.Types.ObjectId(),
 
-            name: '',
+            name: 'new container',
             descript: 'descriptions right here bub',
             listof_equippeditems: [],
             listof_unequippeditems: []
         });
 
-        Container.SaveContainer(newcontainer);
+        Container.SaveContainers(newcontainer);
 
         Character.AddToListofbyid(sent_in_data.chara_id, newcontainer._id);
 
@@ -34,7 +34,7 @@ module.exports = function(socket) {
     // when get all cahra Container gets fired... READ_ALL
     socket.on('Get_all_chara_Container', function(sent_in_data) {
         // a_promise.then -> do stuff with the data
-        Container.GetAllContainer(sent_in_data.Containerids).then(function(allContainer) {
+        Container.GetAllContainers(sent_in_data.Containerids).then(function(allContainer) {
             socket.emit('Receive_all_chara_Container', allContainer);
             socket.in(sent_in_data.charaid).emit('Receive_all_chara_Container', allContainer);
         });
