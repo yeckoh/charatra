@@ -1,33 +1,48 @@
-install nodejs
+TODO: replace the git repo name with MagicPages.
 
-install mongodb. mongo-compass is like mysqlworkbench, you can check records and CRUD. New connection: localhost:27017
+step 1. install nodejs + npm
 
-mongo\bin\mongod.exe --dbpath [path to a folder]
+step 2. install mongodb. mongo-compass is like mysqlworkbench, you can check records and CRUD. New connection: localhost:27017
 
-/charatra/ npm init
+step 3. specify a path for the database collections. mongo\bin\mongod.exe --dbpath [path to a folder]
 
+step 4. use npm to install module dependencies. /charatra/ npm install
 
-# charatra
+step 5. run nodejs. /charatra/node server
+
+step 6. in a separate shell, run Angular. /charatra/frontend/ng serve
+
+step 7. in a browser, connect to: http://localhost:4200
+
+# ~~charatra~~ MagicPages
 you might need to npm i -g @angular/cli
 
-/frontend/ ng serve |to run angular
+Angular: /charatra/frontend/
 
-/node server        |to run backend
+NodeJS: /charatra/
 
+PassportJS: /charatra/controllers/passport.js <--(used by /models/user)
 
-./controllers	-express. define GET & POST behavior for http reqs
+Mongoose Schemas: /charatra/models/
 
-./models		-express. define objects for Express, +some related functions
+socket.io is loaded in /charatra/server.js
 
-./frontend			-angular folder
+Backend WebSocket Hooks (listeners + emitters): /charatra/models/user.model.js
 
-./frontend/routes   -express? where do http requests from Angular:4200 --> Node:3000 go
+Frontend WebSocket Hooks: /charatra/frontend/src/app/secret-socket/secret-socket.component.ts
 
-./frontend/src/app/mymat	-angular. material stuff importer
+# to (sort of) deploy, change localhost:4200 urls in:
+Express CORS origin policy <---- charatra/server.js
 
-.../app/shared		-angular. services/rxjs-observers, +object definitions for Angular
+Angular user auth httproute <---- charatra/frontend/src/app/shared/auth.service.ts
 
+Angular socket connection target url <---- charatra/frontend/src/app/secret-socket/secret-socket.component.ts
 
+Run ng server --host (ip4)
+
+Make sure the appropriate ports are open if necessary
+
+## boilerplate stuff:
 # Material
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.23.
