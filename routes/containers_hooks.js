@@ -24,7 +24,7 @@ module.exports = function(socket) {
 
         Container.SaveContainers(newcontainer);
 
-        Character.AddToListofbyid(sent_in_data.chara_id, newcontainer._id);
+        Character.AddToListofcharainventorybyid(sent_in_data.chara_id, newcontainer._id);
 
         socket.emit('Made_new_Container', newcontainer);
         socket.broadcast.in(sent_in_data.chara_id).emit('Made_new_Container', newcontainer);
@@ -36,14 +36,12 @@ module.exports = function(socket) {
         // a_promise.then -> do stuff with the data
         Container.GetAllContainers(sent_in_data.Containerids).then(function(allContainer) {
             socket.emit('Receive_all_chara_Container', allContainer);
-            socket.in(sent_in_data.charaid).emit('Receive_all_chara_Container', allContainer);
         });
     });
 
     // when 'update selected Container' gets fired... UPDATE_ONE
     socket.on('Update_selected_Container', function(sent_in_data) {
         Container.findByIdAndUpdate(sent_in_data.Container._id, sent_in_data.Container, {new: true}, function(err, updatedContainer) {
-            socket.emit('Updated_selected_Container', updatedContainer);
             socket.in(sent_in_data.charaid).emit('Updated_selected_Container', updatedContainer);
         });
     });
