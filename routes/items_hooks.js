@@ -38,22 +38,25 @@ module.exports = function(socket) {
         }
 
         socket.emit('Made_new_item', newItem);
-        socket.broadcast.in(sent_in_data.chara_id).emit('Made_new_item', newItem);
+        socket.broadcast.in(sent_in_data.container_id).emit('Made_new_item', newItem);
     });
 
 
     // when get all Item gets fired... READ_ALL
     socket.on('Get_all_chara_items', function(sent_in_data) {
         // a_promise.then -> do stuff with the data
+
+        // I am not a 100% certain this works
         Items.GetAllItems(sent_in_data.Itemids).then(function(allItems) {
             socket.emit('Receive_all_chara_items', allItems);
             socket.in(sent_in_data.charaid).emit('Receive_all_chara_items', allItems);
         });
+
     });
 
-    // when 'update selected feature' gets fired... UPDATE_ONE
+    // when 'update selected item' gets fired... UPDATE_ONE
     socket.on('Update_selected_item', function(sent_in_data) {
-        Feature.findByIdAndUpdate(sent_in_data.Item._id, sent_in_data.Item, {new: true}, function(err, updatedItem) {
+        Item.findByIdAndUpdate(sent_in_data.item._id, sent_in_data.item, {new: true}, function(err, updatedItem) {
             socket.emit('Updated_selected_item', updatedItem);
             socket.in(sent_in_data.charaid).emit('Updated_selected_item', updatedItem);
         });
