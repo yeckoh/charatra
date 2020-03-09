@@ -27,7 +27,7 @@ module.exports = function(socket) {
         Attack.SaveAttack(newattack);
 
         /// TODO: supply specification for which listof_attacks
-        Attack.AddToListofattacksbyid(sent_in_data.chara_id, newattack._id);
+        Character.AddToListofattacksbyid(sent_in_data.chara_id, newattack._id);
 
         socket.emit('Made_new_attack', newattack);
         socket.broadcast.in(sent_in_data.chara_id).emit('Made_new_attcak', newattcak);
