@@ -32,7 +32,7 @@ module.exports = function(socket) {
         Feature.SaveFeature(newfeature);
 
         /// TODO: supply specification for which listof_features
-        Character.AddToListofbyid(sent_in_data.chara_id, newfeature._id);
+        Character.AddToListofmanualfeaturesbyid(sent_in_data.chara_id, newfeature._id);
 
         socket.emit('Made_new_feature', newfeature);
         socket.broadcast.in(sent_in_data.chara_id).emit('Made_new_feature', newfeature);

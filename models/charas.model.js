@@ -12,7 +12,7 @@ var CharaSchema = mongoose.Schema({
   feature_category1: String,
   feature_category2: String,
   feature_category3: String,
-  
+
   current_hitpoints: Number,
   deathsaves: Number, // -3 to 3 for now. -3:3 maps -> 3fails, 3successes
 
@@ -120,4 +120,12 @@ module.exports.UpdateOneCharacter = function(charaobj) {
 /// TODO: supply specification for which character.listof_features
 module.exports.AddToListofbyid = function(charaid, featureid) {
   Character.findByIdAndUpdate(charaid, {$push: {listof_charamanualfeatures: [featureid] }}).exec(); //equivalent
+}
+
+module.exports.AddToListofmanualfeaturesbyid = function(charaid, featureid) {
+  Character.findByIdAndUpdate(charaid, {$push: {listof_charamanualfeatures: [featureid] }}).exec(); //equivalent
+}
+
+module.exports.AddToListofcharainventorybyid = function(charaid, featureid) {
+  Character.findByIdAndUpdate(charaid, {$push: {listof_charainventorylist: [featureid] }}).exec(); //equivalent
 }

@@ -131,6 +131,29 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
 // ITEM EMITTERS ============================================================================
 /// ============================================================================================
 
+// request to CREATE_ONE
+  static newItem(owner) {
+    /// TODO: add data to specify which chara.listof_ we are adding to!
+    const forwardingdata = {
+      container_id: owner,
+    };
+    this.mysock.emit('Make_new_item', forwardingdata);
+  }
+
+  // request to READ_ALL
+  static getItems(featurelist, chararoomid) {
+    // I am uncertain how to handel this
+  }
+
+  static sendItemSelecetedUpdate(item, chararoomid) {
+    console.log('socket senditemselectedupatefunc');
+    // send an emit.
+    const forwardingdata = {
+      item,
+      charaid: chararoomid
+    };
+    this.mysock.emit('Update_selected_item', forwardingdata);
+  }
 
 /// ============================================================================================
 // OTHERPROF EMITTERS ============================================================================
@@ -269,7 +292,13 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
     // ------------------------------------------------------------
     // ITEM LISTEN HOOKS
     // ------------------------------------------------------------
+    SecretSocketComponent.mysock.on('Receive_all_chara_items', (data) => {
+      // To Do: implement function to handel this LISTENER
+    });
 
+    SecretSocketComponent.mysock.on('Updated_selected_item',(data) => {
+      // To Do: implement function to handel this LISTENER
+    });
 
     // ------------------------------------------------------------
     // OTHERPROF LISTEN HOOKS
