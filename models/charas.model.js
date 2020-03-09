@@ -118,6 +118,10 @@ module.exports.UpdateOneCharacter = function(charaobj) {
 }
 
 /// TODO: supply specification for which character.listof_features
+module.exports.AddToListofbyid = function(charaid, featureid) {
+  Character.findByIdAndUpdate(charaid, {$push: {listof_charamanualfeatures: [featureid] }}).exec(); //equivalent
+}
+
 module.exports.AddToListofmanualfeaturesbyid = function(charaid, featureid) {
   Character.findByIdAndUpdate(charaid, {$push: {listof_charamanualfeatures: [featureid] }}).exec(); //equivalent
 }
