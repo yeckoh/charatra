@@ -34,3 +34,7 @@ module.exports.GetAllFeatures = function(allids) {
     var query = Feature.find().where('_id').in(allids).exec();
     return query;
 }
+
+module.exports.AddToListofeffectsbyid(featureid, effectid) {
+  //// TODO:  Add implementation of function
+}
