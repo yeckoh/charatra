@@ -30,7 +30,6 @@ module.exports = function(socket) {
 
         Effect.SaveEffect(neweffect);
 
-        /// TODO: supply specification for which listof_features
         Feature.AddToListofeffectsbyid(sent_in_data.chara_id, neweffect._id);
 
         socket.emit('Made_new_effect', neweffect);
