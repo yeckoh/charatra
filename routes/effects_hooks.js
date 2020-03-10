@@ -4,6 +4,8 @@ const Effect = require('../models/effects.model');
 // parent model, for appending effects:_id to listof_
 const Character = require('../models/charas.model');
 
+const Feature = require("../models/charas.model");
+
 // import mongoose just to generate a _id: right here, right now
 var mongoose = require('mongoose');
 
@@ -29,7 +31,7 @@ module.exports = function(socket) {
         Effect.SaveEffect(neweffect);
 
         /// TODO: supply specification for which listof_features
-        //Character.AddToListofmanualfeaturesbyid(sent_in_data.chara_id, newfeature._id);
+        Feature.AddToListofeffectsbyid(sent_in_data.chara_id, neweffect._id);
 
         socket.emit('Made_new_effect', neweffect);
         socket.broadcast.in(sent_in_data.chara_id).emit('Made_new_effect', neweffect);
