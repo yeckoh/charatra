@@ -89,6 +89,21 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
 // CONTAINER EMITTERS ============================================================================
 /// ============================================================================================
 
+static newContainer(charaid) {
+  this.mysock.emit('Make_new_container', charaid);
+}
+
+static getCharaContainers(listofcontainerids) {
+  this.mysock.emit('Get_all_chara_containers', listofcontainerids);
+}
+
+static updateSelectedContainer(container, charaid) {
+  const charaidAndContainer = {
+    container,
+    charaid
+  };
+  this.mysock.emit('Update_selected_container', charaidAndContainer);
+}
 
 /// ============================================================================================
 // EFFECT EMITTERS ============================================================================
@@ -117,7 +132,7 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
   }
 
   // request to UPDATE_ONE
-  static sendFeatureSelectedUpdate(feature, chararoomid) {
+  static UpdateSelectedFeature(feature, chararoomid) {
     console.log('socket sendfeatureselectedupatefunc');
     // send an emit.
     const forwardingdata = {
@@ -145,7 +160,7 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
     // I am uncertain how to handel this
   }
 
-  static sendItemSelecetedUpdate(item, chararoomid) {
+  static UpdateSelectedItem(item, chararoomid) {
     console.log('socket senditemselectedupatefunc');
     // send an emit.
     const forwardingdata = {
@@ -207,12 +222,12 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
     // CHARACTER LISTEN HOOKS
     // ------------------------------------------------------------
     // CREATE_ONE
-    SecretSocketComponent.mysock.on('Made_new_chara', (data) => {
+    SecretSocketComponent.mysock.on('Created_new_chara', (data) => {
       // get all characterids in user localstorage obj
       // append this new chara id
       // set localstorage new characterlist
       const userinfo = JSON.parse(localStorage.getItem('user'));
-      userinfo.charas.push(data._id);
+      userinfo.charas.push(data._id); // add id to list of charas
       localStorage.setItem('user', JSON.stringify(userinfo));
       // probably update the sidebar list here too
       SecretSocketComponent.getUserCharacters();
@@ -227,7 +242,7 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
     });
 
     // READ / UPDATED_ONE
-    SecretSocketComponent.mysock.on('Read_one_chara', (data) => {
+    SecretSocketComponent.mysock.on('Updated_one_chara', (data) => {
       const replacementIndex = this.charaservice.CharaAll.findIndex(e => e._id === data._id);
       this.charaservice.CharaAll[replacementIndex] = data;
       if (this.charaservice.CharaSelected !== undefined && this.charaservice.CharaSelected._id === data._id) {
@@ -253,31 +268,55 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
     // ------------------------------------------------------------
     // CONTAINER LISTEN HOOKS
     // ------------------------------------------------------------
+    // CREATE_ONE
+    SecretSocketComponent.mysock.on('Created_new_container', (data) => {
+      this.charaservice.CharaSelected.listof_characontainers.push(data._id); // add id to list of containers
+      this.charaservice.ContainerAll.push(data);
+      console.log('created_one chara container');
+    });
 
+    // READ_ALL
+    SecretSocketComponent.mysock.on('Read_all_chara_containers', (data) => {
+      this.charaservice.ContainerAll = data;
+      console.log('read_all chara containers');
+    });
+
+    // UPDATE_ONE
+    SecretSocketComponent.mysock.on('Updated_one_container', (data) => {
+      const replacementIndex = this.charaservice.ContainerAll.findIndex(e => e._id === data._id);
+      this.charaservice.ContainerAll[replacementIndex] = data;
+      if (this.charaservice.ContainerSelected !== undefined && this.charaservice.ContainerSelected._id === data._id) {
+        this.charaservice.ContainerSelected = this.charaservice.ContainerAll[replacementIndex];
+      }
+    });
 
     // ------------------------------------------------------------
     // EFFECT LISTEN HOOKS
     // ------------------------------------------------------------
+    // CREATE_ONE
+    SecretSocketComponent.mysock.on('Created_new_effect', (data) => {
+      // add id to whichever feature is the owner
+      // so find the right one
+    });
 
     // ------------------------------------------------------------
     // FEATURE LISTEN HOOKS
     // ------------------------------------------------------------
     // CREATE_ONE
-    SecretSocketComponent.mysock.on('Made_new_feature', (data) => {
-      this.charaservice.CharaSelected.listof_charamanualfeatures.push(data._id);
+    SecretSocketComponent.mysock.on('Created_new_feature', (data) => {
+      this.charaservice.CharaSelected.listof_charafeatures.push(data._id); // add id to list of charafeatures
       this.charaservice.FeatureAll.push(data);
       console.log('created_one chara feature');
     });
 
     // READ_ALL
-    SecretSocketComponent.mysock.on('Receive_all_chara_features', (data) => {
+    SecretSocketComponent.mysock.on('Read_all_chara_features', (data) => {
       this.charaservice.FeatureAll = data;
       console.log('read_all chara features');
     });
 
     // UPDATE_ONE
-    SecretSocketComponent.mysock.on('Updated_selected_feature', (data) => {
-      // if you're the caller, update your selection
+    SecretSocketComponent.mysock.on('Updated_one_feature', (data) => {
       // you have to find the right one in the list and update it
       // this shouldn't ever fail to find
       const replacementIndex = this.charaservice.FeatureAll.findIndex(e => e._id === data._id);
@@ -292,11 +331,15 @@ export class SecretSocketComponent implements OnInit, OnDestroy {
     // ------------------------------------------------------------
     // ITEM LISTEN HOOKS
     // ------------------------------------------------------------
-    SecretSocketComponent.mysock.on('Receive_all_chara_items', (data) => {
+    // CREATE_ONE
+
+    // READ_ALL
+    SecretSocketComponent.mysock.on('Read_all_chara_items', (data) => {
       // To Do: implement function to handel this LISTENER
     });
 
-    SecretSocketComponent.mysock.on('Updated_selected_item',(data) => {
+    // UPDATE_ONE
+    SecretSocketComponent.mysock.on('Updated_one_item', (data) => {
       // To Do: implement function to handel this LISTENER
     });
 

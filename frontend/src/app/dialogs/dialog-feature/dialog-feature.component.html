@@ -3,7 +3,7 @@
   <mat-card-title><input matInput (change)='sendFeatureDialogUpdate()' [(ngModel)]="charaservice.FeatureSelected.title" name='charaservice.FeatureSelected.title'></mat-card-title>
 
   <div><mat-form-field class='dialogtext'>
-    <textarea matInput (change)='sendFeatureDialogUpdate()' [(ngModel)]="charaservice.FeatureSelected.descript" name='charaservice.FeatureSelected.descript'></textarea>
+    <textarea matInput (change)='sendFeatureDialogUpdate()' style='height: 20rem; overflow:hidden; resize: none;' [(ngModel)]="charaservice.FeatureSelected.descript" name='charaservice.FeatureSelected.descript'></textarea>
   </mat-form-field></div>
 
 

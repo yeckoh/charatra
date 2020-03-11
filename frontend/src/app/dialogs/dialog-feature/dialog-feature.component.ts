@@ -18,7 +18,7 @@ export class DialogFeatureComponent implements OnInit {
 
   sendFeatureDialogUpdate() {
     console.log('dialog feature component senddialogfeatureupdate');
-    SecretSocketComponent.sendFeatureSelectedUpdate(this.charaservice.FeatureSelected, this.charaservice.CharaId);
+    SecretSocketComponent.UpdateSelectedFeature(this.charaservice.FeatureSelected, this.charaservice.CharaId);
   }
 
 

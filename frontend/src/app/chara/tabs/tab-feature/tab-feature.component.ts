@@ -19,7 +19,7 @@ export class TabFeatureComponent implements OnInit {
 
   // tslint:disable: one-line
   // tslint:disable: no-conditional-assignment
-  regularFormula(input) {
+  nonRegularFormula(input) {
     let mutableInput = input;
     this.BRACKET_EXPRESSION.lastIndex = 0;
     try {
@@ -30,10 +30,10 @@ export class TabFeatureComponent implements OnInit {
             mutableInput = mutableInput.replace(result[0], evaluate(result[1], this));
             this.BRACKET_EXPRESSION.lastIndex = 0; // {0} is consumed by replace, now {0} is what was {1}
         }} else {
-          if (mutableInput = evaluate(input, this)) { } // simple formula; {} is implied
-
-          else {mutableInput = input; } // evaluation failed but didnt throw an error
-        }
+          // if (mutableInput = evaluate(input, this)) { } // simple formula; {} is implied
+          mutableInput = input; }
+        //   else {mutableInput = input; } // evaluation failed but didnt throw an error
+        // }
       return mutableInput;
     } catch (error) {
       return 'NaN';

@@ -29,8 +29,8 @@ module.exports = function(socket) {
         /// TODO: supply specification for which listof_classes
         Character.AddToListofclassesbyid(sent_in_data.chara_id, newclass._id);
 
-        socket.emit('Made_new_class', newclass);
-        socket.broadcast.in(sent_in_data.chara_id).emit('Made_new_class', newclass);
+        socket.emit('Created_new_class', newclass);
+        socket.broadcast.in(sent_in_data.chara_id).emit('Created_new_class', newclass);
     });
 
 
@@ -38,7 +38,8 @@ module.exports = function(socket) {
     socket.on('Get_all_chara_classes', function(sent_in_data) {
         // a_promise.then -> do stuff with the data
         Class.GetAllClasses(sent_in_data.classids).then(function(allclasses) {
-            socket.emit('Receive_all_chara_classes', allclasses);
+            socket.emit('Read_all_chara_classes', allclasses);
+            socket.in(sent_in_data.charaid).emit('Read_all_chara_classes', allclasses);
         });
     });
 

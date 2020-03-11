@@ -22,7 +22,6 @@ export class HomeComponent implements OnInit {
     this.loggedInUser = JSON.parse(localStorage.getItem('user'));
   }
 
-
   stranth = 16;
   stranthMod: number;
   charalevel = 1;

@@ -28,8 +28,8 @@ module.exports = function(socket) {
 
         Container.AddToListofitems(sent_in_data.container_id, newitem._id);
 
-        socket.emit('Made_new_item', newitem);
-        socket.broadcast.in(sent_in_data.container_id).emit('Made_new_item', newitem);
+        socket.emit('Created_new_item', newitem);
+        socket.broadcast.in(sent_in_data.container_id).emit('Created_new_item', newitem);
     });
 
 
@@ -37,7 +37,7 @@ module.exports = function(socket) {
     socket.on('Get_all_chara_items', function(sent_in_data) {
         // a_promise.then -> do stuff with the data
         Items.GetAllItems(sent_in_data.itemids).then(function(allItems) {
-            socket.emit('Receive_all_chara_items', allItems);
+            socket.emit('Read_all_chara_items', allItems);
         });
 
     });
@@ -45,7 +45,7 @@ module.exports = function(socket) {
     // when 'update selected item' gets fired... UPDATE_ONE
     socket.on('Update_selected_item', function(sent_in_data) {
         Item.findByIdAndUpdate(sent_in_data.item._id, sent_in_data.item, {new: true}, function(err, updatedItem) {
-            socket.broadcast.in(sent_in_data.charaid).emit('Updated_selected_item', updatedItem);
+            socket.broadcast.in(sent_in_data.charaid).emit('Updated_one_item', updatedItem);
         });
     });
 

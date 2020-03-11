@@ -35,23 +35,25 @@ export class CharaService {
 
   AttackId: string;
   AttackSelected: Attack;
-  AttackAll: Attack[];
+  AttackAll: Attack[] = [];
+
+
 
   CharaId: string;
   CharaSelected: Chara;
-  CharaAll: Chara[];
+  CharaAll: Chara[] = [];
 
   ClassId: string;
   ClassSelected: Classes;
-  ClassAll: Classes[];
+  ClassAll: Classes[] = [];
 
   ContainerId: string;
   ContainerSelected: Containers;
-  ContainerAll: Containers[];
+  ContainerAll: Containers[] = [];
 
   EffectId: string;
   EffectSelected: Effects;
-  EffectAll: Effects[];
+  EffectAll: Effects[] = [];
 
   FeatureId: string;
   FeatureSelected: Features;
@@ -59,27 +61,27 @@ export class CharaService {
 
   ItemId: string;
   ItemSelected: Items;
-  ItemAll: Items[];
+  ItemAll: Items[] = [];
 
   OtherprofId: string;
   OtherprofSelected: OtherProfs;
-  OtherprofAll: OtherProfs[];
+  OtherprofAll: OtherProfs[] = [];
 
   SavethrowId: string;
   SavethrowSelected: Savethrows;
-  SavethrowAll: Savethrows[];
+  SavethrowAll: Savethrows[] = [];
 
   SkillprofId: string;
   SkillprofSelected: SkillProfs;
-  SkillprofAll: SkillProfs[];
+  SkillprofAll: SkillProfs[] = [];
 
   SpelllistId: string;
   SpelllistSelected: SpellList;
-  SpelllistAll: SpellList[];
+  SpelllistAll: SpellList[] = [];
 
   SpellId: string;
   SpellSelected: Spells;
-  SpellAll: Spells[];
+  SpellAll: Spells[] = [];
 
 
   constructor() { console.log('charaservice constructor called'); }
