@@ -61,9 +61,12 @@ export class Chara {
   };
 
   skills: string;
+
+  equipped_itemcontainer: string;
+  inventory_container: string;
   listof_characlass: [string];
-  listof_charainventorylist: [string];
-  listof_charamanualfeatures: [string];
+  listof_characontainers: [string];
+  listof_charafeatures: [string];
 
 
   special_stuff: {

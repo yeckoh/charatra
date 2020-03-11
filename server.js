@@ -69,13 +69,20 @@ wsocket.on('connection', function(socket) {
   require('./routes/room_hooks')(socket);
   require('./routes/ondisconnect')(socket_ids, socket);
   require('./routes/character_hooks')(socket);
+  require('./routes/container_hooks')(socket);
+  require('./routes/item_hooks')(socket);
+  require('./routes/class_hooks')(socket);
+  // require('./routes/spelllist_hooks')(socket);
+  // require('./routes/spell_hooks')(socket);
   require('./routes/feature_hooks')(socket);
+  // require('./routes/attack_hooks')(socket);
+  // require('./routes/effect_hooks')(socket);
+  // require('./routes/savingthrow_hooks')(socket);
 
   console.log('list of all socketids:');
   console.log(socket_ids);
   console.log('\n');
   
-  // require('./routes/sockettester')(socket);
   return socket;
 });
 

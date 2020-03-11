@@ -4,6 +4,9 @@ const Character = require('../models/charas.model');
 // parent model, for appending Character:_id to listof_
 const User = require('../models/user.model');
 
+// make unique containers for equipped and inventory
+const Container = require('../models/containers.model');
+
 // import mongoose just to generate a _id: right here, right now
 var mongoose = require('mongoose');
 
@@ -56,26 +59,28 @@ module.exports = function(socket) {
             persona: {
                 name: sent_in_data.name,
                 gender: sent_in_data.gender,
-                description: undefined,
-                personality: undefined,
-                ideals: undefined,
-                bonds: undefined,
+                description: '',
+                personality: '',
+                ideals: '',
+                bonds: '',
                 race: {
                     actualrace: sent_in_data.race,
                     listof_racefeatures: [],
-                    racespelllist: undefined
+                    racespelllist: undefined // ObjectID
                 },
                 background: {
-                    actualbackground: undefined,
+                    actualbackground: '',
                     listof_backgroundfeatures: []
                 }
             },
 
             skills: undefined,
 
-            listof_characlass: [],
-            listof_charainventorylist: [],
-            listof_charamanualfeatures: [],
+            equipped_itemcontainer: Container.MakeNewEquipmentContainer(),
+            inventory_container: Container.MakeNewInventoryContainer(),
+            listof_characontainers: [],
+            listof_characlasses: [],
+            listof_charafeatures: [],
 
             special_stuff: {
                 superiority_dice: 0,

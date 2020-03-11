@@ -6,6 +6,5 @@ export class Containers {
   _id: string;
   name: string;
   descript: string;
-  listof_equippeditems: [string];
-  listof_uniequippeditems: [string];
+  listof_items: [string];
 }

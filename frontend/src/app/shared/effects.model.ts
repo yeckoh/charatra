@@ -4,9 +4,9 @@ export class Effects {
   // tslint:disable: variable-name
 
   _id: string;
-  target: string;
+  targetstat: string; // from a list of specific choices
 
-  value: string;
+  value: string; // formula bar
   addby: boolean;
   multiplyby: boolean;
   maxvalof: boolean;
