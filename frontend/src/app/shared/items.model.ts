@@ -8,8 +8,7 @@ export class Items {
   weight: number;
   value: number;
   attunement: boolean;
-  equipped: boolean;
+  // equipped: boolean;
   listof_itemsfeatures: [string];
   listof_spells: [string];
-  listof_effects: [string];
 }

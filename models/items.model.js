@@ -7,11 +7,9 @@ var ItemSchema = mongoose.Schema({
     weight: Number,
     value: Number,
     attunement: Boolean,
-    equipped: Boolean,
+    // equipped: Boolean,
     listof_itemsfeatures: [mongoose.Schema.Types.ObjectId],
-    listof_spells: [mongoose.Schema.Types.ObjectId],
-    listof_effects: [mongoose.Schema.Types.ObjectId],
-    listof_classfeatures: [mongoose.Schema.Types.ObjectId]
+    listof_spells: [mongoose.Schema.Types.ObjectId]
 });
 
 
@@ -19,7 +17,7 @@ const Item = module.exports = mongoose.model('Items', ItemSchema);
 
 // schema model functions -> {mongoose functions}
 
-module.exports.SaveItems = function(itemobj) {
+module.exports.SaveItem = function(itemobj) {
     itemobj.save();
 }
 

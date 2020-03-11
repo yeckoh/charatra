@@ -14,4 +14,5 @@ export class Features {
   listof_atks: [string];
   listof_saves: [string];
   listof_featureprofs: [string];
+  listof_effects: [string];
 }

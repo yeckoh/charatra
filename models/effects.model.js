@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 var EffectSchema = mongoose.Schema({
-    target: mongoose.Schema.Types.ObjectId,
+    targetstat: String,
     
     value: String,
 

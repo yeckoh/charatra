@@ -16,22 +16,22 @@ var CharaSchema = mongoose.Schema({
   current_hitpoints: Number,
   deathsaves: Number, // -3 to 3 for now. -3:3 maps -> 3fails, 3successes
 
-  stats:{
-    str: Number,
-    dex: Number,
-    con: Number,
-    int: Number,
-    wis: Number,
-    cha: Number,
-    NatAC: Number,
-    total_AC: Number,
-    total_speed: Number,
-    total_hitpoints: Number,
-    // total_hitdice: Number, <-- potentially separate into its own model
-    total_lvl: Number,
-    total_proficiencybonus: Number,
-    total_casterlvl: Number
-  },
+  // stats:{
+  //   // str: Number,
+  //   // dex: Number,
+  //   // con: Number,
+  //   // int: Number,
+  //   // wis: Number,
+  //   // cha: Number,
+  //   // NatAC: Number,
+  //   // total_AC: Number,
+  //   // total_speed: Number,
+  //   // total_hitpoints: Number,
+  //   // total_hitdice: Number, <-- potentially separate into its own model
+  //   // total_lvl: Number,
+  //   // total_proficiencybonus: Number,
+  //   // total_casterlvl: Number
+  // },
 
   spellslots: {
     first: Number,
@@ -65,9 +65,11 @@ var CharaSchema = mongoose.Schema({
 
   skills: mongoose.Schema.Types.ObjectId,
 
-  listof_characlass: [mongoose.Schema.Types.ObjectId],
-  listof_charainventorylist: [mongoose.Schema.Types.ObjectId],
-  listof_charamanualfeatures: [mongoose.Schema.Types.ObjectId],
+  equipped_itemcontainer: mongoose.Schema.Types.ObjectId, // a containerid
+  inventory_container: mongoose.Schema.Types.ObjectId, // a containerid
+  listof_characontainers: [mongoose.Schema.Types.ObjectId], // a list of containerids
+  listof_characlasses: [mongoose.Schema.Types.ObjectId], // a list of classes
+  listof_charafeatures: [mongoose.Schema.Types.ObjectId], // a list of features
 
   special_stuff: {
     superiority_dice: Number,
@@ -113,19 +115,14 @@ module.exports.GetOneCharacter = function(charaid) {
 
 module.exports.UpdateOneCharacter = function(charaobj) {
   Character.findByIdAndUpdate(charaobj._id, charaobj).exec();
-  // charaobj.save(); nogood
-  // Character.save();
 }
 
-/// TODO: supply specification for which character.listof_features
-module.exports.AddToListofbyid = function(charaid, featureid) {
-  Character.findByIdAndUpdate(charaid, {$push: {listof_charamanualfeatures: [featureid] }}).exec(); //equivalent
+// add new character feature
+module.exports.AddToListoffeaturesbyid = function(charaid, featureid) {
+  Character.findByIdAndUpdate(charaid, {$push: {listof_charafeatures: [featureid] }}).exec();
 }
 
-module.exports.AddToListofmanualfeaturesbyid = function(charaid, featureid) {
-  Character.findByIdAndUpdate(charaid, {$push: {listof_charamanualfeatures: [featureid] }}).exec(); //equivalent
-}
-
-module.exports.AddToListofcharainventorybyid = function(charaid, featureid) {
-  Character.findByIdAndUpdate(charaid, {$push: {listof_charainventorylist: [featureid] }}).exec(); //equivalent
+// add a new container to the character
+module.exports.AddToListofcharacontainersbyid = function(charaid, containerid) {
+  Character.findByIdAndUpdate(charaid, {$push: {listof_characontainers: [containerid] }}).exec();
 }
