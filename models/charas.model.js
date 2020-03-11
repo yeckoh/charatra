@@ -126,3 +126,7 @@ module.exports.AddToListoffeaturesbyid = function(charaid, featureid) {
 module.exports.AddToListofcharacontainersbyid = function(charaid, containerid) {
   Character.findByIdAndUpdate(charaid, {$push: {listof_characontainers: [containerid] }}).exec();
 }
+
+module.exports.AddToListofother_profsbyid = function(charaid, other_profid) {
+  // TODO: add list insinside the chara model to append data to
+}
