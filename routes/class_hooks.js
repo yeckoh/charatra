@@ -39,7 +39,6 @@ module.exports = function(socket) {
         // a_promise.then -> do stuff with the data
         Class.GetAllClasses(sent_in_data.classids).then(function(allclasses) {
             socket.emit('Receive_all_chara_classes', allclasses);
-            socket.in(sent_in_data.charaid).emit('Receive_all_chara_classes', allclasses);
         });
     });
 

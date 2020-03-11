@@ -42,7 +42,6 @@ module.exports = function(socket) {
         // a_promise.then -> do stuff with the data
         Effect.GetAllEffect(sent_in_data.effectids).then(function(alleffect) {
             socket.emit('Receive_all_chara_effect', alleffect);
-            socket.in(sent_in_data.charaid).emit('Receive_all_chara_effect', alleffect);
         });
     });
 
