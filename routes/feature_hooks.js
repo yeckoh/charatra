@@ -37,8 +37,8 @@ module.exports = function(socket) {
         // item features
         // spell features
 
-        socket.emit('Made_new_feature', newfeature);
-        socket.broadcast.in(sent_in_data.chara_id).emit('Made_new_feature', newfeature);
+        socket.emit('Created_new_feature', newfeature, owner);
+        socket.broadcast.in(sent_in_data.chara_id).emit('Created_new_feature', newfeature, owner);
     });
 
 
@@ -46,14 +46,15 @@ module.exports = function(socket) {
     socket.on('Get_all_chara_features', function(sent_in_data) {
         // a_promise.then -> do stuff with the data
         Feature.GetAllFeatures(sent_in_data.featureids).then(function(allFeatures) {
-            socket.emit('Receive_all_chara_features', allFeatures);
+            socket.emit('Read_all_chara_features', allFeatures);
         });
     });
 
     // when 'update selected feature' gets fired... UPDATE_ONE
     socket.on('Update_selected_feature', function(sent_in_data) {
         Feature.findByIdAndUpdate(sent_in_data.feature._id, sent_in_data.feature, {new: true}, function(err, updatedFeature) {
-            socket.broadcast.in(sent_in_data.charaid).emit('Updated_selected_feature', updatedFeature);
+            socket.emit('Updated_one_feature', updatedFeature); // send back to self, gotta replace list item then set selected to new listitem
+            socket.broadcast.in(sent_in_data.charaid).emit('Updated_one_feature', updatedFeature); // make everyone else read_one
         });
     });
 

@@ -28,8 +28,8 @@ module.exports = function(socket) {
 
         Feature.AddToListofattacksbyid(sent_in_data.feature_id, newattack._id);
 
-        socket.emit('Made_new_attack', newattack);
-        socket.broadcast.in(sent_in_data.chara_id).emit('Made_new_attack', newattack);
+        socket.emit('Created_new_attack', newattack);
+        socket.broadcast.in(sent_in_data.chara_id).emit('Created_new_attack', newattack);
     });
 
 
@@ -37,14 +37,14 @@ module.exports = function(socket) {
     socket.on('Get_all_chara_attacks', function(sent_in_data) {
         // a_promise.then -> do stuff with the data
         Attack.GetAllAttacks(sent_in_data.attacksids).then(function(allattacks) {
-            socket.emit('Receive_all_chara_attacks', allattacks);
+            socket.emit('Read_all_chara_attacks', allattacks);
         });
     });
 
     // when 'update selected attacks' gets fired... UPDATE_ONE
     socket.on('Update_selected_attack', function(sent_in_data) {
         Attack.findByIdAndUpdate(sent_in_data.attack._id, sent_in_data.attack, {new: true}, function(err, updatedAttack) {
-            socket.broadcast.in(sent_in_data.charaid).emit('Updated_selected_attack', updatedAttack);
+            socket.broadcast.in(sent_in_data.charaid).emit('Updated_one_attack', updatedAttack);
         });
     });
 

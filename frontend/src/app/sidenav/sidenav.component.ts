@@ -39,7 +39,7 @@ export class SidenavComponent implements OnInit {
     this.charaservice.CharaSelected = chara;
     SecretSocketComponent.joinCharacterRoom(this.charaservice.CharaId);
     SecretSocketComponent.getSelectedCharacter(this.charaservice.CharaId);
-    SecretSocketComponent.getManualFeatures(this.charaservice.CharaSelected.listof_charamanualfeatures, this.charaservice.CharaId);
+    SecretSocketComponent.getManualFeatures(this.charaservice.CharaSelected.listof_charafeatures, this.charaservice.CharaId);
     // this.charaservice.CharaSelected.stats.total_hitpoints = 54;
   }
 

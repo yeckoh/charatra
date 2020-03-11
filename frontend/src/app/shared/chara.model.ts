@@ -13,22 +13,22 @@ export class Chara {
   current_hitpoints: number;
   deathsaves: number;
 
-  stats: {
-    stranth: number,
-    dex: number,
-    con: number,
-    int: number,
-    wis: number,
-    cha: number,
-    NatAC: number,
-    total_AC: number,
-    total_speed: number,
-    total_hitpoints: number,
-    // total_hitdice: number, <-- potentially separate into its own model
-    total_level: number,
-    total_proficiencybonus: number,
-    total_casterlevel: number
-  };
+  // stats: {
+  //   stranth: number,
+  //   dex: number,
+  //   con: number,
+  //   int: number,
+  //   wis: number,
+  //   cha: number,
+  //   NatAC: number,
+  //   total_AC: number,
+  //   total_speed: number,
+  //   total_hitpoints: number,
+  //   // total_hitdice: number, <-- potentially separate into its own model
+  //   total_level: number,
+  //   total_proficiencybonus: number,
+  //   total_casterlevel: number
+  // };
 
   spellslots: {
     first: number,

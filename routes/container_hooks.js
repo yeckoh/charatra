@@ -17,7 +17,7 @@ module.exports = function(socket) {
             _id: mongoose.Types.ObjectId(),
 
             name: 'new container',
-            descript: 'descriptions right here bub',
+            descript: 'descriptions go here',
             listof_equippeditems: [],
             listof_unequippeditems: []
         });
@@ -32,17 +32,18 @@ module.exports = function(socket) {
 
 
     // when get all containers gets fired... READ_ALL
-    socket.on('Get_all_chara_containers', function(sent_in_data) {
+    socket.on('Get_all_chara_containers', function(sent_in_data) { // sent_in is a list of containerids belonging to chara
         // a_promise.then -> do stuff with the data
         Container.GetAllContainers(sent_in_data.containerids).then(function(allContainers) {
-            socket.emit('Receive_all_chara_container', allContainers);
+            socket.emit('Read_all_chara_containers', allContainers);
         });
     });
 
     // when 'update selected container' gets fired... UPDATE_ONE
     socket.on('Update_selected_container', function(sent_in_data) {
         Container.findByIdAndUpdate(sent_in_data.container._id, sent_in_data.container, {new: true}, function(err, updatedContainer) {
-            socket.broadcast.in(sent_in_data.charaid).emit('Updated_selected_container', updatedContainer);
+            socket.emit('Updated_one_container', updatedContainer);
+            socket.broadcast.in(sent_in_data.charaid).emit('Updated_one_container', updatedContainer);
         });
     });
 

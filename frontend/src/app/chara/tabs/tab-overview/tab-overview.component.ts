@@ -13,6 +13,7 @@ import { SecretSocketComponent } from 'src/app/secret-socket/secret-socket.compo
 })
 export class TabOverviewComponent implements OnInit {
   public classformat: 'mat-display-1 p500 boxshadow-4';
+  public numbah: 100;
 
   constructor(private router: Router,
               private flashMsg: FlashMessagesService,
@@ -20,8 +21,8 @@ export class TabOverviewComponent implements OnInit {
 
 
   updateVal(item) {
-    this.charaservice.CharaSelected.current_hitpoints = item;
-    SecretSocketComponent.sendCharacterSelectedUpdate(this.charaservice.CharaSelected);
+    // this.charaservice.CharaSelected.current_hitpoints = item;
+    // SecretSocketComponent.sendCharacterSelectedUpdate(this.charaservice.CharaSelected);
   }
 
   ngOnInit() { }
