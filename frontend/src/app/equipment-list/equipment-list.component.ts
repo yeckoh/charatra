@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EquipmentListComponent implements OnInit {
 
+  equipmentList : String = ["GreatSword", "Health Vial", "Recall Potion"]; 
+
   constructor() { }
 
   ngOnInit() {
