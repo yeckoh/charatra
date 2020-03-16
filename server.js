@@ -78,6 +78,13 @@ wsocket.on('connection', function(socket) {
   // require('./routes/attack_hooks')(socket);
   // require('./routes/effect_hooks')(socket);
   // require('./routes/savingthrow_hooks')(socket);
+  socket.on('testsend', function(nothing) {
+    sampleobj = {
+      item1: 'data1',
+      item2: 'data2'
+    };
+    socket.emit('test', sampleobj.item2);
+  });
 
   console.log('list of all socketids:');
   console.log(socket_ids);

@@ -1,9 +1,9 @@
 <div class='dialogdiv'>
-  <div><mat-form-field><input placeholder='accent color' matInput (change)='sendFeatureDialogUpdate()' [(ngModel)]="charaservice.FeatureSelected.selected_color" name='charaservice.FeatureSelected.selected_color'></mat-form-field></div>
-  <mat-card-title><input matInput (change)='sendFeatureDialogUpdate()' [(ngModel)]="charaservice.FeatureSelected.title" name='charaservice.FeatureSelected.title'></mat-card-title>
+  <div><mat-form-field><input matInput (focus)='!accentFocus' (blur)='!accentFocus' placeholder='accent color' (change)='sendFeatureDialogUpdate()' [(ngModel)]="feature.selected_color" name='feature.selected_color'></mat-form-field></div>
+  <mat-card-title><input matInput (focus)='!titleFocus' (blur)='!titleFocus' (change)='sendFeatureDialogUpdate()' [(ngModel)]="feature.title" name='feature.title'></mat-card-title>
 
   <div><mat-form-field class='dialogtext'>
-    <textarea matInput (change)='sendFeatureDialogUpdate()' style='height: 20rem; overflow:hidden; resize: none;' [(ngModel)]="charaservice.FeatureSelected.descript" name='charaservice.FeatureSelected.descript'></textarea>
+    <textarea matInput (focus)='!descriptFocus' (blur)='!descriptFocus' (change)='sendFeatureDialogUpdate()' style='height: 20rem; overflow:hidden; resize: none;' [(ngModel)]="feature.descript" name='feature.descript'></textarea>
   </mat-form-field></div>
 
 

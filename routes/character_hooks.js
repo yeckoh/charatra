@@ -6,6 +6,7 @@ const User = require('../models/user.model');
 
 // make unique containers for equipped and inventory
 const Container = require('../models/containers.model');
+const Skill_Prof = require('../models/skill_profs.model');
 
 // import mongoose just to generate a _id: right here, right now
 var mongoose = require('mongoose');
@@ -27,6 +28,19 @@ module.exports = function(socket) {
             current_hitpoints: 0,
             deathsaves: 0,
 
+            stats: {
+                str: 10,
+                dex: 10,
+                con: 10,
+                int: 10,
+                wis: 10,
+                cha: 10,
+                baseAC: 10,
+                speed: 30,
+                level: 1,
+                hitpoint_formula: '0'
+            },
+
             spellslots: {
                 first: 0,
                 second: 0,
@@ -46,24 +60,18 @@ module.exports = function(socket) {
                 personality: '',
                 ideals: '',
                 bonds: '',
-                race: {
-                    actualrace: sent_in_data.race,
-                    listof_racefeatures: [],
-                    racespelllist: undefined // ObjectID
-                },
-                background: {
-                    actualbackground: '',
-                    listof_backgroundfeatures: []
-                }
+                race: sent_in_data.race,
+                background: '',
             },
 
-            skills: undefined,
+            skills: Skill_Prof.MakeProficiencies(),
 
             equipped_itemcontainer: Container.MakeNewEquipmentContainer(),
             inventory_container: Container.MakeNewInventoryContainer(),
-            listof_characontainers: [],
+            extra_characontainer: Container.MakeExtraContainer(),
             listof_characlasses: [],
             listof_charafeatures: [],
+            listof_spelllists: [],
 
             special_stuff: {
                 superiority_dice: 0,
@@ -102,6 +110,8 @@ module.exports = function(socket) {
     // READ_ONE
     socket.on('Get_selected_chara', function(sent_in_data) {
         Character.GetOneCharacter(sent_in_data.characterid).then(function(singlechara) {
+            console.log('getting selected chara');
+            console.log(singlechara);
             socket.emit('Updated_one_chara', singlechara); // send to caller
         });
     });
@@ -109,6 +119,7 @@ module.exports = function(socket) {
     // UPDATE_ONE
     socket.on('Update_selected_chara', function(sent_in_data) {
         Character.UpdateOneCharacter(sent_in_data.chara);
+        console.log('updating selected chara');
         /// TODO: after sidenav only reads charaname and id, update charaname only below
         socket.broadcast.in(sent_in_data.userid).emit('Updated_one_chara', sent_in_data.chara); // send back to originator
         socket.broadcast.in(sent_in_data.chara._id).emit('Updated_one_chara', sent_in_data.chara); // send to all who's viewing this chara

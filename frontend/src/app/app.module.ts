@@ -67,7 +67,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     FlashMessagesModule.forRoot()
   ],
-  providers: [ValidateService, AuthService, CharaService],
+  providers: [ValidateService, AuthService, CharaService, ModifierPipe],
   entryComponents: [DialogNewcharaComponent, DialogFeatureComponent],
   bootstrap: [AppComponent]
 })

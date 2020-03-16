@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { CharaService } from 'src/app/shared/chara.service';
 import { SecretSocketComponent } from 'src/app/secret-socket/secret-socket.component';
+import { Features } from 'src/app/shared/features.model';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { Chara } from 'src/app/shared/chara.model';
 
 @Component({
   selector: 'app-dialog-feature',
@@ -8,17 +11,47 @@ import { SecretSocketComponent } from 'src/app/secret-socket/secret-socket.compo
   styleUrls: ['./dialog-feature.component.css']
 })
 export class DialogFeatureComponent implements OnInit {
+  feature: Features;
+  constructor(private charaservice: CharaService, @Inject(MAT_DIALOG_DATA) data) {
+    this.feature = data;
+  }
 
-  constructor(private charaservice: CharaService ) { }
-
+  // do not edit if infocus
+  accentFocus = false;
+  titleFocus = false;
+  descriptFocus = false;
 
   ngOnInit() {
+    this.charaservice.listenfor('Updated_one_chara').subscribe(data => {
+    // really we only need the stats for formula evaluation
+      const allfeatures = (data as Chara).listof_charafeatures;
+      const featureIndex = allfeatures.findIndex(e => e._id === this.feature._id);
+      this.feature = allfeatures[featureIndex];
+    });
 
+    /// TODO: TEST WITH SECOND MASHEEN
+    this.charaservice.listenfor('Updated_one_feature').subscribe(data => {
+      // listen for UPDATE_ONE event
+      console.log('only receiving a feature');
+      const castedData = data as Features;
+      if (this.accentFocus) {
+        this.feature.selected_color = castedData.selected_color;
+      }
+      if (this.titleFocus) {
+        this.feature.title = castedData.title;
+      }
+      if (this.descriptFocus) {
+        this.feature.descript = castedData.descript;
+      }
+    });
   }
 
   sendFeatureDialogUpdate() {
-    console.log('dialog feature component senddialogfeatureupdate');
-    SecretSocketComponent.UpdateSelectedFeature(this.charaservice.FeatureSelected, this.charaservice.CharaId);
+    const forwardingdata = {
+      feature: this.feature,
+      charaid: this.charaservice.CharaId
+    };
+    this.charaservice.sendback('Update_selected_feature', forwardingdata);
   }
 
 

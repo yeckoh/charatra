@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
+require('./items.model');
 
 var ContainerSchema = mongoose.Schema({
 
     name: String,
     descript: String,
-    listof_items: [mongoose.Schema.Types.ObjectId]
+    listof_items: [mongoose.model('Items').schema]
 });
 
 
@@ -18,8 +19,8 @@ module.exports.MakeNewEquipmentContainer = function() {
     descript: 'Worn or active items go here',
     listof_items: []
   })
-  newContainer.save();
-  return newContainer._id;
+  // newContainer.save();
+  return newContainer;
 }
 
 module.exports.MakeNewInventoryContainer = function() {
@@ -28,10 +29,19 @@ module.exports.MakeNewInventoryContainer = function() {
     descript: 'Your inventory',
     listof_items: []
   })
-  newContainer.save();
-  return newContainer._id;
+  // newContainer.save();
+  return newContainer;
 }
 
+module.exports.MakeExtraContainer = function() {
+  let newContainer = new Container({
+    name: 'Other',
+    descript: 'Maybe its a hideyhole',
+    listof_items: []
+  })
+  // newContainer.save();
+  return newContainer;
+}
 
 module.exports.SaveContainers = function(containersobj) {
     containersobj.save();

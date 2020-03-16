@@ -6,6 +6,8 @@
   <button class='p500' mat-flat-button (click)='openDialog()'>New Chara</button>
   <mat-divider></mat-divider>
 
+  <button mat-button (click)='readAll()'>readallcharas</button>
+
   <div>
     <br>
     <div *ngIf="charaservice.CharaSelected != undefined">

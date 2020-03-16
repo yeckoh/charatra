@@ -1,12 +1,12 @@
 <mat-sidenav-container style="min-height: 100%;">
-  <mat-sidenav mode="side" opened fixedInViewport='true'>
+  <mat-sidenav #drawer mode="side" opened fixedInViewport='true'>
       <mat-nav-list style='min-width: 10rem;'>
         <a *ngIf=!authServ.isLoggedIn [routerLink]="['/signin']"><mat-list-item>Sign in</mat-list-item></a>
         <a *ngIf=authServ.isLoggedIn href="#" (click)="onSignoutClick()"><mat-list-item>Sign out</mat-list-item></a>
         <a *ngIf=authServ.isLoggedIn [routerLink]="['/home']"><mat-list-item>Home</mat-list-item></a>
         <hr>
         <div>
-          <a *ngFor='let chara of charaservice.CharaAll' [routerLink]="chara._id" (click)="loadCharacterIdAndRoom(chara)"><mat-list-item>{{chara.persona.name}}</mat-list-item></a>
+          <a *ngFor='let chara of allcharas' [routerLink]="chara._id" (click)="loadCharacterIdAndRoom(chara)"><mat-list-item>{{chara.persona.name}}</mat-list-item></a>
       </div>
       </mat-nav-list>
 

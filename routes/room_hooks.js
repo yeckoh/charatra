@@ -6,6 +6,7 @@ module.exports = function(socket) {
     socket.on('Join_user_room', function(sent_in_data) {
         // data is a user_id
         socket.join(sent_in_data);
+        console.log('someone joined user room');
     });
 
 
@@ -13,10 +14,12 @@ module.exports = function(socket) {
     socket.on('Join_character_room', function(sent_in_data) {
         // data should be a character_id
         socket.join(sent_in_data);
+        console.log('someone joined chara room');
     });
 
     socket.on('Leave_character_room', function(sent_in_data) {
         socket.leave(sent_in_data);
+        console.log('someone left chara room');
     });
 
 }

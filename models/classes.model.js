@@ -6,8 +6,6 @@ var ClassSchema = mongoose.Schema({
     class_hitpoints: Number,
     class_level: Number,
     caster_level: Number,
-    listof_classspell_list: [mongoose.Schema.Types.ObjectId],
-    listof_classfeatures: [mongoose.Schema.Types.ObjectId]
 });
 
 
@@ -20,6 +18,6 @@ module.exports.SaveClass = function(classobj) {
 }
 
 module.exports.GetAllClasses = function(allids) {
-    var query = Attack.find().where('_id').in(allids).exec();
+    var query = Class.find().where('_id').in(allids).exec();
     return query;
 }

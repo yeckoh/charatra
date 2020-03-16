@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+require('./attacks.model');
+require('./savethrows.model');
 
 var SpellSchema = mongoose.Schema({
     spellname: String,
@@ -11,7 +13,8 @@ var SpellSchema = mongoose.Schema({
     is_concentration: Boolean,
     is_ritual: Boolean,
     duration: String,
-    listof_spellsfeatures: [mongoose.Schema.Types.ObjectId]
+    listof_spellattacks: [mongoose.model('Attacks').schema],
+    listof_spellsaves: [mongoose.model('Saving_Throws').schema],
 });
   
   

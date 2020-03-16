@@ -89,7 +89,7 @@
   <td style='vertical-align: top;'>
 <div style='display: flex; flex-wrap: wrap;'>
 
-<div *ngFor="let feature of charaservice.FeatureAll">
+<div *ngFor="let feature of features">
   <div style='max-width: 20rem; width: 20rem; padding: 6px;'>
     <div class='mat-elevation-z8' [style.background-color]="feature.selected_color">
     <mat-card-title style='padding: 6px;' (click)='openFeatureDialog(feature)'>

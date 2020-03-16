@@ -1,7 +1,7 @@
 <div>
   <br>
   <br>
-  Hitpoints:<mat-slider [max]='numbah' [step]='1' [tickInterval]='numbah/4' [thumbLabel]='true' [(ngModel)]=numbah (input)='updateVal($event.value)' style='width: 80%'></mat-slider><b style='font-size: 24px;'> {{numbah}}</b>
+  Hitpoints:<mat-slider [max]='totalHitpoints' [step]='1' [tickInterval]='hitpoints/4' [thumbLabel]='true' [(ngModel)]=chara.current_hitpoints (input)='updateVal($event.value)' style='width: 80%'></mat-slider><b style='font-size: 24px;'> {{chara.current_hitpoints}}</b>
 <div class='flexdiv' style='flex-wrap: wrap;'>
 
 <!-- column 1 -->
@@ -10,9 +10,9 @@
   <div class='mat-elevation-z4 flexdiv floatingbox'>
     <table style='width: 18rem; border-collapse: collapse;'>
       <tr>
-        <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(124, 62, 62);'>{{6}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Stranth</td>
+        <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(124, 62, 62);'>{{chara.stats.str}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Stranth</td>
     </tr>
-        <tr style='font-size: 24px; text-align: center; background-color:rgb(124, 62, 62);'><div *ngIf="6 < 10;else plus"></div><ng-template #plus>+</ng-template>{{66 | modifier}}</tr>
+        <tr style='font-size: 24px; text-align: center; background-color:rgb(124, 62, 62);'><div *ngIf="chara.stats.str < 10;else plus"></div><ng-template #plus>+</ng-template>{{chara.stats.str | modifier}}</tr>
     </table>
   </div>
 
@@ -20,9 +20,9 @@
   <div class='mat-elevation-z4 flexdiv floatingbox'>
     <table style='width: 18rem; border-collapse: collapse;'>
       <tr>
-        <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(66, 122, 61);'>{{6}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Dexterity</td>
+        <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(66, 122, 61);'>{{chara.stats.dex}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Dexterity</td>
     </tr>
-        <tr style='font-size: 24px; text-align: center; background-color:rgb(66, 122, 61);'><div *ngIf="6 < 10;else plus"></div><ng-template #plus>+</ng-template>{{6 | modifier}}</tr>
+        <tr style='font-size: 24px; text-align: center; background-color:rgb(66, 122, 61);'><div *ngIf="chara.stats.dex < 10;else plus"></div><ng-template #plus>+</ng-template>{{chara.stats.dex | modifier}}</tr>
     </table>
   </div>
 
@@ -30,9 +30,9 @@
   <div class='mat-elevation-z4 flexdiv floatingbox'>
     <table style='width: 18rem; border-collapse: collapse;'>
       <tr>
-        <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(71, 5, 0);'>{{6}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Constitution</td>
+        <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(71, 5, 0);'>{{chara.stats.con}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Constitution</td>
     </tr>
-        <tr style='font-size: 24px; text-align: center; background-color:rgb(71, 5, 0);'><div *ngIf="6 < 10;else plus"></div><ng-template #plus>+</ng-template>{{6 | modifier}}</tr>
+        <tr style='font-size: 24px; text-align: center; background-color:rgb(71, 5, 0);'><div *ngIf="chara.stats.con < 10;else plus"></div><ng-template #plus>+</ng-template>{{chara.stats.con | modifier}}</tr>
     </table>
   </div>
 
@@ -40,9 +40,9 @@
     <div class='mat-elevation-z4 flexdiv floatingbox'>
       <table style='width: 18rem; border-collapse: collapse;'>
         <tr>
-          <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(62, 103, 124);'>{{6}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Intelligence</td>
+          <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(62, 103, 124);'>{{chara.stats.int}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Intelligence</td>
       </tr>
-          <tr style='font-size: 24px; text-align: center; background-color:rgb(62, 103, 124);'><div *ngIf="6 < 10;else plus"></div><ng-template #plus>+</ng-template>{{6 | modifier}}</tr>
+          <tr style='font-size: 24px; text-align: center; background-color:rgb(62, 103, 124);'><div *ngIf="chara.stats.int < 10;else plus"></div><ng-template #plus>+</ng-template>{{chara.stats.int | modifier}}</tr>
       </table>
     </div>
 
@@ -50,9 +50,9 @@
   <div class='mat-elevation-z4 flexdiv floatingbox'>
     <table style='width: 18rem; border-collapse: collapse;'>
       <tr>
-        <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(89, 61, 122);'>{{6}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Wisdom</td>
+        <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(89, 61, 122);'>{{chara.stats.wis}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Wisdom</td>
     </tr>
-        <tr style='font-size: 24px; text-align: center; background-color:rgb(89, 61, 122);'><div *ngIf="6 < 10;else plus"></div><ng-template #plus>+</ng-template>{{6 | modifier}}</tr>
+        <tr style='font-size: 24px; text-align: center; background-color:rgb(89, 61, 122);'><div *ngIf="chara.stats.wis < 10;else plus"></div><ng-template #plus>+</ng-template>{{chara.stats.wis | modifier}}</tr>
     </table>
   </div>
 
@@ -60,9 +60,9 @@
     <div class='mat-elevation-z4 flexdiv floatingbox'>
       <table style='width: 18rem; border-collapse: collapse;'>
         <tr>
-          <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(122, 122, 61);'>{{6}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Charisma</td>
+          <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(122, 122, 61);'>{{chara.stats.cha}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Charisma</td>
       </tr>
-          <tr style='font-size: 24px; text-align: center; background-color:rgb(122, 122, 61);'><div *ngIf="6 < 10;else plus"></div><ng-template #plus>+</ng-template>{{6 | modifier}}</tr>
+          <tr style='font-size: 24px; text-align: center; background-color:rgb(122, 122, 61);'><div *ngIf="chara.stats.cha < 10;else plus"></div><ng-template #plus>+</ng-template>{{chara.stats.cha | modifier}}</tr>
       </table>
     </div>
 

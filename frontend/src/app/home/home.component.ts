@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { DialogNewcharaComponent } from '../dialogs/dialog-newchara/dialog-newchara.component';
 import evaluate, { registerFunction } from 'ts-expression-evaluator';
@@ -12,6 +12,7 @@ import { SecretSocketComponent } from '../secret-socket/secret-socket.component'
 })
 export class HomeComponent implements OnInit {
   constructor(private charaservice: CharaService, public dialog: MatDialog) { }
+
 
   static BRACKET_EXPRESSION: RegExp = /\{(.*?)\}/g; // capture {*}    g is for global
 
@@ -37,6 +38,10 @@ export class HomeComponent implements OnInit {
     this.updateProf(); // dupe dmgformula eval but w/e
     //// this.atkresult();
   }
+  // ngOnDestroy() { // this works for now
+  //   this.charaservice.disconnect();
+  // }
+
 
   updateStranth() {
     this.stranthMod = Math.floor((this.stranth - 10) / 2);
@@ -83,10 +88,5 @@ export class HomeComponent implements OnInit {
   dmgresult() {
     this.dmgformuoli = this.regularFormula(this.input2);
   }
-
-  updateThisChara() {
-    SecretSocketComponent.sendCharacterSelectedUpdate(this.charaservice.CharaSelected);
-  }
-
 
 }
