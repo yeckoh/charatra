@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-equipment-list',
@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EquipmentListComponent implements OnInit {
 
-  equipmentList : String[][] = [["GreatSword","10"], ["Health Vial", "3"], ["Recall Potion", "2"]]; 
+  @Input() equipmentList : String[];
 
   constructor() { }
 
