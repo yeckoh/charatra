@@ -86,8 +86,14 @@ regularFormula(input) {
   joinUserRoom() {
     // call this when signing in
     // this is only for updating the character list in localstorage and the sidebar
+    this.UserRoom = JSON.parse(localStorage.getItem('user')).id;
     this.sock.emit('Join_user_room', this.UserRoom);
-    console.log('joined user room in charaservice');
+  }
+
+  // called from sidenav onsignout()
+  leaveUserRoom() {
+    this.sock.emit('Leave_user_room', this.UserRoom);
+    this.UserRoom = undefined;
   }
 
   // filter hook events by character
@@ -99,6 +105,7 @@ regularFormula(input) {
 
   leaveCharacterRoom(characterid) {
     this.sock.emit('Leave_character_room', characterid);
+    this.CharaId = null;
   }
 
 /// ============================================================================================

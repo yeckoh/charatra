@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-require('./attacks.model');
-require('./savethrows.model');
+// require('./attacks.model');
+// require('./savethrows.model');
 
 var ItemSchema = mongoose.Schema({
     selected_color: String,
@@ -10,8 +10,8 @@ var ItemSchema = mongoose.Schema({
     value: Number,
     attunement: Boolean,
     // equipped: Boolean,
-    listof_attacks: [mongoose.model('Attacks').schema],
-    listof_savingthrows: [mongoose.model('Saving_Throws').schema]
+    listof_attacks: [{type: mongoose.Schema.Types.ObjectId, ref:'Attacks'}],
+    listof_savingthrows: [{type: mongoose.Schema.Types.ObjectId, ref:'Saving_Throws'}],
 });
 
 

@@ -53,31 +53,24 @@ export class TabFeatureComponent implements OnInit {
     this.charaservice.sendback('Make_new_feature', {chara_id: this.charaservice.CharaId});
   }
 
-  /// load all charaservice atks and saves first then use these
-  // atkresult() {
-  //   this.attackBonus = this.regularFormula(this.input1);
-  //   this.dmgresult();
-  // }
-
-  // dmgresult() {
-  //   this.dmgformuoli = this.regularFormula(this.input2);
-  // }
 
   ngOnInit() {
 
     // really we only need the stats for formula evaluation
     this.charaservice.listenfor('Updated_one_chara').subscribe(data => {
       this.features = (data as Chara).listof_charafeatures;
-      console.log(data);
+      console.log('heard updatedonechara');
     });
 
     this.charaservice.listenfor('Created_new_feature').subscribe(data => {
       this.features.push(data as Features);
+      console.log('heard creatednewfeature');
     });
 
     this.charaservice.listenfor('Updated_one_feature').subscribe(data => {
       const featureIndex = this.features.findIndex(e => e._id === (data as Features)._id);
       this.features[featureIndex] = data as Features;
+      console.log('heard updatedonefeature');
     });
   }
 

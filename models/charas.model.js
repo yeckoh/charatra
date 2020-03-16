@@ -2,10 +2,10 @@
 
 const mongoose = require('mongoose');
 require('./containers.model');
-require('./features.model');
-require('./classes.model');
+// require('./features.model');
+// require('./classes.model');
 require('./skill_profs.model');
-require('./spell_list.model');
+// require('./spell_list.model');
 
 /// TODO: HITDICE
 
@@ -57,11 +57,13 @@ var CharaSchema = mongoose.Schema({
 
   equipped_itemcontainer: mongoose.model('Containers').schema, // a containerid
   inventory_container: mongoose.model('Containers').schema, // a containerid
+
+  // REVISIT: list of extra containers instead of a single extracontainer
   extra_characontainer: mongoose.model('Containers').schema, // a list of containerids
-  listof_characlasses: [mongoose.model('Classes').schema], // a list of classes
+  listof_characlasses: [{type: mongoose.Schema.Types.ObjectId, ref: 'Classes'}], // a list of classes
 //  listof_charafeatures: [mongoose.model('Features').schema], // a list of features
 listof_charafeatures: [{type: mongoose.Schema.Types.ObjectId, ref: 'Features'}], // a list of features
-listof_spelllists: [mongoose.model('Spell_list').schema],
+listof_spelllists: [{type: mongoose.Schema.Types.ObjectId, ref: 'Spell_list'}],
 
   special_stuff: {
     superiority_dice: Number,
@@ -101,12 +103,31 @@ module.exports.GetAllCharacters = function(allids) {
 
 module.exports.GetOneCharacter = function(charaid) {
   // returns a promise
-  var query = Character.findById(charaid).populate('listof_charafeatures').exec();
+  var query = Character.findById(charaid)
+  .populate({
+    path: 'listof_charafeatures',
+    populate: {path: 'listof_atks'}
+  })
+  .populate({
+    path: 'listof_charafeatures',
+    populate: {path: 'listof_saves'}
+  })
+  .exec();
+  // var query = Character.findById(charaid)
+  // .populate({
+  //   path: 'listof_charafeatures',
+  //   populate: {path: 'listof_atks'}
+  // })
+  // .populate({
+  //   path: 'listof_charafeatures',
+  //   populate: {path: 'listof_saves'}
+  // })
+  // .exec();
   return query;
 }
 
 module.exports.UpdateOneCharacter = function(charaobj) {
-  Character.findByIdAndUpdate(charaobj._id, charaobj).populate('Features').exec();
+  Character.findByIdAndUpdate(charaobj._id, charaobj).exec();
 }
 
 // add new character feature

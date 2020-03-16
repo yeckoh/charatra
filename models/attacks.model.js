@@ -23,3 +23,13 @@ module.exports.GetAllAttacks = function(allids) {
     var query = Attack.find().where('_id').in(allids).exec();
     return query;
 }
+
+// for nested testing only atm
+module.exports.MakeNewAttack = function() {
+    let newatk = new Attack ({
+        name: 'getrekt',
+        details: 'nodetailshere'
+    });
+    newatk.save();
+    return newatk._id;
+}

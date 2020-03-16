@@ -1,7 +1,4 @@
 const mongoose = require('mongoose');
-require('./attacks.model');
-require('./savethrows.model');
-// const Skill_Profs = require('./skill_profs.model');
 
 var FeatureSchema = mongoose.Schema({
     selected_color: String,
@@ -13,9 +10,8 @@ var FeatureSchema = mongoose.Schema({
     uses_left: Number,
     toggleable: Boolean,
     is_enabled: Boolean,
-    listof_atks: [mongoose.model('Attacks').schema],
-    listof_saves: [mongoose.model('Saving_Throws').schema],
-    // listof_featureprofs: [mongoose.Schema.Types.ObjectId], ref: Skill_Profs.schema
+    listof_atks: [{type: mongoose.Schema.Types.ObjectId, ref:'Attacks'}],
+    listof_saves: [{type: mongoose.Schema.Types.ObjectId, ref:'Saving_Throws'}],
 });
 
 

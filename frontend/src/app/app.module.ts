@@ -18,8 +18,6 @@ import { ValidateService } from './shared/validate.service';
 import { AuthService } from './shared/auth.service';
 import {FlashMessagesModule} from 'angular2-flash-messages';
 
-import { ColeTestButtonComponent } from './cole-test-button/cole-test-button.component';
-
 import { TabOverviewComponent } from './chara/tabs/tab-overview/tab-overview.component';
 import { TabFeatureComponent } from './chara/tabs/tab-feature/tab-feature.component';
 import { TabInventoryComponent } from './chara/tabs/tab-inventory/tab-inventory.component';
@@ -47,7 +45,6 @@ const appRoutes: Routes = [
     SigninComponent,
     HomeComponent,
     SignupComponent,
-    ColeTestButtonComponent,
     TabOverviewComponent,
     TabFeatureComponent,
     TabInventoryComponent,

@@ -84,7 +84,6 @@ module.exports = function(socket) {
             }
         });
 
-
         // save new character
         Character.SaveCharacter(newchara);
 
@@ -110,8 +109,6 @@ module.exports = function(socket) {
     // READ_ONE
     socket.on('Get_selected_chara', function(sent_in_data) {
         Character.GetOneCharacter(sent_in_data.characterid).then(function(singlechara) {
-            console.log('getting selected chara');
-            console.log(singlechara);
             socket.emit('Updated_one_chara', singlechara); // send to caller
         });
     });

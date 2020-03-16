@@ -44,6 +44,7 @@ export class SidenavComponent implements OnInit {
   onSignoutClick() {
     this.authServ.signout(); // dont need an observer so this is good enough
     this.charaservice.leaveCharacterRoom(this.charaservice.CharaId);
+    this.charaservice.leaveUserRoom();
     this.allcharas.length = 0;
     // TODO: leave user room too here
     this.flashMsg.show('You\'ve been logged out', {timeout: 3000});

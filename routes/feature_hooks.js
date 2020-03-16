@@ -4,6 +4,10 @@ const Feature = require('../models/features.model');
 // parent model, for appending Feature:_id to listof_
 const Character = require('../models/charas.model');
 
+// nested testing only
+const Attack = require('../models/attacks.model');
+const Saves = require('../models/savethrows.model');
+
 // import mongoose just to generate a _id: right here, right now
 var mongoose = require('mongoose');
 
@@ -24,8 +28,8 @@ module.exports = function(socket) {
             uses_left: 1,
             toggleable: false,
             is_enabled: true,
-            listof_atks: [],
-            listof_saves: [],
+            listof_atks: [Attack.MakeNewAttack()],
+            listof_saves: [Saves.MakeASavingThrow()],
             listof_featureprofs: []
         });
 

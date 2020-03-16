@@ -32,7 +32,7 @@ export class DialogFeatureComponent implements OnInit {
     /// TODO: TEST WITH SECOND MASHEEN
     this.charaservice.listenfor('Updated_one_feature').subscribe(data => {
       // listen for UPDATE_ONE event
-      console.log('only receiving a feature');
+      // console.log('only receiving a feature');
       const castedData = data as Features;
       if (this.accentFocus) {
         this.feature.selected_color = castedData.selected_color;

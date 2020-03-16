@@ -64,6 +64,7 @@ bcrypt.compare(password, hash, (err, isMatch) => {
 
 
 module.exports.AddToListofbyid = function(id, charaid) {
+  console.log('adding charaid to userlist');
   User.findByIdAndUpdate(id, {$push: {listof_characters: [charaid] }}).exec(); //equivalent
   //User.findOneAndUpdate(id, {$push: { listof_characters: [charaid] }}).exec();
 }

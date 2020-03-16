@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
-require('./items.model');
+// require('./items.model');
 
 var ContainerSchema = mongoose.Schema({
 
     name: String,
     descript: String,
-    listof_items: [mongoose.model('Items').schema]
+    listof_items: [{type: mongoose.Schema.Types.ObjectId, ref: 'Items'}]
 });
 
 
