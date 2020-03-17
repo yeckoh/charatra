@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Router } from '@angular/router'; // router to redirect
-import { FlashMessagesService } from 'angular2-flash-messages';
 import { CharaService } from 'src/app/shared/chara.service';
 import { Chara } from 'src/app/shared/chara.model';
 import { ModifierPipe } from 'src/app/pipes/modifier.pipe';
@@ -31,9 +30,7 @@ export class TabOverviewComponent implements OnInit {
   // private chaMod;
 
 
-  constructor(private router: Router,
-              private flashMsg: FlashMessagesService,
-              private charaservice: CharaService,
+  constructor(private charaservice: CharaService,
               private modpipe: ModifierPipe) { }// endof constructor
 
 

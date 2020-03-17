@@ -16,7 +16,7 @@ import { SignupComponent } from './signup/signup.component';
 
 import { ValidateService } from './shared/validate.service';
 import { AuthService } from './shared/auth.service';
-import {FlashMessagesModule} from 'angular2-flash-messages';
+// import {FlashMessagesModule} from 'angular2-flash-messages';
 
 import { TabOverviewComponent } from './chara/tabs/tab-overview/tab-overview.component';
 import { TabFeatureComponent } from './chara/tabs/tab-feature/tab-feature.component';
@@ -24,7 +24,7 @@ import { TabInventoryComponent } from './chara/tabs/tab-inventory/tab-inventory.
 import { TabSpellsComponent } from './chara/tabs/tab-spells/tab-spells.component';
 import { TabPersonaComponent } from './chara/tabs/tab-persona/tab-persona.component';
 import { DialogNewcharaComponent } from './dialogs/dialog-newchara/dialog-newchara.component';
-import { SecretSocketComponent } from './secret-socket/secret-socket.component';
+// import { SecretSocketComponent } from './secret-socket/secret-socket.component';
 import { DialogFeatureComponent } from './dialogs/dialog-feature/dialog-feature.component';
 import { CharaService } from './shared/chara.service';
 import { ModifierPipe } from './pipes/modifier.pipe';
@@ -51,7 +51,7 @@ const appRoutes: Routes = [
     TabSpellsComponent,
     TabPersonaComponent,
     DialogNewcharaComponent,
-    SecretSocketComponent,
+//    SecretSocketComponent,
     DialogFeatureComponent,
     ModifierPipe
   ],
@@ -61,8 +61,8 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     MymatModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes),
-    FlashMessagesModule.forRoot()
+    RouterModule.forRoot(appRoutes)
+//    FlashMessagesModule.forRoot()
   ],
   providers: [ValidateService, AuthService, CharaService, ModifierPipe],
   entryComponents: [DialogNewcharaComponent, DialogFeatureComponent],

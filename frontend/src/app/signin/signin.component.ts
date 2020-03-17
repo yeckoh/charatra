@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from '../shared/auth.service';
 import { Router } from '@angular/router'; // router to redirect
-import { FlashMessagesService } from 'angular2-flash-messages';
-import { SecretSocketComponent } from '../secret-socket/secret-socket.component';
+import { MatSnackBar } from '@angular/material';
 import { CharaService } from '../shared/chara.service';
 
 @Component({
@@ -20,7 +19,7 @@ export class SigninComponent implements OnInit {
   // router and flashservice too
   constructor(private authServ: AuthService,
               private router: Router,
-              private flashMsg: FlashMessagesService,
+              private alohaSnackBar: MatSnackBar,
               private charaservice: CharaService) { }
 
   ngOnInit() {
@@ -34,8 +33,10 @@ export class SigninComponent implements OnInit {
 
 
     if (user.password == null || user.password === '') {
-      this.flashMsg.show('Invalid login credentials', { timeout: 2000});
-      this.router.navigate(['signin']);
+      // this.flashMsg.show('Invalid login credentials', { timeout: 2000});
+      this.alohaSnackBar.open('Invalid login credentials', 'okay',
+        {duration: 2000, verticalPosition: 'top', panelClass: ['alohasnackbar']});
+      // this.router.navigate(['signin']);
       return;
     }
     // take object and submit it through auth service to the backend authenticate router
@@ -46,12 +47,16 @@ export class SigninComponent implements OnInit {
         this.authServ.storeUserData(returndata.token, returndata.user);
         this.charaservice.joinUserRoom();
         this.charaservice.getUserCharacters();
-        // this.charaservice.sendback('Get_all_user_charas',);
-        this.flashMsg.show('You are now logged in', {timeout: 2000});
+
+        this.alohaSnackBar.open('You are now logged in', 'okay',
+          {duration: 2000, verticalPosition: 'top', panelClass: ['alohasnackbar']});
+
         this.router.navigate(['/home']);
       } else {
-        this.flashMsg.show('Invalid login credentials', { timeout: 3000});
-        this.router.navigate(['signin']);
+        this.alohaSnackBar.open('Invalid login credentials', 'okay',
+          {duration: 2000, verticalPosition: 'top', panelClass: ['alohasnackbar']});
+
+        // this.router.navigate(['signin']);
       }
     });
   }

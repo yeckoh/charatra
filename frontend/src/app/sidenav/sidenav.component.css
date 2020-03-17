@@ -4,3 +4,8 @@
   max-height: 6rem;
   height: 100%
 }
+
+::ng-deep .alohasnackbar {
+  background: #272727;
+  color: white;
+}

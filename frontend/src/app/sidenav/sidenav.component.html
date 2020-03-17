@@ -1,4 +1,4 @@
-<mat-sidenav-container style="min-height: 100%;">
+<mat-sidenav-container style="height: 100%;">
   <mat-sidenav #drawer mode="side" opened fixedInViewport='true'>
       <mat-nav-list style='min-width: 10rem;'>
         <a *ngIf=!authServ.isLoggedIn [routerLink]="['/signin']"><mat-list-item>Sign in</mat-list-item></a>
@@ -13,9 +13,7 @@
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <flash-messages></flash-messages>
+    <mat-toolbar class='mat-elevation-z7'><span>hello</span></mat-toolbar>
     <router-outlet></router-outlet>
-    <app-secret-socket></app-secret-socket>
   </mat-sidenav-content>
-
 </mat-sidenav-container>

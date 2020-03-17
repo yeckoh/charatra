@@ -79,21 +79,21 @@ export class SecretSocketComponent implements OnInit {
 // CONTAINER EMITTERS ============================================================================
 /// ============================================================================================
 
-static newContainer(charaid) {
-  this.mysock.emit('Make_new_container', charaid);
-}
+// static newContainer(charaid) {
+//   this.mysock.emit('Make_new_container', charaid);
+// }
 
-static getCharaContainers(listofcontainerids) {
-  this.mysock.emit('Get_all_chara_containers', listofcontainerids);
-}
+// static getCharaContainers(listofcontainerids) {
+//   this.mysock.emit('Get_all_chara_containers', listofcontainerids);
+// }
 
-static updateSelectedContainer(container, charaid) {
-  const charaidAndContainer = {
-    container,
-    charaid
-  };
-  this.mysock.emit('Update_selected_container', charaidAndContainer);
-}
+// static updateSelectedContainer(container, charaid) {
+//   const charaidAndContainer = {
+//     container,
+//     charaid
+//   };
+//   this.mysock.emit('Update_selected_container', charaidAndContainer);
+// }
 
 /// ============================================================================================
 // EFFECT EMITTERS ============================================================================
@@ -137,28 +137,28 @@ static updateSelectedContainer(container, charaid) {
 /// ============================================================================================
 
 // request to CREATE_ONE
-  static newItem(owner) {
-    /// TODO: add data to specify which chara.listof_ we are adding to!
-    const forwardingdata = {
-      container_id: owner,
-    };
-    this.mysock.emit('Make_new_item', forwardingdata);
-  }
+  // static newItem(owner) {
+  //   /// TODO: add data to specify which chara.listof_ we are adding to!
+  //   const forwardingdata = {
+  //     container_id: owner,
+  //   };
+  //   this.mysock.emit('Make_new_item', forwardingdata);
+  // }
 
-  // request to READ_ALL
-  static getItems(featurelist, chararoomid) {
-    // I am uncertain how to handel this
-  }
+  // // request to READ_ALL
+  // static getItems(featurelist, chararoomid) {
+  //   // I am uncertain how to handel this
+  // }
 
-  static UpdateSelectedItem(item, chararoomid) {
-    console.log('socket senditemselectedupatefunc');
-    // send an emit.
-    const forwardingdata = {
-      item,
-      charaid: chararoomid
-    };
-    this.mysock.emit('Update_selected_item', forwardingdata);
-  }
+  // static UpdateSelectedItem(item, chararoomid) {
+  //   console.log('socket senditemselectedupatefunc');
+  //   // send an emit.
+  //   const forwardingdata = {
+  //     item,
+  //     charaid: chararoomid
+  //   };
+  //   this.mysock.emit('Update_selected_item', forwardingdata);
+  // }
 
 /// ============================================================================================
 // OTHERPROF EMITTERS ============================================================================

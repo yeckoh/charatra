@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from '../shared/auth.service';
 import { Router } from '@angular/router'; // router to redirect
-import { FlashMessagesService } from 'angular2-flash-messages';
 import { CharaService } from '../shared/chara.service';
 import { Chara } from '../shared/chara.model';
+import { MatSnackBar } from '@angular/material';
 
 
 @Component({
@@ -13,12 +13,15 @@ import { Chara } from '../shared/chara.model';
   styleUrls: ['./sidenav.component.css']
 })
 export class SidenavComponent implements OnInit {
-  private allcharas = [];
 
   constructor(private authServ: AuthService,
               private router: Router,
-              private flashMsg: FlashMessagesService,
+              private alohaSnackBar: MatSnackBar,
               private charaservice: CharaService) { }
+
+  public static hamburger: boolean;
+  private allcharas = [];
+
 
   ngOnInit() {
     this.charaservice.listenfor('Read_all_user_charas').subscribe((data) => {
@@ -44,10 +47,10 @@ export class SidenavComponent implements OnInit {
   onSignoutClick() {
     this.authServ.signout(); // dont need an observer so this is good enough
     this.charaservice.leaveCharacterRoom(this.charaservice.CharaId);
-    this.charaservice.leaveUserRoom();
+    this.charaservice.leaveUserRoom(); // this probably doesn't work like its supposed to
     this.allcharas.length = 0;
-    // TODO: leave user room too here
-    this.flashMsg.show('You\'ve been logged out', {timeout: 3000});
+    this.alohaSnackBar.open('You\'ve logged out', 'okay',
+      {duration: 2000, verticalPosition: 'top', panelClass: ['alohasnackbar']});
     this.router.navigate(['/signin']);
     return false;
   }
