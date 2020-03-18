@@ -27,7 +27,19 @@ var CharaSchema = mongoose.Schema({
     baseAC: Number,
     speed: Number,
     level: Number,
-    hitpoint_formula: String,
+  },
+  formuolis: {
+    hitpoints: String,
+    initiative: String,
+    proficiency: String
+  },
+  saves: {
+    str: String,
+    dex: String,
+    con: String,
+    int: String,
+    wis: String,
+    cha: String,
   },
 
   spellslots: {
@@ -55,15 +67,18 @@ var CharaSchema = mongoose.Schema({
 
   skills: mongoose.model('Skill_Profs').schema,
 
-  equipped_itemcontainer: mongoose.model('Containers').schema, // a containerid
-  inventory_container: mongoose.model('Containers').schema, // a containerid
+  // equipped_itemcontainer: mongoose.model('Containers').schema, // a containerid
+  // inventory_container: mongoose.model('Containers').schema, // a containerid
+  equipped_itemcontainer: {type: mongoose.Schema.Types.ObjectId, ref: 'Containers'}, // a containerid
+  inventory_container: {type: mongoose.Schema.Types.ObjectId, ref: 'Containers'}, // a containerid
+
 
   // REVISIT: list of extra containers instead of a single extracontainer
-  extra_characontainer: mongoose.model('Containers').schema, // a list of containerids
+  extra_characontainer: {type: mongoose.Schema.Types.ObjectId, ref: 'Containers'}, // a list of containerids
   listof_characlasses: [{type: mongoose.Schema.Types.ObjectId, ref: 'Classes'}], // a list of classes
-//  listof_charafeatures: [mongoose.model('Features').schema], // a list of features
-listof_charafeatures: [{type: mongoose.Schema.Types.ObjectId, ref: 'Features'}], // a list of features
-listof_spelllists: [{type: mongoose.Schema.Types.ObjectId, ref: 'Spell_list'}],
+  //  listof_charafeatures: [mongoose.model('Features').schema], // a list of features
+  listof_charafeatures: [{type: mongoose.Schema.Types.ObjectId, ref: 'Features'}], // a list of features
+  listof_spelllists: [{type: mongoose.Schema.Types.ObjectId, ref: 'Spell_list'}],
 
   special_stuff: {
     superiority_dice: Number,
@@ -108,11 +123,31 @@ module.exports.GetOneCharacter = function(charaid) {
     path: 'listof_charafeatures',
     populate: {path: 'listof_atks'}
   })
-  .populate({
+  .populate({ // we cant populate multiple paths from one command
     path: 'listof_charafeatures',
     populate: {path: 'listof_saves'}
   })
+  .populate({
+    path: 'equipped_itemcontainer',
+    populate: {
+      path: 'listof_items',
+      populate: {
+        path: 'listof_attacks'
+      }}
+  })
+  .populate({
+    path: 'equipped_itemcontainer',
+    populate: {
+      path: 'listof_items',
+      populate: {
+        path: 'listof_savingthrows'
+      }}
+  })
   .exec();
+
+
+
+
   // var query = Character.findById(charaid)
   // .populate({
   //   path: 'listof_charafeatures',

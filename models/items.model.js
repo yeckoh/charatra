@@ -1,10 +1,12 @@
 const mongoose = require('mongoose');
-// require('./attacks.model');
-// require('./savethrows.model');
+// nested testing only
+const Attack = require('../models/attacks.model');
+const Saves = require('../models/savethrows.model');
 
 var ItemSchema = mongoose.Schema({
     selected_color: String,
 
+    name: String,
     descript: String,
     weight: Number,
     value: Number,
@@ -27,3 +29,22 @@ module.exports.GetAllItems = function(allids) {
     var query = Container.find().where('_id').in(allids).exec();
     return query;
 }
+
+// for testing only
+module.exports.MakeNewItem = function() {
+    let newitem = new Item({
+        name: 'newitem',
+        descript: 'this is a new item',
+        listof_attacks: [Attack.MakeNewAttack(), Attack.MakeNewAttack()],
+        listof_savingthrows: [Saves.MakeASavingThrow()]
+    });
+    newitem.save();
+    return newitem._id;
+}
+
+
+
+/*
+            listof_atks: [Attack.MakeNewAttack()],
+            listof_saves: [Saves.MakeASavingThrow()],
+*/

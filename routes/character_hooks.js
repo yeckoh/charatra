@@ -38,9 +38,21 @@ module.exports = function(socket) {
                 baseAC: 10,
                 speed: 30,
                 level: 1,
-                hitpoint_formula: '0'
             },
 
+            saves: {
+                str: 'strMod',
+                dex: 'dexMod',
+                con: 'conMod',
+                int: 'intMod',
+                wis: 'wisMod',
+                cha: 'chaMod'
+            },
+            formuolis: {
+                hitpoints: 'conMod*level',
+                initiative: 'dexMod',
+                proficiency: 'this needs math.ceil'
+              },
             spellslots: {
                 first: 0,
                 second: 0,
@@ -118,7 +130,8 @@ module.exports = function(socket) {
         Character.UpdateOneCharacter(sent_in_data.chara);
         console.log('updating selected chara');
         /// TODO: after sidenav only reads charaname and id, update charaname only below
-        socket.broadcast.in(sent_in_data.userid).emit('Updated_one_chara', sent_in_data.chara); // send back to originator
+        socket.emit('Updated_one_chara', sent_in_data.chara);
+        socket.broadcast.in(sent_in_data.userid).emit('Updated_one_chara', sent_in_data.chara); // send to all who's this user
         socket.broadcast.in(sent_in_data.chara._id).emit('Updated_one_chara', sent_in_data.chara); // send to all who's viewing this chara
     });
 

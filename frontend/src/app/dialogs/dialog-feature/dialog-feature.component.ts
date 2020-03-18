@@ -1,6 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { CharaService } from 'src/app/shared/chara.service';
-import { SecretSocketComponent } from 'src/app/secret-socket/secret-socket.component';
 import { Features } from 'src/app/shared/features.model';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Chara } from 'src/app/shared/chara.model';

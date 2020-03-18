@@ -29,7 +29,21 @@ export class Chara {
     baseAC: number,
     speed: number,
     level: number,
-    hitpoint_formula: string
+  };
+
+  formuolis: {
+    hitpoints: string,
+    initiative: string,
+    proficiency: string,
+  };
+
+  saves: {
+    str: string,
+    dex: string,
+    con: string,
+    int: string,
+    wis: string,
+    cha: string,
   };
 
   spellslots: {
@@ -91,7 +105,21 @@ export class Chara {
       baseAC: 0,
       speed: 0,
       level: 0,
-      hitpoint_formula: '0'
+    };
+
+    this.saves = {
+      str: 'strMod',
+      dex: 'dexMod',
+      con: 'conMod',
+      int: 'intMod',
+      wis: 'wisMod',
+      cha: 'chaMod'
+    };
+
+    this.formuolis = {
+      hitpoints: '0',
+      initiative: 'dexMod',
+      proficiency: 'nope'
     };
 
     this.persona = {

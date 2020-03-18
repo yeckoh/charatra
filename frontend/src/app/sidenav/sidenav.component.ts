@@ -19,13 +19,12 @@ export class SidenavComponent implements OnInit {
               private alohaSnackBar: MatSnackBar,
               private charaservice: CharaService) { }
 
-  public static hamburger: boolean;
   private allcharas = [];
-
 
   ngOnInit() {
     this.charaservice.listenfor('Read_all_user_charas').subscribe((data) => {
         this.allcharas = data as Chara[];
+        console.log('readallcharas\n', data);
     });
 
     this.charaservice.listenfor('Updated_one_chara').subscribe((data) => {

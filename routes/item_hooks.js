@@ -19,7 +19,7 @@ module.exports = function(socket) {
             weight: 0,
             value: 0,
             attunement: false,
-            equipped: false,
+            // equipped: false,
             listof_itemsfeatures: [],
             listof_spells: []
         });
@@ -34,7 +34,7 @@ module.exports = function(socket) {
 
 
     // when get all Item gets fired... READ_ALL
-    socket.on('Get_all_chara_items', function(sent_in_data) {
+    socket.on('Get_all_container_items', function(sent_in_data) {
         // a_promise.then -> do stuff with the data
         Items.GetAllItems(sent_in_data.itemids).then(function(allItems) {
             socket.emit('Read_all_chara_items', allItems);

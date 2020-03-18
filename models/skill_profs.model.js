@@ -29,24 +29,24 @@ const Skill_Prof = module.exports = mongoose.model('Skill_Profs', SkillProfSchem
 
 module.exports.MakeProficiencies = function() {
     let newProfList = new Skill_Prof ({
-        acrobatics: 'DexMod',
-        animal_handling: 'WisMod',
-        arcana: 'IntMod',
-        athletics: 'StrMod',
-        deception: 'ChaMod',
-        history: 'IntMod',
-        insight: 'WisMod',
-        intimidation: 'ChaMod',
-        investigation: 'IntMod',
-        medicine: 'WisMod',
-        nature: 'IntMod',
-        perception: 'WisMod',
-        performance: 'ChaMod',
-        persuasion: 'ChaMod',
-        religion: 'IntMod',
-        sleight_of_hand: 'DexMod',
-        stealth: 'DexMod',
-        survival: 'WisMod'
+        acrobatics: 'dexMod',
+        animal_handling: 'wisMod',
+        arcana: 'intMod',
+        athletics: 'strMod',
+        deception: 'chaMod',
+        history: 'intMod',
+        insight: 'wisMod',
+        intimidation: 'chaMod',
+        investigation: 'intMod',
+        medicine: 'wisMod',
+        nature: 'intMod',
+        perception: 'wisMod',
+        performance: 'chaMod',
+        persuasion: 'chaMod',
+        religion: 'intMod',
+        sleight_of_hand: 'dexMod',
+        stealth: 'dexMod',
+        survival: 'wisMod'
     });
     return newProfList;
 }
