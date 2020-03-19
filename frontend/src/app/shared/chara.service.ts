@@ -87,6 +87,7 @@ regularFormula(input) {
     // call this when signing in
     // this is only for updating the character list in localstorage and the sidebar
     this.UserRoom = JSON.parse(localStorage.getItem('user')).id;
+    this.sock.emit('Get_user_ids', this.UserRoom);
     this.sock.emit('Join_user_room', this.UserRoom);
   }
 

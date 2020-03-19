@@ -20,8 +20,10 @@ module.exports = function(socket) {
             value: 0,
             attunement: false,
             // equipped: false,
-            listof_itemsfeatures: [],
-            listof_spells: []
+            // listof_itemsfeatures: [],
+            // listof_spells
+            listof_attacks: [],
+            listof_savingthrows: []
         });
 
         Item.SaveItem(newitem);
@@ -39,7 +41,6 @@ module.exports = function(socket) {
         Items.GetAllItems(sent_in_data.itemids).then(function(allItems) {
             socket.emit('Read_all_chara_items', allItems);
         });
-
     });
 
     // when 'update selected item' gets fired... UPDATE_ONE
@@ -48,5 +49,18 @@ module.exports = function(socket) {
             socket.broadcast.in(sent_in_data.charaid).emit('Updated_one_item', updatedItem);
         });
     });
+
+    /// TODO: BRING IN PARENT CONTAINER ID
+    /// TODO: DETERMINE FRONT LOGIC CASES: DO WE EMIT BROADCAST THE SAME OR DIFFERENT HOOKS?
+    socket.on('Delete_selected_item', function(sent_in_data) {
+        // data consists of .itemid .charaid .parentid
+        Item.DeleteCascading(sent_in_data.itemid);
+        Container.findByIdAndUpdate(sent_in_data.parentid, {$pull: {listof_items: sent_in_data.itemid }}).exec(); // remove from parent
+        console.log('item deleted');
+        // tell userid and charaid rooms that it was deleted here
+        socket.emit('Deleted_one_item', sent_in_data.itemid); // tell the deletor its gone
+        socket.broadcast.in(sent_in_data.charaid).emit('Deleted_this_item', sent_in_data.itemid); // tell all whos viewing this item its gone
+    });
+
 
 }

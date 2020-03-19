@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { SecretSocketComponent } from 'src/app/secret-socket/secret-socket.component';
 import { CharaService } from 'src/app/shared/chara.service';
 
 

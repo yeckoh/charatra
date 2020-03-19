@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 
+const Attack = require('./attacks.model');
+const Saves = require('./savethrows.model');
+
 var FeatureSchema = mongoose.Schema({
     selected_color: String,
     feature_category: Number, // user defined feature separation names
@@ -46,4 +49,18 @@ module.exports.AddToListofsavesbyid = function(featureid, saveid) {
 
 module.exports.AddToListofeffectsbyid = function(featureid, effectid) {
     Feature.findByIdAndUpdate(featureid, {$push: {listof_effects: [effectid] }}).exec();
+}
+
+module.exports.DeleteCascading = function(featureids) {
+    Feature.find().where('_id').in(featureids).exec().then((features) => {
+        let atkids = [];
+        let saveids = [];
+        features.forEach(element => {
+            atkids.push(...element.listof_atks);
+            saveids.push(...element.listof_saves);
+        });
+        Attack.DeleteCascading(atkids);
+        Saves.DeleteCascading(saveids);
+    });
+    Feature.deleteMany({_id: featureids}).exec();
 }

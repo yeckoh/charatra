@@ -48,4 +48,18 @@ module.exports = function(socket) {
         });
     });
 
+    /// TODO: BRING IN PARENT ITEM OR FEATURE ID
+    /// TODO: DETERMINE FRONT LOGIC CASES: DO WE EMIT BROADCAST THE SAME OR DIFFERENT HOOKS?
+    /// TODO: HOW DOES THE FRONT KNOW WHAT TO UPDATE? DO ITEM AND FEATURES CALL AND GET SEPARATE HOOKS ENTIRELY?
+    socket.on('Delete_selected_attack', function(sent_in_data) {
+        // data consists of .attackid .charaid .parentid
+        Attack.DeleteCascading(sent_in_data.attackid);
+        Item.findByIdAndUpdate(sent_in_data.parentid, {$pull: {listof_attacks: sent_in_data.attackid }}).exec(); // remove from parent. its one or the other
+        Feature.findByIdAndUpdate(sent_in_data.parentid, {$pull: {listof_atks: sent_in_data.attackid }}).exec(); // remove from parent
+        console.log('attack deleted'); // console.log('attack deleted from Item');
+        // tell userid and charaid rooms that it was deleted here
+        socket.emit('Deleted_one_attack', sent_in_data.attackid); // tell the deletor its gone
+        socket.broadcast.in(sent_in_data.charaid).emit('Deleted_this_attack', sent_in_data.attackid); // tell all whos viewing this item its gone
+    });
+
 }

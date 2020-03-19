@@ -33,3 +33,7 @@ module.exports.MakeNewAttack = function() {
     newatk.save();
     return newatk._id;
 }
+
+module.exports.DeleteCascading = function(atkids) {
+    Attack.deleteMany({_id: atkids}).exec();
+}

@@ -47,4 +47,16 @@ module.exports = function(socket) {
         });
     });
 
+    /// UNUSED UNLESS CHARACTERS CAN HAVE A LIST OF ANY NUMBER OF CONTAINERS
+    /// TODO: figure out which list is getting deleted if we use this
+    // socket.on('Delete_selected_container', function(sent_in_data) {
+    //     // sentindata has .containerid .charaid
+    //     Container.DeleteCascading(sent_in_data.containerid);
+    //     // Character.findByIdAndUpdate(sent_in_data.charaid, {$pull: {listof_charafeatures: sent_in_data.featureid }}).exec(); // remove from parent
+    //     console.log('container deleted');
+    //     // tell userid and charaid rooms that it was deleted here
+    //     socket.emit('Deleted_one_container', sent_in_data.featureid); // tell the deletor its gone
+    //     socket.broadcast.in(sent_in_data.charaid).emit('Deleted_this_container', sent_in_data.containerid); // tell all whos viewing this container its gone
+    // });
+
 }

@@ -27,3 +27,7 @@ var SavingThrowSchema = mongoose.Schema({
     return newsave._id;
   }
   
+
+  module.exports.DeleteCascading = function(saveids) {
+    SavingThrow.deleteMany({_id: saveids}).exec();
+}

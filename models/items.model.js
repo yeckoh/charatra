@@ -42,6 +42,19 @@ module.exports.MakeNewItem = function() {
     return newitem._id;
 }
 
+module.exports.DeleteCascading = function(itemids) {
+    Item.find().where('_id').in(itemids).exec().then((items) => {
+        let atkids = [];
+        let saveids = [];
+        items.forEach(element => {
+            atkids.push(...element.listof_attacks);
+            saveids.push(...element.listof_savingthrows);
+        });
+        Attack.DeleteCascading(atkids);
+        Saves.DeleteCascading(saveids);
+    });
+    Item.deleteMany({_id: itemids}).exec();
+}
 
 
 /*

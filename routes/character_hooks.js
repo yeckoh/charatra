@@ -109,6 +109,13 @@ module.exports = function(socket) {
 
     });
 
+    // this is really dumb
+    socket.on('Get_user_ids', function(sent_in_data) {
+        User.findById(sent_in_data).exec().then(function(user) {
+            socket.emit('Read_user_ids', user.listof_characters);
+        });
+    });
+
     // READ_ALL
     /// TODO: pull names and ids only to save on data transfers
     socket.on('Get_all_user_charas', function(sent_in_data) {
@@ -133,6 +140,19 @@ module.exports = function(socket) {
         socket.emit('Updated_one_chara', sent_in_data.chara);
         socket.broadcast.in(sent_in_data.userid).emit('Updated_one_chara', sent_in_data.chara); // send to all who's this user
         socket.broadcast.in(sent_in_data.chara._id).emit('Updated_one_chara', sent_in_data.chara); // send to all who's viewing this chara
+    });
+
+    // DELETE_ONE
+    socket.on('Delete_selected_chara', function(sent_in_data) {
+        // sentindata is .charaid and .userid
+        Character.DeleteCascading(sent_in_data.charaid);
+        User.findByIdAndUpdate(sent_in_data.userid, {$pull: {listof_characters: sent_in_data.charaid }}).exec(); // remove from parent
+        console.log('character deleted');
+        // Character.findByIdAndRemove(sent_in_data.charaid).exec();
+        // tell userid and charaid rooms that it was deleted here
+        socket.emit('Deleted_one_chara', sent_in_data.charaid); // tell the deletor its gone
+        socket.broadcast.in(sent_in_data.userid).emit('Deleted_one_chara', sent_in_data.charaid); // send to all user to remove from sidebar
+        socket.broadcast.in(sent_in_data.charaid).emit('Deleted_this_chara', 'cya l8r m8'); // tell all whos viewing this chara to go home
     });
 
 

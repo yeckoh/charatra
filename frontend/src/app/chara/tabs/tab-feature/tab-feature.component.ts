@@ -72,6 +72,12 @@ export class TabFeatureComponent implements OnInit {
       this.features[featureIndex] = data as Features;
       console.log('heard updatedonefeature');
     });
+
+    this.charaservice.listenfor('Deleted_one_feature').subscribe(data => {
+      // data is a featureid
+      const delIndex = this.features.findIndex(e => e._id === data);
+      this.features.splice(delIndex, 1);
+    });
   }
 
 }

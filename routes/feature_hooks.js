@@ -28,8 +28,8 @@ module.exports = function(socket) {
             uses_left: 1,
             toggleable: false,
             is_enabled: true,
-            listof_atks: [Attack.MakeNewAttack()],
-            listof_saves: [Saves.MakeASavingThrow()],
+            listof_atks: [Attack.MakeNewAttack()], // temporary
+            listof_saves: [Saves.MakeASavingThrow()], // temporary
             listof_featureprofs: []
         });
 
@@ -59,6 +59,17 @@ module.exports = function(socket) {
             socket.emit('Updated_one_feature', updatedFeature); // send back to self, gotta replace list item then set selected to new listitem
             socket.broadcast.in(sent_in_data.charaid).emit('Updated_one_feature', updatedFeature); // make everyone else read_one
         });
+    });
+
+    socket.on('Delete_selected_feature', function(sent_in_data) {
+        // data consists of .featureid .charaid
+        console.log(sent_in_data);
+        Feature.DeleteCascading(sent_in_data.featureid);
+        Character.findByIdAndUpdate(sent_in_data.charaid, {$pull: {listof_charafeatures: sent_in_data.featureid }}).exec(); // remove from parent
+        console.log('feature deleted');
+        // tell userid and charaid rooms that it was deleted here
+        socket.emit('Deleted_one_feature', sent_in_data.featureid); // tell the deletor its gone
+        socket.broadcast.in(sent_in_data.charaid).emit('Deleted_one_feature', sent_in_data.featureid); // tell all whos viewing this feature its gone
     });
 
 }

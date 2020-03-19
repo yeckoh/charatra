@@ -1,8 +1,8 @@
 /// defines the entrypoint for the chara model
 
 const mongoose = require('mongoose');
-require('./containers.model');
-// require('./features.model');
+Container = require('./containers.model');
+Feature = require('./features.model');
 // require('./classes.model');
 require('./skill_profs.model');
 // require('./spell_list.model');
@@ -92,9 +92,18 @@ var CharaSchema = mongoose.Schema({
 });
 
 
+
+// pre operations must come before the model definition according to docs
+// before deleting this character, call remove on immediate children from other collections, who will also call pre.remove
+
+
+
 const Character = module.exports = mongoose.model('Characters', CharaSchema);
 
 // schema model functions -> {mongoose functions}
+
+
+
 
 
 
@@ -143,21 +152,9 @@ module.exports.GetOneCharacter = function(charaid) {
         path: 'listof_savingthrows'
       }}
   })
+  // populate spelllists and classes too
   .exec();
 
-
-
-
-  // var query = Character.findById(charaid)
-  // .populate({
-  //   path: 'listof_charafeatures',
-  //   populate: {path: 'listof_atks'}
-  // })
-  // .populate({
-  //   path: 'listof_charafeatures',
-  //   populate: {path: 'listof_saves'}
-  // })
-  // .exec();
   return query;
 }
 
@@ -178,3 +175,33 @@ module.exports.AddToListofcharacontainersbyid = function(charaid, containerid) {
 module.exports.AddToListofother_profsbyid = function(charaid, other_profid) {
   // TODO: add list insinside the chara model to append data to
 }
+
+// DeleteCascadE == this is the topmost thing being requested for deletion. parent only removes this _id
+// also implies Delete_One && that Delete_One is being called in the hook after this runs
+module.exports.DeleteCascading = function(charaids) {
+  Character.find().where('_id').in(charaids).exec().then((charas) => {
+    let containers = [];
+    let featureids = [];
+    charas.forEach(element => {
+      containers.push(element.equipped_itemcontainer, element.inventory_container, element.extra_characontainer);
+      featureids.push(...element.listof_charafeatures);
+    });
+    Container.DeleteCascading(containers);
+    Feature.DeleteCascading(featureids);
+  });
+  Character.deleteMany({_id: charaids}).exec();
+}
+
+
+
+// DeleteCascadING == this is being deleted because a parent is being deleted
+// module.exports.DeleteCascading = function(charaids) {
+  
+// }
+
+  /// for a list of ids
+  // use let promise = find where id in exec
+  // let compiledchildids = []
+  // foreach promise e -> compiledchildids.push e.list
+  // deletecascding compiledchildids
+  // deleteMany listoftheseids

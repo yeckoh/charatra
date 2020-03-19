@@ -41,6 +41,25 @@ export class SidenavComponent implements OnInit {
       localStorage.setItem('user', JSON.stringify(userinfo));
       this.allcharas.push(data);
     });
+
+    this.charaservice.listenfor('Deleted_one_chara').subscribe((data) => {
+      // get all characterids in user localstorage obj
+      // remove id
+      // set localstorage new characterlist
+      const userinfo = JSON.parse(localStorage.getItem('user'));
+      const arrayIndex = userinfo.charas.indexOf(data);
+      userinfo.charas.splice(arrayIndex, 1); // remove id to list of charas
+      localStorage.setItem('user', JSON.stringify(userinfo));
+      this.allcharas.splice(arrayIndex, 1);
+      console.log('attempted to delete');
+    });
+
+    this.charaservice.listenfor('Read_user_ids').subscribe((charaids) => {
+      const userinfo = JSON.parse(localStorage.getItem('user'));
+      userinfo.charas = charaids; // add id to list of charas
+      localStorage.setItem('user', JSON.stringify(userinfo));
+    });
+
   }
 
   onSignoutClick() {

@@ -11,7 +11,9 @@ import { Chara } from 'src/app/shared/chara.model';
 })
 export class DialogFeatureComponent implements OnInit {
   feature: Features;
-  constructor(private charaservice: CharaService, @Inject(MAT_DIALOG_DATA) data) {
+  constructor(private charaservice: CharaService,
+              @Inject(MAT_DIALOG_DATA) data,
+              private thisDialog: MatDialogRef<DialogFeatureComponent>) {
     this.feature = data;
   }
 
@@ -43,6 +45,14 @@ export class DialogFeatureComponent implements OnInit {
         this.feature.descript = castedData.descript;
       }
     });
+
+    this.charaservice.listenfor('Deleted_one_feature').subscribe(data => {
+      // data is a featureid
+      if (this.feature._id === data) { // the feature you're viewing got deleted
+      this.thisDialog.close();
+      }
+    });
+
   }
 
   sendFeatureDialogUpdate() {
@@ -53,6 +63,14 @@ export class DialogFeatureComponent implements OnInit {
     this.charaservice.sendback('Update_selected_feature', forwardingdata);
   }
 
+  deleteFeature() {
+    const forwardingdata = {
+      featureid: this.feature._id,
+      charaid: this.charaservice.CharaId
+    };
+    this.charaservice.sendback('Delete_selected_feature', forwardingdata);
+    this.thisDialog.close();
+  }
 
 
 
