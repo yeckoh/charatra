@@ -56,7 +56,6 @@ export class TabFeatureComponent implements OnInit {
 
   ngOnInit() {
 
-    // really we only need the stats for formula evaluation
     this.charaservice.listenfor('Updated_one_chara').subscribe(data => {
       this.features = (data as Chara).listof_charafeatures;
       console.log('heard updatedonechara');

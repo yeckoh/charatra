@@ -9,6 +9,7 @@ var ItemSchema = mongoose.Schema({
     name: String,
     descript: String,
     weight: Number,
+    count: Number,
     value: Number,
     attunement: Boolean,
     // equipped: Boolean,
@@ -35,6 +36,10 @@ module.exports.MakeNewItem = function() {
     let newitem = new Item({
         name: 'newitem',
         descript: 'this is a new item',
+        count: 1,
+        weight: 123,
+        value: 9999,
+        attunement: false,
         listof_attacks: [Attack.MakeNewAttack(), Attack.MakeNewAttack()],
         listof_savingthrows: [Saves.MakeASavingThrow()]
     });

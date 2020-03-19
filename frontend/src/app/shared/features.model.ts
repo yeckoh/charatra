@@ -1,3 +1,7 @@
+import { Attack } from './attack.model';
+import { Savethrows } from './savethrows.model';
+import { OtherProfs } from './other-profs.model';
+
 export class Features {
   // tslint:disable: variable-name
 
@@ -11,8 +15,8 @@ export class Features {
   uses_left: number;
   toggleable: boolean;
   is_enabled: boolean;
-  listof_atks: [string];
-  listof_saves: [string];
-  listof_featureprofs: [string];
-  listof_effects: [string];
+  listof_atks: [Attack];
+  listof_saves: [Savethrows];
+  // listof_featureprofs: [OtherProfs];
+  // listof_effects: [string];
 }

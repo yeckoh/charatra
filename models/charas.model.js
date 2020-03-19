@@ -128,7 +128,7 @@ module.exports.GetAllCharacters = function(allids) {
 module.exports.GetOneCharacter = function(charaid) {
   // returns a promise
   var query = Character.findById(charaid)
-  .populate({
+  .populate({ // feature attacks
     path: 'listof_charafeatures',
     populate: {path: 'listof_atks'}
   })
@@ -136,7 +136,7 @@ module.exports.GetOneCharacter = function(charaid) {
     path: 'listof_charafeatures',
     populate: {path: 'listof_saves'}
   })
-  .populate({
+  .populate({ // equipment item attacks
     path: 'equipped_itemcontainer',
     populate: {
       path: 'listof_items',
@@ -144,8 +144,40 @@ module.exports.GetOneCharacter = function(charaid) {
         path: 'listof_attacks'
       }}
   })
-  .populate({
+  .populate({ // equipment item saves
     path: 'equipped_itemcontainer',
+    populate: {
+      path: 'listof_items',
+      populate: {
+        path: 'listof_savingthrows'
+      }}
+  })
+  .populate({ // inventory item attacks
+    path: 'inventory_container',
+    populate: {
+      path: 'listof_items',
+      populate: {
+        path: 'listof_attacks'
+      }}
+  })
+  .populate({ // inventory item saves
+    path: 'inventory_container',
+    populate: {
+      path: 'listof_items',
+      populate: {
+        path: 'listof_savingthrows'
+      }}
+  })
+  .populate({ // extra attacks
+    path: 'extra_characontainer',
+    populate: {
+      path: 'listof_items',
+      populate: {
+        path: 'listof_attacks'
+      }}
+  })
+  .populate({ // extra saves
+    path: 'extra_characontainer',
     populate: {
       path: 'listof_items',
       populate: {

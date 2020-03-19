@@ -15,7 +15,9 @@ module.exports = function(socket) {
             _id: mongoose.Types.ObjectId(),
             selected_color: 'rgb(127, 0, 0)',
 
+            name: '',
             descript: 'description goes here',
+            count: 1,
             weight: 0,
             value: 0,
             attunement: false,
