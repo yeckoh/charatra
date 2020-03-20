@@ -3,12 +3,12 @@
   flex-wrap: wrap;
 }
 
-.testCard {
+.personaCard {
   min-width: 20rem;
   padding: .5rem;
 }
 
-.innerWrapper {
+. {
     margin: 4px;
     width: 18rem;
     border-collapse: collapse;
