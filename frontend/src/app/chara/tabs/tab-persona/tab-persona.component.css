@@ -1,0 +1,52 @@
+.outterWraper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.testCard {
+  min-width: 20rem;
+  padding: .5rem;
+}
+
+.innerWrapper {
+    margin: 4px;
+    width: 18rem;
+    border-collapse: collapse;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.header {
+  padding: 1rem;
+}
+
+.content {
+  background-color: #222222;
+  padding: 1rem;
+}
+
+.nameColor {
+  background-color:rgb(124, 62, 62);
+}
+.genderColor {
+  background-color:rgb(66, 122, 61);
+}
+.descriptionColor {
+  background-color:rgb(71, 5, 0);
+}
+.personalityColor {
+  background-color:rgb(62, 103, 124);
+}
+.idealsColor {
+  background-color:rgb(89, 61, 122);
+}
+.bondsColor {
+  background-color:rgb(122, 122, 61);
+}
+.raceColor {
+  background-color:rgb(50, 122, 61);
+}
+.backgroundColor {
+  background-color:rgb(122, 50, 61);
+}
