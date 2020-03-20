@@ -29,6 +29,7 @@ import { DialogFeatureComponent } from './dialogs/dialog-feature/dialog-feature.
 import { CharaService } from './shared/chara.service';
 import { ModifierPipe } from './pipes/modifier.pipe';
 import { DialogStatComponent } from './dialogs/dialog-stat/dialog-stat.component';
+import { DialogAttackComponent } from './dialogs/dialog-attack/dialog-attack.component';
 
 const appRoutes: Routes = [
   { path: '', component: SigninComponent }, // TODO: make a splashpage
@@ -55,7 +56,8 @@ const appRoutes: Routes = [
 //    SecretSocketComponent,
     DialogFeatureComponent,
     ModifierPipe,
-    DialogStatComponent
+    DialogStatComponent,
+    DialogAttackComponent
   ],
   imports: [
     BrowserModule,
@@ -67,7 +69,7 @@ const appRoutes: Routes = [
 //    FlashMessagesModule.forRoot()
   ],
   providers: [ValidateService, AuthService, CharaService, ModifierPipe],
-  entryComponents: [DialogNewcharaComponent, DialogFeatureComponent, DialogStatComponent],
+  entryComponents: [DialogNewcharaComponent, DialogFeatureComponent, DialogStatComponent, DialogAttackComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

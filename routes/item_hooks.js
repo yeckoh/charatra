@@ -15,7 +15,7 @@ module.exports = function(socket) {
             _id: mongoose.Types.ObjectId(),
             selected_color: 'rgb(127, 0, 0)',
 
-            name: '',
+            name: 'new item',
             descript: 'description goes here',
             count: 1,
             weight: 0,
@@ -61,7 +61,7 @@ module.exports = function(socket) {
         console.log('item deleted');
         // tell userid and charaid rooms that it was deleted here
         socket.emit('Deleted_one_item', sent_in_data.itemid); // tell the deletor its gone
-        socket.broadcast.in(sent_in_data.charaid).emit('Deleted_this_item', sent_in_data.itemid); // tell all whos viewing this item its gone
+        socket.broadcast.in(sent_in_data.charaid).emit('Deleted_one_item', sent_in_data.itemid); // tell all whos viewing this item its gone
     });
 
 

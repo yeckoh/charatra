@@ -56,7 +56,7 @@ module.exports = function(socket) {
     //     console.log('container deleted');
     //     // tell userid and charaid rooms that it was deleted here
     //     socket.emit('Deleted_one_container', sent_in_data.featureid); // tell the deletor its gone
-    //     socket.broadcast.in(sent_in_data.charaid).emit('Deleted_this_container', sent_in_data.containerid); // tell all whos viewing this container its gone
+    //     socket.broadcast.in(sent_in_data.charaid).emit('Deleted_one_container', sent_in_data.containerid); // tell all whos viewing this container its gone
     // });
 
 }

@@ -13,8 +13,9 @@ var ItemSchema = mongoose.Schema({
     value: Number,
     attunement: Boolean,
     // equipped: Boolean,
+    // parentContainerid: mongoose.Schema.Types.ObjectId,
     listof_attacks: [{type: mongoose.Schema.Types.ObjectId, ref:'Attacks'}],
-    listof_savingthrows: [{type: mongoose.Schema.Types.ObjectId, ref:'Saving_Throws'}],
+    listof_savingthrows: [{type: mongoose.Schema.Types.ObjectId, ref:'Saving_Throws'}]
 });
 
 
@@ -40,11 +41,19 @@ module.exports.MakeNewItem = function() {
         weight: 123,
         value: 9999,
         attunement: false,
-        listof_attacks: [Attack.MakeNewAttack(), Attack.MakeNewAttack()],
+        listof_attacks: [],
         listof_savingthrows: [Saves.MakeASavingThrow()]
     });
     newitem.save();
     return newitem._id;
+}
+
+module.exports.AddToListofattacks = function(itemid, atkid) {
+    Item.findByIdAndUpdate(itemid, {$push: {listof_attacks: [atkid] }}).exec();
+}
+
+module.exports.AddToListofsaves = function(itemid, saveid) {
+    Item.findByIdAndUpdate(itemid, {$push: {listof_savingthrows: [saveid] }}).exec();
 }
 
 module.exports.DeleteCascading = function(itemids) {

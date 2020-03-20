@@ -28,7 +28,7 @@ module.exports = function(socket) {
             uses_left: 1,
             toggleable: false,
             is_enabled: true,
-            listof_atks: [Attack.MakeNewAttack()], // temporary
+            listof_atks: [], // temporary
             listof_saves: [Saves.MakeASavingThrow()], // temporary
             listof_featureprofs: []
         });

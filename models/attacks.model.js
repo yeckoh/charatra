@@ -7,7 +7,12 @@ var AttackSchema = mongoose.Schema({
     name: String,
     details: String,
     atkbonus: String,
-    damage: String
+    damage: String,
+
+    parentFeature: mongoose.Schema.Types.ObjectId,
+    parentItem: mongoose.Schema.Types.ObjectId,
+    parentSpell: mongoose.Schema.Types.ObjectId
+    
 });
 
 

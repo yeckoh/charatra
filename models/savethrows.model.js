@@ -3,11 +3,14 @@ const mongoose = require('mongoose');
 var SavingThrowSchema = mongoose.Schema({
     selected_color: String,
 
-    ownerfeature_id: String,
     name: String,
     details: String,
     saveDC: String,
-    damage: String
+    damage: String,
+
+    parentFeature: mongoose.Schema.Types.ObjectId,
+    parentItem: mongoose.Schema.Types.ObjectId,
+    parentSpell: mongoose.Schema.Types.ObjectId
 });
   
   
@@ -18,7 +21,6 @@ var SavingThrowSchema = mongoose.Schema({
   // for testing subdoc popyulate only
   module.exports.MakeASavingThrow = function() {
     let newsave = new SavingThrow({
-      ownerfeature_id: 'we probably need this',
       name: 'Fireball',
       details: 'save for half',
       saveDC: '{intDC} dex',

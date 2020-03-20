@@ -3,6 +3,8 @@ const Attack = require('../models/attacks.model');
 
 // parent model, for appending Attack:_id to listof_
 const Feature = require('../models/features.model');
+const Item = require('../models/items.model');
+const Spell = require('../models/spells.model');
 
 // import mongoose just to generate a _id: right here, right now
 var mongoose = require('mongoose');
@@ -18,15 +20,20 @@ module.exports = function(socket) {
             selected_color: "none",
             is_active: false,
 
-            name: "new item",
+            name: "new attack",
             details: "Versatile (1d10)",
             atkbonus: "{strMod+profBonus}",
-            damage: "1d8 + {strMod} slashing"
-        });
+            damage: "1d8 + {strMod} slashing",
 
+            parentFeature: sent_in_data.feature_id,
+            parentItem: sent_in_data.item_id,
+            parentSpell: sent_in_data.spell_id
+        });
         Attack.SaveAttack(newattack);
 
-        Feature.AddToListofattacksbyid(sent_in_data.feature_id, newattack._id);
+        Feature.AddToListofattacks(sent_in_data.feature_id, newattack._id);
+        Item.AddToListofattacks(sent_in_data.item_id, newattack._id);
+        Spell.AddToListofattacks(sent_in_data.spell_id, newattack._id);
 
         socket.emit('Created_new_attack', newattack);
         socket.broadcast.in(sent_in_data.chara_id).emit('Created_new_attack', newattack);
@@ -43,23 +50,45 @@ module.exports = function(socket) {
 
     // when 'update selected attacks' gets fired... UPDATE_ONE
     socket.on('Update_selected_attack', function(sent_in_data) {
+        // data is .attack and .charaid
         Attack.findByIdAndUpdate(sent_in_data.attack._id, sent_in_data.attack, {new: true}, function(err, updatedAttack) {
             socket.broadcast.in(sent_in_data.charaid).emit('Updated_one_attack', updatedAttack);
         });
     });
 
-    /// TODO: BRING IN PARENT ITEM OR FEATURE ID
-    /// TODO: DETERMINE FRONT LOGIC CASES: DO WE EMIT BROADCAST THE SAME OR DIFFERENT HOOKS?
-    /// TODO: HOW DOES THE FRONT KNOW WHAT TO UPDATE? DO ITEM AND FEATURES CALL AND GET SEPARATE HOOKS ENTIRELY?
-    socket.on('Delete_selected_attack', function(sent_in_data) {
+    // separate hooks for features, items, and spells is probably better
+    socket.on('Delete_feature_attack', function(sent_in_data) {
         // data consists of .attackid .charaid .parentid
+        Attack.findById(sent_in_data.attackid).exec().then(function(deletedattack) {
+            // technically we're telling the front we've fulfilled a promise before completing it :^)
+            socket.emit('Deleted_feature_attack', deletedattack); // tell the deletor its gone
+            socket.broadcast.in(sent_in_data.charaid).emit('Deleted_feature_attack', deletedattack); // tell all whos viewing this item its gone
+        });
         Attack.DeleteCascading(sent_in_data.attackid);
-        Item.findByIdAndUpdate(sent_in_data.parentid, {$pull: {listof_attacks: sent_in_data.attackid }}).exec(); // remove from parent. its one or the other
         Feature.findByIdAndUpdate(sent_in_data.parentid, {$pull: {listof_atks: sent_in_data.attackid }}).exec(); // remove from parent
-        console.log('attack deleted'); // console.log('attack deleted from Item');
-        // tell userid and charaid rooms that it was deleted here
-        socket.emit('Deleted_one_attack', sent_in_data.attackid); // tell the deletor its gone
-        socket.broadcast.in(sent_in_data.charaid).emit('Deleted_this_attack', sent_in_data.attackid); // tell all whos viewing this item its gone
+        console.log('feature attack deleted');
+    });
+    socket.on('Delete_item_attack', function(sent_in_data) {
+        // data consists of .attackid .charaid .parentid
+        Attack.findById(sent_in_data.attackid).exec().then(function(deletedattack) {
+            // technically we're telling the front we've fulfilled a promise before completing it :^)
+            socket.emit('Deleted_item_attack', deletedattack); // tell the deletor its gone
+            socket.broadcast.in(sent_in_data.charaid).emit('Deleted_item_attack', deletedattack); // tell all whos viewing this item its gone
+        });
+        Attack.DeleteCascading(sent_in_data.attackid);
+        Item.findByIdAndUpdate(sent_in_data.parentid, {$pull: {listof_attacks: sent_in_data.attackid }}).exec(); // remove from parent
+        console.log('item attack deleted');
+    });
+    socket.on('Delete_spell_attack', function(sent_in_data) {
+        // data consists of .attackid .charaid .parentid
+        Attack.findById(sent_in_data.attackid).exec().then(function(deletedattack) {
+            // technically we're telling the front we've fulfilled a promise before completing it :^)
+            socket.emit('Deleted_spell_attack', deletedattack); // tell the deletor its gone
+            socket.broadcast.in(sent_in_data.charaid).emit('Deleted_spell_attack', deletedattack); // tell all whos viewing this item its gone
+        });
+        Attack.DeleteCascading(sent_in_data.attackid);
+        Spell.findByIdAndUpdate(sent_in_data.parentid, {$pull: {listof_spellattacks: sent_in_data.attackid }}).exec(); // remove from parent
+        console.log('spell attack deleted');
     });
 
 }

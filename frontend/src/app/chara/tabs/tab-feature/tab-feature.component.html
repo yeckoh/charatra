@@ -34,7 +34,7 @@
             <label>Features</label>
             <mat-divider></mat-divider>
             <!-- feature attacks go here -->
-            <table *ngFor="let attack of featureattacks" class='tableitem'>
+            <table *ngFor="let attack of featureattacks" class='tableitem' (click)='openAttackDialog(attack)'>
               <tr><td rowspan='3' class='attackbonus'>
                 <label *ngIf="nonRegularFormula(attack.atkbonus) > -1">+</label>
                 {{nonRegularFormula(attack.atkbonus)}}</td> <td class='originatorname'>{{attack.name}}</td>

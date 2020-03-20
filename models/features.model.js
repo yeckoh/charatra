@@ -37,11 +37,11 @@ module.exports.GetAllFeatures = function(allids) {
     return query;
 }
 
-module.exports.AddToListofatksbyid = function(featureid, atkid) {
+module.exports.AddToListofattacks = function(featureid, atkid) {
     Feature.findByIdAndUpdate(featureid, {$push: {listof_atks: [atkid] }}).exec();
 }
 
-module.exports.AddToListofsavesbyid = function(featureid, saveid) {
+module.exports.AddToListofsaves = function(featureid, saveid) {
     Feature.findByIdAndUpdate(featureid, {$push: {listof_saves: [saveid] }}).exec();
 }
 

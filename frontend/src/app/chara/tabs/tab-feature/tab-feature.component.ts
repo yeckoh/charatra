@@ -9,6 +9,8 @@ import { ModifierPipe } from 'src/app/pipes/modifier.pipe';
 import { Attack } from 'src/app/shared/attack.model';
 import { Savethrows } from 'src/app/shared/savethrows.model';
 import { Items } from 'src/app/shared/items.model';
+import { DialogAttackComponent } from 'src/app/dialogs/dialog-attack/dialog-attack.component';
+import { Spells } from 'src/app/shared/spells.model';
 
 @Component({
   selector: 'app-tab-feature',
@@ -18,6 +20,7 @@ import { Items } from 'src/app/shared/items.model';
 export class TabFeatureComponent implements OnInit {
   constructor(private charaservice: CharaService,
               private featureDialog: MatDialog,
+              private attackDialog: MatDialog,
               private modPipe: ModifierPipe) { }
 
   BRACKET_EXPRESSION: RegExp = /\{(.*?)\}/g; // capture {*}    g is for global
@@ -25,10 +28,15 @@ export class TabFeatureComponent implements OnInit {
   chara: Chara = new Chara(); // chara is read_only really
   features = [] as Features[];
   items = [] as Items[];
+  spells = [] as Spells[];
+
   featureattacks = [] as Attack[];
   itemattacks = [] as Attack[];
+  spellattacks = [] as Attack[];
+
   featuresaves = [] as Savethrows[];
   itemsaves = [] as Savethrows[];
+  spellsaves = [] as Savethrows[];
 
   // pulled straight
   private str = 0;
@@ -61,6 +69,7 @@ export class TabFeatureComponent implements OnInit {
   private chaDC = 0;
 
   private profBonus = 0;
+  private level = 0;
 
   // we need this to filter instead of foreach->findIndex-> if != -1 : splice
   public varForIdToFilter: any;
@@ -94,6 +103,10 @@ export class TabFeatureComponent implements OnInit {
     // this.features = selected_feature;
     // open accepts 2 params (component, optional_configuration {data: something})
     this.featureDialog.open(DialogFeatureComponent, {data: selected_feature});
+  }
+
+  openAttackDialog(selected_attack) {
+      this.attackDialog.open(DialogAttackComponent, {data: selected_attack});
   }
 
   makeNewFeature() {
@@ -133,12 +146,15 @@ export class TabFeatureComponent implements OnInit {
       // big money item
       this.features = this.chara.listof_charafeatures;
       this.items = this.chara.equipped_itemcontainer.listof_items;
+      // this.spells = this.chara.listof_spelllists.listof_spells;
 
       // load attacks and saves
       this.featureattacks.length = 0;
       this.featuresaves.length = 0;
       this.itemattacks.length = 0;
       this.itemsaves.length = 0;
+      this.spellattacks.length = 0;
+      this.spellsaves.length = 0;
       this.features.forEach(element => {
         // if feature_isactive
         this.featureattacks.push(...element.listof_atks); // use iterator notation to keep a single array
@@ -148,6 +164,7 @@ export class TabFeatureComponent implements OnInit {
         this.itemattacks.push(...element.listof_attacks); // use iterator notation to keep a single array
         this.itemsaves.push(...element.listof_savingthrows);
       });
+      // spellpopulate
       console.log('heard updatedonechara');
     });
 
@@ -162,18 +179,6 @@ export class TabFeatureComponent implements OnInit {
       console.log('heard updatedonefeature');
     });
 
-    this.charaservice.listenfor('Made_new_feature_attack').subscribe(data => {
-      // data is a new attack
-      // update local feature to add the id. no need to clutter updated_one_feature
-      // push to local list
-      this.featureattacks.push(data as Attack);
-    });
-    this.charaservice.listenfor('Made_new_feature_save').subscribe(data => {
-      // data is a new save
-      // update local feature to add the id. no need to clutter updated_one_feature
-      // push to local list
-      this.itemsaves.push(data as Savethrows);
-    });
     this.charaservice.listenfor('Deleted_one_feature').subscribe(data => {
       // data is a featureid
       const delIndex = this.features.findIndex(e => e._id === data);
@@ -190,20 +195,6 @@ export class TabFeatureComponent implements OnInit {
       // remove from local list
       this.features.splice(delIndex, 1);
     });
-
-    this.charaservice.listenfor('Made_new_item_attack').subscribe(data => {
-      // data is a new attack
-      // look for item parent, oof.
-      // then push to local list if its in the equipped_container
-      this.itemattacks.push(data as Attack);
-    });
-    this.charaservice.listenfor('Made_new_item_save').subscribe(data => {
-      // data is a new save
-      // look for item parent, oof.
-      // then push to local list if its in the equipped_container
-      this.itemsaves.push(data as Savethrows);
-    });
-
     this.charaservice.listenfor('Deleted_one_item').subscribe(data => {
       // data is an itemid
       const delIndex = this.items.findIndex(e => e._id === data);
@@ -221,9 +212,31 @@ export class TabFeatureComponent implements OnInit {
       this.items.splice(delIndex, 1);
     });
 
-    // made new spell attack
-    // made new spell save
     // deleted one spell
+
+    this.charaservice.listenfor('Created_new_attack').subscribe(data => {
+      // data is a new attack
+      // look for item parent, oof.
+      let newattack = data as Attack;
+      if (newattack.parentFeature !== undefined) {
+        this.featureattacks.push(newattack);
+        return;
+      }
+      console.log('itemattackfilter...'); // UNTESTED
+      // modify logic to account for new spell attacks
+      let filteredattacks = this.items.filter(e => e._id === newattack.parentItem);
+      if (filteredattacks.length === 1) {
+        console.log('itemattackfilter success');
+        this.itemattacks.push(newattack);
+      }
+      // look through spellattacks list or do we separate all 3
+    });
+
+    // made new item attack ?
+    // made new item save ?
+    // made new spell attack ?
+    // made new spell save ?
+
 
     // look for the id in both item and features, rip. if its an item it may not even be in the equipped container (ie: we dont care anyways)
     this.charaservice.listenfor('Updated_one_attack').subscribe(data => {
@@ -237,16 +250,47 @@ export class TabFeatureComponent implements OnInit {
       }
       attackIndex = this.featureattacks.findIndex(e => e._id === newattack._id);
       if (attackIndex !== -1) {
-        // its in the itemattacks, wohoo!
         this.featureattacks[attackIndex] = newattack;
         return;
       }
       // spellattacks
     });
 
-    // deleted one attack
+    this.charaservice.listenfor('Deleted_item_attack').subscribe(data => {
+      // data is the deleted attack
+      const deletedattack = data as Attack;
+      const attackIndex = this.itemattacks.findIndex(e => e._id === deletedattack._id);
+      if (attackIndex !== -1) { // was it in the inventory container?
+        this.itemattacks.splice(attackIndex, 1);
+        this.items = this.items.filter(item => item.listof_attacks.findIndex(attack => attack._id === deletedattack._id) !== -1);
+      }
+    });
+    this.charaservice.listenfor('Deleted_feature_attack').subscribe(data => {
+      // data is the deleted attack
+      const deletedattack = data as Attack;
+      const attackIndex = this.featureattacks.findIndex(e => e._id === deletedattack._id);
+      if (attackIndex !== -1) { // was it from an active feature? <-- UNIMPLEMENTED RIGHT NOW, ALWAYS TRUE
+        // console.log('pre filter: ', this.features);
+        this.featureattacks.splice(attackIndex, 1);
+        // this.features = this.features.filter(feature => feature.listof_atks.filter(attack => attack !== deletedattack)); // TRY TO: remove attack from parent feature in this.features too
+        // console.log('post filter: ', this.features);
+      }
+    });
+    this.charaservice.listenfor('Deleted_spell_attack').subscribe(data => {
+      // data is the deleted attack
+      const deletedattack = data as Attack;
+      const attackIndex = this.spellattacks.findIndex(e => e._id === deletedattack._id);
+      if (attackIndex !== -1) { // was it a prepared spell? <-- UNIMPLEMENTED RIGHT NOW, ALWAYS TRUE
+        this.spellattacks.splice(attackIndex, 1);
+        // update the relevant parentspell to remove the attackid since it no longer exists
+      }
+    });
 
-    // deleted one save
+
+
+    // deleted feature save
+    // deleted item save
+    // deleted spell save
 
 
 

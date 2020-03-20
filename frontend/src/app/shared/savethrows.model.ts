@@ -10,4 +10,8 @@ export class Savethrows {
   details: string;
   saveDC: string;
   damage: string;
+
+  parentFeature: string;
+  parentItem: string;
+  parentSpell: string;
 }
