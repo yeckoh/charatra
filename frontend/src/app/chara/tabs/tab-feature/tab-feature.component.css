@@ -1,0 +1,30 @@
+.atkandsavediv {
+  width: 22rem;
+  padding: 8px;
+}
+
+.atkandsavecard {
+  padding: 0px;
+  border-radius: 0px;
+  max-width: 22rem;
+}
+
+.attackbonus {
+  font-size: 32px;
+  margin-right: 1rem;
+  padding-right: 1rem;
+}
+
+.originatorname {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.damagedice {
+  font-size: 18px;
+}
+
+.tableitem {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}

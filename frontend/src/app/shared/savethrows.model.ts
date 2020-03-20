@@ -8,6 +8,6 @@ export class Savethrows {
   // ownerchara_id:, <-- for stats{} ?
   name: string;
   details: string;
-  savedc: string;
+  saveDC: string;
   damage: string;
 }

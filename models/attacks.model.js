@@ -27,8 +27,10 @@ module.exports.GetAllAttacks = function(allids) {
 // for nested testing only atm
 module.exports.MakeNewAttack = function() {
     let newatk = new Attack ({
-        name: 'getrekt',
-        details: 'nodetailshere'
+        name: 'Longsword',
+        details: 'Versatile (1d10)',
+        atkbonus: '{strMod+profBonus}',
+        damage: '1d8 + {strMod} slashing'
     });
     newatk.save();
     return newatk._id;

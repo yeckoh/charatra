@@ -18,10 +18,10 @@ module.exports = function(socket) {
             selected_color: "none",
             is_active: false,
 
-            name: "none",
-            details: "none",
-            atkbonus: "none",
-            damage: "none"
+            name: "new item",
+            details: "Versatile (1d10)",
+            atkbonus: "{strMod+profBonus}",
+            damage: "1d8 + {strMod} slashing"
         });
 
         Attack.SaveAttack(newattack);

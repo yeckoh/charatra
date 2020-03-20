@@ -5,71 +5,140 @@
     <tr>
       <td style='vertical-align: top;'>
 
-    <div style='width: 22rem; padding: 8px;'>
+    <div class='atkandsavediv'>
       <div class='mat-elevation-z8' style='background-color: rgb(140, 50, 50);'>
       <mat-card-title style='padding: 8px;'>
         Attacks
       </mat-card-title>
-      <mat-card style='padding: 0px; border-radius: 0px; max-width: 22rem;'>
+      <mat-card class='atkandsavecard'>
         <mat-card-content style='padding: 6px;'>
-          all attacks go here
+          <label>Items</label>
           <mat-divider></mat-divider>
-          <br>
-          <br>
-          <br>
-          <table>
-            <tr><td rowspan='3' style='font-size: 32px; margin-right: 1rem; padding-right: 1rem;'>+7</td> <td style='font-weight: bold; font-size: 18px;'>greatsword</td>
+          <!-- item attacks get listed here -->
+          <table *ngFor="let attack of itemattacks" class='tableitem'>
+            <tr><td rowspan='3' class='attackbonus'>
+              <label *ngIf="nonRegularFormula(attack.atkbonus) > -1">+</label>
+              {{nonRegularFormula(attack.atkbonus)}}</td> <td class='originatorname'>{{attack.name}}</td>
               </tr>
               <tr>
-                <td style='font-size: 18px;'>
-                  2d6 + 4 slashing
+                <td class='damagedice'>
+                  {{nonRegularFormula(attack.damage)}}
+                </td>
+              </tr>
+              <tr *ngIf="attack.details != ''">
+                <td class='damagedice'>
+                  {{attack.details}}
                 </td>
               </tr>
             </table>
-            <br>
-            <table>
-              <tr><td rowspan='3' style='font-size: 32px; margin-right: 1rem; padding-right: 1rem;'>+7</td> <td style='font-weight: bold; font-size: 18px;'>longsword</td>
+            <label>Features</label>
+            <mat-divider></mat-divider>
+            <!-- feature attacks go here -->
+            <table *ngFor="let attack of featureattacks" class='tableitem'>
+              <tr><td rowspan='3' class='attackbonus'>
+                <label *ngIf="nonRegularFormula(attack.atkbonus) > -1">+</label>
+                {{nonRegularFormula(attack.atkbonus)}}</td> <td class='originatorname'>{{attack.name}}</td>
                 </tr>
                 <tr>
-                  <td style='font-size: 18px;'>
-                    1d8 + 4 slashing
+                  <td class='damagedice'>
+                    {{nonRegularFormula(attack.damage)}}
                   </td>
                 </tr>
-                <tr>
-                  <td style='font-size: 18px;'>
-                    Versatile (1d10)
+                <tr *ngIf="attack.details != ''">
+                  <td class='damagedice'>
+                    {{attack.details}}
                   </td>
                 </tr>
               </table>
+              <label>Spells</label>
+              <mat-divider></mat-divider>
+              <!-- spell attacks go here -->
+<!--              <table *ngFor="let attack of spellattacks" class='tableitem'>
+                <tr><td rowspan='3' class='attackbonus'>
+                  <label *ngIf="nonRegularFormula(attack.atkbonus) > -1">+</label>
+                  {{nonRegularFormula(attack.atkbonus)}}</td> <td class='originatorname'>{{attack.name}}</td>
+                  </tr>
+                  <tr>
+                    <td class='damagedice'>
+                      {{nonRegularFormula(attack.damage)}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="attack.details != ''">
+                    <td class='damagedice'>
+                      {{attack.details}}
+                    </td>
+                  </tr>
+                </table>
+-->
         </mat-card-content>
       </mat-card>
       </div>
     </div>
 
-    <div style='width: 22rem; padding: 8px;'>
+    <div class='atkandsavediv'>
       <div class='mat-elevation-z8' style='background-color: rgb(130, 60, 165);'>
       <mat-card-title style='padding: 8px;'>
         Saving throws
       </mat-card-title>
-      <mat-card style='padding: 0px; border-radius: 0px; max-width: 22rem;'>
+      <mat-card class='atkandsavecard'>
         <mat-card-content style='padding: 6px;'>
-          all saves go here
-          <br>
-          <br>
-          <table>
-            <tr><td rowspan='3' style='font-size: 32px; margin-right: 1rem; padding-right: 1rem;'>15 Dex</td> <td style='font-weight: bold; font-size: 18px'>3rd Lvl fireball</td>
+
+
+          <label>Items</label>
+          <mat-divider></mat-divider>
+          <!-- item attacks get listed here -->
+          <table *ngFor="let save of itemsaves" class='tableitem'>
+            <tr><td rowspan='3' class='attackbonus'>
+              {{nonRegularFormula(save.saveDC)}}</td> <td class='originatorname'>{{save.name}}</td>
               </tr>
               <tr>
-                <td style='font-size: 18px;'>
-                  8d6 fire
+                <td class='damagedice'>
+                  {{nonRegularFormula(save.damage)}}
                 </td>
               </tr>
-              <tr>
-                <td style='font-size: 18px;'>
-                  save for half damage
+              <tr *ngIf="save.details != ''">
+                <td class='damagedice'>
+                  {{save.details}}
                 </td>
               </tr>
             </table>
+            <label>Features</label>
+            <mat-divider></mat-divider>
+            <!-- feature attacks go here -->
+            <table *ngFor="let save of featuresaves" class='tableitem'>
+              <tr><td rowspan='3' class='attackbonus'>
+                {{nonRegularFormula(save.saveDC)}}</td> <td class='originatorname'>{{save.name}}</td>
+                </tr>
+                <tr>
+                  <td class='damagedice'>
+                    {{nonRegularFormula(save.damage)}}
+                  </td>
+                </tr>
+                <tr *ngIf="save.details != ''">
+                  <td class='damagedice'>
+                    {{save.details}}
+                  </td>
+                </tr>
+              </table>
+              <label>Spells</label>
+              <mat-divider></mat-divider>
+              <!-- spell attacks go here -->
+<!--              <table *ngFor="let save of spellsaves" class='tableitem'>
+                <tr><td rowspan='3' class='attackbonus'>
+                  {{nonRegularFormula(save.saveDC)}}</td> <td class='originatorname'>{{save.name}}</td>
+                  </tr>
+                  <tr>
+                    <td class='damagedice'>
+                      {{nonRegularFormula(save.damage)}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="save.details != ''">
+                    <td class='damagedice'>
+                      {{save.details}}
+                    </td>
+                  </tr>
+                </table>
+-->
         </mat-card-content>
       </mat-card>
       </div>

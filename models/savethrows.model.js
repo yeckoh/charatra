@@ -18,10 +18,11 @@ var SavingThrowSchema = mongoose.Schema({
   // for testing subdoc popyulate only
   module.exports.MakeASavingThrow = function() {
     let newsave = new SavingThrow({
-      ownerfeature_id: 'we dont need this',
-      name: 'embedded savingthrow from a feature',
-      saveDC: '9million',
-      damage: '9bajillion'
+      ownerfeature_id: 'we probably need this',
+      name: 'Fireball',
+      details: 'save for half',
+      saveDC: '{intDC} dex',
+      damage: '8d6 fire'
     });
     newsave.save();
     return newsave._id;
