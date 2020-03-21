@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CharaService } from 'src/app/shared/chara.service';
 import { Containers } from 'src/app/shared/containers.model';
 import { Items } from 'src/app/shared/items.model';
@@ -10,7 +10,7 @@ import { MatDialog } from '@angular/material';
   templateUrl: './tab-inventory.component.html',
   styleUrls: ['./tab-inventory.component.css']
 })
-export class TabInventoryComponent implements OnInit {
+export class TabInventoryComponent implements OnInit, OnDestroy {
 
   constructor(private charaservice: CharaService,
               private matDialog: MatDialog) { }
@@ -28,6 +28,15 @@ export class TabInventoryComponent implements OnInit {
 
   private netWorth = 0;
   private totalWeight = 0;
+
+  private subscriptions = [];
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(element => {
+      element.unsubscribe();
+    });
+    this.subscriptions.length = 0;
+  }
 
   ngOnInit() {
     this.charaservice.listenfor('Updated_one_chara').subscribe(data => {

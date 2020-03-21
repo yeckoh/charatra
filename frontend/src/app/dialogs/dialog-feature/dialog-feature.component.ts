@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { CharaService } from 'src/app/shared/chara.service';
 import { Features } from 'src/app/shared/features.model';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material';
@@ -11,7 +11,7 @@ import { Attack } from 'src/app/shared/attack.model';
   templateUrl: './dialog-feature.component.html',
   styleUrls: ['./dialog-feature.component.css']
 })
-export class DialogFeatureComponent implements OnInit {
+export class DialogFeatureComponent implements OnInit, OnDestroy {
   feature: Features;
   constructor(private charaservice: CharaService,
               @Inject(MAT_DIALOG_DATA) data,
@@ -25,16 +25,25 @@ export class DialogFeatureComponent implements OnInit {
   titleFocus = false;
   descriptFocus = false;
 
+  private subscriptions = [];
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(element => {
+      element.unsubscribe();
+    });
+    this.subscriptions.length = 0;
+  }
+
   ngOnInit() {
-    this.charaservice.listenfor('Updated_one_chara').subscribe(data => {
+    this.subscriptions.push(this.charaservice.listenfor('Updated_one_chara').subscribe(data => {
     // really we only need the stats for formula evaluation
       const allfeatures = (data as Chara).listof_charafeatures;
       const featureIndex = allfeatures.findIndex(e => e._id === this.feature._id);
       this.feature = allfeatures[featureIndex];
-    });
+    }));
 
     /// TODO: TEST WITH SECOND MASHEEN
-    this.charaservice.listenfor('Updated_one_feature').subscribe(data => {
+    this.subscriptions.push(this.charaservice.listenfor('Updated_one_feature').subscribe(data => {
       // listen for UPDATE_ONE event
       // console.log('only receiving a feature');
       const castedData = data as Features;
@@ -47,44 +56,42 @@ export class DialogFeatureComponent implements OnInit {
       if (this.descriptFocus) {
         this.feature.descript = castedData.descript;
       }
-    });
+    }));
 
-    this.charaservice.listenfor('Deleted_one_feature').subscribe(data => {
+    this.subscriptions.push(this.charaservice.listenfor('Deleted_one_feature').subscribe(data => {
       // data is a featureid
       if (this.feature._id === data) { // the feature you're viewing got deleted
         this.thisDialog.close();
       }
-    });
+    }));
 
-    this.charaservice.listenfor('Created_new_attack').subscribe(data => {
+    this.subscriptions.push(this.charaservice.listenfor('Created_new_attack').subscribe(data => {
       // data is a new attack
-      let newattack = data as Attack;
-      if (newattack.parentFeature !== undefined && newattack.parentFeature === this.feature._id) {
+      const newattack = data as Attack;
+      if (newattack.parentFeature === this.feature._id) {
         this.feature.listof_atks.push(newattack);
         return;
       }
-    });
+    }));
 
-    this.charaservice.listenfor('Updated_one_attack').subscribe(data => {
+    this.subscriptions.push(this.charaservice.listenfor('Updated_one_attack').subscribe(data => {
       // data is a new attack
-      let newattack = data as Attack;
-      if (newattack.parentFeature !== undefined && newattack.parentFeature === this.feature._id) {
-        let attackIndex = this.feature.listof_atks.findIndex(e => e._id === newattack.parentFeature);
+      const newattack = data as Attack;
+      if (newattack.parentFeature === this.feature._id) {
+        const attackIndex = this.feature.listof_atks.findIndex(e => e._id === newattack.parentFeature);
         this.feature.listof_atks[attackIndex] = newattack;
         return;
       }
-    });
-    this.charaservice.listenfor('Deleted_feature_attack').subscribe(data => {
+    }));
+    this.subscriptions.push(this.charaservice.listenfor('Deleted_feature_attack').subscribe(data => {
       // data is the deleted attack
       const deletedattack = data as Attack;
 
-      if (deletedattack.parentFeature !== undefined && this.feature._id === deletedattack.parentFeature) {
-        console.log('pre featuredialog listofatks', this.feature.listof_atks);
-        let attackIndex = this.feature.listof_atks.findIndex(e => e._id === deletedattack._id);
+      if (this.feature._id === deletedattack.parentFeature) {
+        const attackIndex = this.feature.listof_atks.findIndex(e => e._id === deletedattack._id);
         this.feature.listof_atks.splice(attackIndex, 1);
-        console.log('post featuredialog listofatks', this.feature.listof_atks);
       }
-    });
+    }));
 
   }
 
@@ -113,6 +120,7 @@ export class DialogFeatureComponent implements OnInit {
     this.charaservice.sendback('Make_new_attack', forwardingdata);
   }
 
+  // tslint:disable: variable-name
   openAttackDialog(selected_attack) {
     this.attackDialog.open(DialogAttackComponent, {data: selected_attack});
   }

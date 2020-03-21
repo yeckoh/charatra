@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { CharaService } from 'src/app/shared/chara.service';
 
 
@@ -7,7 +7,7 @@ import { CharaService } from 'src/app/shared/chara.service';
   templateUrl: './dialog-newchara.component.html',
   styleUrls: ['./dialog-newchara.component.css']
 })
-export class DialogNewcharaComponent implements OnInit {
+export class DialogNewcharaComponent implements OnInit, OnDestroy {
 
   constructor(private charaservice: CharaService) { }
 
@@ -19,6 +19,14 @@ export class DialogNewcharaComponent implements OnInit {
   gender: string;
   race: string;
 
+  private subscriptions = [];
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(element => {
+      element.unsubscribe();
+    });
+    this.subscriptions.length = 0;
+  }
   ngOnInit() {
   }
 

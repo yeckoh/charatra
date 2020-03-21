@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import evaluate, { registerFunction } from 'ts-expression-evaluator';
 import { CharaService } from 'src/app/shared/chara.service';
 import { DialogFeatureComponent } from 'src/app/dialogs/dialog-feature/dialog-feature.component';
@@ -17,7 +17,7 @@ import { Spells } from 'src/app/shared/spells.model';
   templateUrl: './tab-feature.component.html',
   styleUrls: ['./tab-feature.component.css']
 })
-export class TabFeatureComponent implements OnInit {
+export class TabFeatureComponent implements OnInit, OnDestroy {
   constructor(private charaservice: CharaService,
               private featureDialog: MatDialog,
               private attackDialog: MatDialog,
@@ -73,6 +73,15 @@ export class TabFeatureComponent implements OnInit {
 
   // we need this to filter instead of foreach->findIndex-> if != -1 : splice
   public varForIdToFilter: any;
+
+  private subscriptions = [];
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(element => {
+      element.unsubscribe();
+    });
+    this.subscriptions.length = 0;
+  }
 
   // tslint:disable: one-line
   // tslint:disable: no-conditional-assignment
@@ -217,14 +226,14 @@ export class TabFeatureComponent implements OnInit {
     this.charaservice.listenfor('Created_new_attack').subscribe(data => {
       // data is a new attack
       // look for item parent, oof.
-      let newattack = data as Attack;
+      const newattack = data as Attack;
       if (newattack.parentFeature !== undefined) {
         this.featureattacks.push(newattack);
         return;
       }
       console.log('itemattackfilter...'); // UNTESTED
       // modify logic to account for new spell attacks
-      let filteredattacks = this.items.filter(e => e._id === newattack.parentItem);
+      const filteredattacks = this.items.filter(e => e._id === newattack.parentItem);
       if (filteredattacks.length === 1) {
         console.log('itemattackfilter success');
         this.itemattacks.push(newattack);

@@ -8,7 +8,7 @@ import { Attack } from 'src/app/shared/attack.model';
   templateUrl: './dialog-attack.component.html',
   styleUrls: ['./dialog-attack.component.scss']
 })
-export class DialogAttackComponent implements OnInit {
+export class DialogAttackComponent implements OnInit, OnDestroy {
   private attack: Attack;
 
   constructor(private charaservice: CharaService,
@@ -17,21 +17,28 @@ export class DialogAttackComponent implements OnInit {
                 this.attack = data;
                }
 
+  private subscriptions = [];
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(element => {
+      element.unsubscribe();
+    });
+    this.subscriptions.length = 0;
+  }
+
   ngOnInit() {
 
-    this.charaservice.listenfor('Updated_one_attack').subscribe(data => {
+    this.subscriptions.push(this.charaservice.listenfor('Updated_one_attack').subscribe(data => {
       // data is the updated attack
-    });
+    }));
 
-
-
-    this.charaservice.listenfor('Deleted_feature_attack').subscribe(data => {
+    this.subscriptions.push(this.charaservice.listenfor('Deleted_feature_attack').subscribe(data => {
       // data is the deleted attack
       const deletedattack = data as Attack;
       if (this.attack._id === deletedattack._id) {
         this.thisDialog.close();
       }
-    });
+    }));
     this.charaservice.listenfor('Deleted_item_attack').subscribe(data => {
       // data is the deleted attack
       const deletedattack = data as Attack;
@@ -39,13 +46,13 @@ export class DialogAttackComponent implements OnInit {
         this.thisDialog.close();
       }
     });
-    this.charaservice.listenfor('Deleted_spell_attack').subscribe(data => {
+    this.subscriptions.push(this.charaservice.listenfor('Deleted_spell_attack').subscribe(data => {
       // data is the deleted attack
       const deletedattack = data as Attack;
       if (this.attack._id === deletedattack._id) {
         this.thisDialog.close();
       }
-    });
+    }));
 
 
 
@@ -70,7 +77,7 @@ export class DialogAttackComponent implements OnInit {
       attackid: this.attack._id,
       charaid: this.charaservice.CharaId,
       parentid: undefined
-    }
+    };
     if (this.attack.parentFeature !== undefined) {
       forwardingdata.parentid = this.attack.parentFeature;
       this.charaservice.sendback('Delete_feature_attack', forwardingdata);

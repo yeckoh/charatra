@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { AuthService } from '../shared/auth.service';
 import { Router } from '@angular/router'; // router to redirect
@@ -12,14 +12,22 @@ import { MatSnackBar } from '@angular/material';
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.css']
 })
-export class SidenavComponent implements OnInit {
+export class SidenavComponent implements OnInit, OnDestroy {
 
   constructor(private authServ: AuthService,
               private router: Router,
               private alohaSnackBar: MatSnackBar,
               private charaservice: CharaService) { }
 
+  private subscriptions = [];
   private allcharas = [];
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(element => {
+      element.unsubscribe();
+    });
+    this.subscriptions.length = 0;
+  }
 
   ngOnInit() {
     this.charaservice.listenfor('Read_all_user_charas').subscribe((data) => {

@@ -9,13 +9,21 @@ import { CharaService } from '../shared/chara.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   constructor(private charaservice: CharaService,
               public dialog: MatDialog) { }
 
   // tslint:disable: member-ordering
   // tslint:disable: one-line
   // tslint:disable: no-conditional-assignment
+  private subscriptions = [];
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(element => {
+      element.unsubscribe();
+    });
+    this.subscriptions.length = 0;
+  }
 
   ngOnInit() {
   }

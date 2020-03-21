@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { CharaService } from 'src/app/shared/chara.service';
 import { Chara } from 'src/app/shared/chara.model';
@@ -8,7 +8,7 @@ import { Chara } from 'src/app/shared/chara.model';
   templateUrl: './dialog-stat.component.html',
   styleUrls: ['./dialog-stat.component.scss']
 })
-export class DialogStatComponent implements OnInit {
+export class DialogStatComponent implements OnInit, OnDestroy {
 
   public updata; // actual form input data which replaces the stat right before updating
   stat; // string value for our switch cases, oof!
@@ -62,6 +62,14 @@ export class DialogStatComponent implements OnInit {
       case 'stealth': this.updata = this.chara.skills.stealth; break;
       case 'survival': this.updata = this.chara.skills.survival; break;
     }
+  }
+  private subscriptions = [];
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(element => {
+      element.unsubscribe();
+    });
+    this.subscriptions.length = 0;
   }
 
   sendStatDialogUpdate() {

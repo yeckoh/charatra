@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { CharaService } from 'src/app/shared/chara.service';
 import { Chara } from 'src/app/shared/chara.model';
@@ -13,7 +13,7 @@ import { DialogStatComponent } from 'src/app/dialogs/dialog-stat/dialog-stat.com
   templateUrl: './tab-overview.component.html',
   styleUrls: ['./tab-overview.component.scss']
 })
-export class TabOverviewComponent implements OnInit {
+export class TabOverviewComponent implements OnInit, OnDestroy {
   private chara: Chara = new Chara();
     // pulled straight
   private str;
@@ -32,6 +32,7 @@ export class TabOverviewComponent implements OnInit {
   private chaMod;
 
   /// GRAB HIGHEST AC TOTAL FROM ITEMS AND PUT IT HERE OR SOMETHING
+  // tslint:disable: variable-name
   private calc_ac;
 
   private strSave;
@@ -96,6 +97,14 @@ export class TabOverviewComponent implements OnInit {
               private modpipe: ModifierPipe,
               private statdialog: MatDialog) { }// endof constructor
 
+  private subscriptions = [];
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(element => {
+      element.unsubscribe();
+    });
+    this.subscriptions.length = 0;
+  }
 
   // used by hpbar when changing current hitpoints. Potentially do stuff when dropped to 0.
   updateVal(item) {
