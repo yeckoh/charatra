@@ -2,6 +2,7 @@ import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { CharaService } from 'src/app/shared/chara.service';
 import { Chara } from 'src/app/shared/chara.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dialog-stat',
@@ -63,13 +64,10 @@ export class DialogStatComponent implements OnInit, OnDestroy {
       case 'survival': this.updata = this.chara.skills.survival; break;
     }
   }
-  private subscriptions = [];
+  private subscriptions: Subscription;
 
   ngOnDestroy() {
-    this.subscriptions.forEach(element => {
-      element.unsubscribe();
-    });
-    this.subscriptions.length = 0;
+    this.subscriptions.unsubscribe();
   }
 
   sendStatDialogUpdate() {
@@ -77,7 +75,7 @@ export class DialogStatComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.charaservice.listenfor('Updated_one_chara').subscribe((data) => {
+    this.subscriptions = (this.charaservice.listenfor('Updated_one_chara').subscribe((data) => {
       this.chara = data as Chara;
       // switch (this.stat) { <-- I KINDA LIKE NOT UPDATING THE STAT IF SOMEONE ELSE ALREADY SUBMITTED SOMETHING
       //   case 'str': this.updata = this.chara.stats.str; break;
@@ -101,7 +99,7 @@ export class DialogStatComponent implements OnInit, OnDestroy {
       //   case 'survival': this.updata = this.chara.skills.survival; break;
       // }
 
-    });
+    }));
 
   }
 

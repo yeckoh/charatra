@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { DialogNewcharaComponent } from '../dialogs/dialog-newchara/dialog-newchara.component';
 // import evaluate, { registerFunction } from 'ts-expression-evaluator';
@@ -9,21 +9,13 @@ import { CharaService } from '../shared/chara.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit {
   constructor(private charaservice: CharaService,
               public dialog: MatDialog) { }
 
   // tslint:disable: member-ordering
   // tslint:disable: one-line
   // tslint:disable: no-conditional-assignment
-  private subscriptions = [];
-
-  ngOnDestroy() {
-    this.subscriptions.forEach(element => {
-      element.unsubscribe();
-    });
-    this.subscriptions.length = 0;
-  }
 
   ngOnInit() {
   }

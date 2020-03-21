@@ -5,6 +5,7 @@ import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material';
 import { Chara } from 'src/app/shared/chara.model';
 import { DialogAttackComponent } from 'src/app/dialogs/dialog-attack/dialog-attack.component';
 import { Attack } from 'src/app/shared/attack.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dialog-feature',
@@ -25,17 +26,15 @@ export class DialogFeatureComponent implements OnInit, OnDestroy {
   titleFocus = false;
   descriptFocus = false;
 
-  private subscriptions = [];
+  private subscriptions: Subscription;
 
   ngOnDestroy() {
-    this.subscriptions.forEach(element => {
-      element.unsubscribe();
-    });
-    this.subscriptions.length = 0;
+    this.subscriptions.unsubscribe();
   }
 
+
   ngOnInit() {
-    this.subscriptions.push(this.charaservice.listenfor('Updated_one_chara').subscribe(data => {
+    this.subscriptions = (this.charaservice.listenfor('Updated_one_chara').subscribe(data => {
     // really we only need the stats for formula evaluation
       const allfeatures = (data as Chara).listof_charafeatures;
       const featureIndex = allfeatures.findIndex(e => e._id === this.feature._id);
@@ -43,7 +42,7 @@ export class DialogFeatureComponent implements OnInit, OnDestroy {
     }));
 
     /// TODO: TEST WITH SECOND MASHEEN
-    this.subscriptions.push(this.charaservice.listenfor('Updated_one_feature').subscribe(data => {
+    this.subscriptions.add(this.charaservice.listenfor('Updated_one_feature').subscribe(data => {
       // listen for UPDATE_ONE event
       // console.log('only receiving a feature');
       const castedData = data as Features;
@@ -58,14 +57,14 @@ export class DialogFeatureComponent implements OnInit, OnDestroy {
       }
     }));
 
-    this.subscriptions.push(this.charaservice.listenfor('Deleted_one_feature').subscribe(data => {
+    this.subscriptions.add(this.charaservice.listenfor('Deleted_one_feature').subscribe(data => {
       // data is a featureid
       if (this.feature._id === data) { // the feature you're viewing got deleted
         this.thisDialog.close();
       }
     }));
 
-    this.subscriptions.push(this.charaservice.listenfor('Created_new_attack').subscribe(data => {
+    this.subscriptions.add(this.charaservice.listenfor('Created_new_attack').subscribe(data => {
       // data is a new attack
       const newattack = data as Attack;
       if (newattack.parentFeature === this.feature._id) {
@@ -74,7 +73,7 @@ export class DialogFeatureComponent implements OnInit, OnDestroy {
       }
     }));
 
-    this.subscriptions.push(this.charaservice.listenfor('Updated_one_attack').subscribe(data => {
+    this.subscriptions.add(this.charaservice.listenfor('Updated_one_attack').subscribe(data => {
       // data is a new attack
       const newattack = data as Attack;
       if (newattack.parentFeature === this.feature._id) {
@@ -83,7 +82,7 @@ export class DialogFeatureComponent implements OnInit, OnDestroy {
         return;
       }
     }));
-    this.subscriptions.push(this.charaservice.listenfor('Deleted_feature_attack').subscribe(data => {
+    this.subscriptions.add(this.charaservice.listenfor('Deleted_feature_attack').subscribe(data => {
       // data is the deleted attack
       const deletedattack = data as Attack;
 

@@ -11,6 +11,7 @@ import { Savethrows } from 'src/app/shared/savethrows.model';
 import { Items } from 'src/app/shared/items.model';
 import { DialogAttackComponent } from 'src/app/dialogs/dialog-attack/dialog-attack.component';
 import { Spells } from 'src/app/shared/spells.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-tab-feature',
@@ -74,14 +75,12 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
   // we need this to filter instead of foreach->findIndex-> if != -1 : splice
   public varForIdToFilter: any;
 
-  private subscriptions = [];
+  private subscriptions: Subscription;
 
   ngOnDestroy() {
-    this.subscriptions.forEach(element => {
-      element.unsubscribe();
-    });
-    this.subscriptions.length = 0;
+    this.subscriptions.unsubscribe();
   }
+
 
   // tslint:disable: one-line
   // tslint:disable: no-conditional-assignment
@@ -129,7 +128,7 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.charaservice.listenfor('Updated_one_chara').subscribe(data => {
+    this.subscriptions = (this.charaservice.listenfor('Updated_one_chara').subscribe(data => {
       // set up shorthand variables for the user to use in formulas
       this.chara = data as Chara;
       this.updateProf();
@@ -175,20 +174,20 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
       });
       // spellpopulate
       console.log('heard updatedonechara');
-    });
+    }));
 
-    this.charaservice.listenfor('Created_new_feature').subscribe(data => {
+    this.subscriptions.add(this.charaservice.listenfor('Created_new_feature').subscribe(data => {
       this.features.push(data as Features);
       console.log('heard creatednewfeature');
-    });
+    }));
 
-    this.charaservice.listenfor('Updated_one_feature').subscribe(data => {
+    this.subscriptions.add(this.charaservice.listenfor('Updated_one_feature').subscribe(data => {
       const featureIndex = this.features.findIndex(e => e._id === (data as Features)._id);
       this.features[featureIndex] = data as Features;
       console.log('heard updatedonefeature');
-    });
+    }));
 
-    this.charaservice.listenfor('Deleted_one_feature').subscribe(data => {
+    this.subscriptions.add(this.charaservice.listenfor('Deleted_one_feature').subscribe(data => {
       // data is a featureid
       const delIndex = this.features.findIndex(e => e._id === data);
 
@@ -203,8 +202,8 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
       });
       // remove from local list
       this.features.splice(delIndex, 1);
-    });
-    this.charaservice.listenfor('Deleted_one_item').subscribe(data => {
+    }));
+    this.subscriptions.add(this.charaservice.listenfor('Deleted_one_item').subscribe(data => {
       // data is an itemid
       const delIndex = this.items.findIndex(e => e._id === data);
 
@@ -219,11 +218,11 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
       });
       // remove from local list
       this.items.splice(delIndex, 1);
-    });
+    }));
 
     // deleted one spell
 
-    this.charaservice.listenfor('Created_new_attack').subscribe(data => {
+    this.subscriptions.add(this.charaservice.listenfor('Created_new_attack').subscribe(data => {
       // data is a new attack
       // look for item parent, oof.
       const newattack = data as Attack;
@@ -239,7 +238,7 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
         this.itemattacks.push(newattack);
       }
       // look through spellattacks list or do we separate all 3
-    });
+    }));
 
     // made new item attack ?
     // made new item save ?
@@ -248,7 +247,7 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
 
 
     // look for the id in both item and features, rip. if its an item it may not even be in the equipped container (ie: we dont care anyways)
-    this.charaservice.listenfor('Updated_one_attack').subscribe(data => {
+    this.subscriptions.add(this.charaservice.listenfor('Updated_one_attack').subscribe(data => {
       // data is an attack
       const newattack = data as Attack;
       let attackIndex = this.itemattacks.findIndex(e => e._id === newattack._id);
@@ -263,9 +262,9 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
         return;
       }
       // spellattacks
-    });
+    }));
 
-    this.charaservice.listenfor('Deleted_item_attack').subscribe(data => {
+    this.subscriptions.add(this.charaservice.listenfor('Deleted_item_attack').subscribe(data => {
       // data is the deleted attack
       const deletedattack = data as Attack;
       const attackIndex = this.itemattacks.findIndex(e => e._id === deletedattack._id);
@@ -273,8 +272,8 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
         this.itemattacks.splice(attackIndex, 1);
         this.items = this.items.filter(item => item.listof_attacks.findIndex(attack => attack._id === deletedattack._id) !== -1);
       }
-    });
-    this.charaservice.listenfor('Deleted_feature_attack').subscribe(data => {
+    }));
+    this.subscriptions.add(this.charaservice.listenfor('Deleted_feature_attack').subscribe(data => {
       // data is the deleted attack
       const deletedattack = data as Attack;
       const attackIndex = this.featureattacks.findIndex(e => e._id === deletedattack._id);
@@ -284,8 +283,8 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
         // this.features = this.features.filter(feature => feature.listof_atks.filter(attack => attack !== deletedattack)); // TRY TO: remove attack from parent feature in this.features too
         // console.log('post filter: ', this.features);
       }
-    });
-    this.charaservice.listenfor('Deleted_spell_attack').subscribe(data => {
+    }));
+    this.subscriptions.add(this.charaservice.listenfor('Deleted_spell_attack').subscribe(data => {
       // data is the deleted attack
       const deletedattack = data as Attack;
       const attackIndex = this.spellattacks.findIndex(e => e._id === deletedattack._id);
@@ -293,7 +292,7 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
         this.spellattacks.splice(attackIndex, 1);
         // update the relevant parentspell to remove the attackid since it no longer exists
       }
-    });
+    }));
 
 
 

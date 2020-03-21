@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CharaService } from 'src/app/shared/chara.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-tab-persona',
@@ -10,13 +11,10 @@ export class TabPersonaComponent implements OnInit, OnDestroy {
 
   constructor(private charaservice: CharaService) { }
 
-  private subscriptions = [];
+  private subscriptions: Subscription;
 
   ngOnDestroy() {
-    this.subscriptions.forEach(element => {
-      element.unsubscribe();
-    });
-    this.subscriptions.length = 0;
+    this.subscriptions.unsubscribe();
   }
 
   ngOnInit() {

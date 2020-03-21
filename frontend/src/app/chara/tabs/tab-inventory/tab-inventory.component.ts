@@ -4,6 +4,7 @@ import { Containers } from 'src/app/shared/containers.model';
 import { Items } from 'src/app/shared/items.model';
 import { Chara } from 'src/app/shared/chara.model';
 import { MatDialog } from '@angular/material';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-tab-inventory',
@@ -29,17 +30,15 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
   private netWorth = 0;
   private totalWeight = 0;
 
-  private subscriptions = [];
+  private subscriptions: Subscription;
 
   ngOnDestroy() {
-    this.subscriptions.forEach(element => {
-      element.unsubscribe();
-    });
-    this.subscriptions.length = 0;
+    this.subscriptions.unsubscribe();
   }
 
+
   ngOnInit() {
-    this.charaservice.listenfor('Updated_one_chara').subscribe(data => {
+    this.subscriptions = (this.charaservice.listenfor('Updated_one_chara').subscribe(data => {
       const chara = data as Chara;
       this.equipment = chara.equipped_itemcontainer as Containers;
       this.inventory = chara.inventory_container as Containers;
@@ -70,34 +69,34 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
         this.netWorth += element.value * element.count;
       });
       console.log(data);
-    }); // endof listenfor updatedonechara
+    })); // endof listenfor updatedonechara
 
 
     /// TODO: figure out if we want 1 set of hooks for all 3 containers
     // these 3 pretty much only handle item moves
     // 2 should always get fired on-move. one to remove from their list, the other to add to their list
-    this.charaservice.listenfor('Updated_equipment_container').subscribe(updatedcontainer => {
+    this.subscriptions.add(this.charaservice.listenfor('Updated_equipment_container').subscribe(updatedcontainer => {
 
-    });
+    }));
 
-    this.charaservice.listenfor('Updated_inventory_container').subscribe(updatedcontainer => {
+    this.subscriptions.add(this.charaservice.listenfor('Updated_inventory_container').subscribe(updatedcontainer => {
 
-    });
+    }));
 
-    this.charaservice.listenfor('Updated_extra_container').subscribe(updatedcontainer => {
+    this.subscriptions.add(this.charaservice.listenfor('Updated_extra_container').subscribe(updatedcontainer => {
       // if something was moved or taken from here, recalc value
-    });
+    }));
 
-    this.charaservice.listenfor('Made_new_item').subscribe(data => {
+    this.subscriptions.add(this.charaservice.listenfor('Made_new_item').subscribe(data => {
       // always go into inventory
       const newitem = data as Items;
       this.listof_inventoryitems.push(newitem);
       this.inventory.listof_items.push(newitem);
-    });
+    }));
 
 
     // the item wasn't moved, we just updated it's properties
-    this.charaservice.listenfor('Updated_one_item').subscribe(data => {
+    this.subscriptions.add(this.charaservice.listenfor('Updated_one_item').subscribe(data => {
       const updateditem = data as Items; // gotta cast to use it
       let itemIndex = this.listof_equipmentitems.findIndex(e => e._id === updateditem._id); // EQUIPMENT LIST
       if (itemIndex !== -1) {
@@ -119,7 +118,7 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
       }
       itemIndex = this.listof_extraitems.findIndex(e => e._id === updateditem._id); // EXTRA LIST
       this.listof_extraitems[itemIndex] = updateditem;
-    });
+    }));
 
 
   } // endof.ngoninit

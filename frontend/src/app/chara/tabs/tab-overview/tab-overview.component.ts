@@ -4,7 +4,7 @@ import { CharaService } from 'src/app/shared/chara.service';
 import { Chara } from 'src/app/shared/chara.model';
 import { ModifierPipe } from 'src/app/pipes/modifier.pipe';
 import evaluate, { registerFunction } from 'ts-expression-evaluator';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { DialogStatComponent } from 'src/app/dialogs/dialog-stat/dialog-stat.component';
 
@@ -97,13 +97,10 @@ export class TabOverviewComponent implements OnInit, OnDestroy {
               private modpipe: ModifierPipe,
               private statdialog: MatDialog) { }// endof constructor
 
-  private subscriptions = [];
+  private subscriptions: Subscription;
 
   ngOnDestroy() {
-    this.subscriptions.forEach(element => {
-      element.unsubscribe();
-    });
-    this.subscriptions.length = 0;
+    this.subscriptions.unsubscribe();
   }
 
   // used by hpbar when changing current hitpoints. Potentially do stuff when dropped to 0.
@@ -123,7 +120,7 @@ export class TabOverviewComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.charaservice.listenfor('Updated_one_chara').subscribe((data) => {
+    this.subscriptions = (this.charaservice.listenfor('Updated_one_chara').subscribe((data) => {
       this.chara = data as Chara;
       this.updateProf();
       this.str = this.chara.stats.str;
@@ -194,7 +191,7 @@ export class TabOverviewComponent implements OnInit, OnDestroy {
 
       this.totalHitpoints = this.regularFormula(this.chara.formuolis.hitpoints);
       this.initiative = this.regularFormula(this.chara.formuolis.initiative);
-    });
+    }));
 
   }
 

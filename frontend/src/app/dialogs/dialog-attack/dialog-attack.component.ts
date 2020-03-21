@@ -2,6 +2,7 @@ import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { CharaService } from 'src/app/shared/chara.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Attack } from 'src/app/shared/attack.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dialog-attack',
@@ -17,36 +18,33 @@ export class DialogAttackComponent implements OnInit, OnDestroy {
                 this.attack = data;
                }
 
-  private subscriptions = [];
+  private subscriptions: Subscription;
 
   ngOnDestroy() {
-    this.subscriptions.forEach(element => {
-      element.unsubscribe();
-    });
-    this.subscriptions.length = 0;
+    this.subscriptions.unsubscribe();
   }
 
   ngOnInit() {
 
-    this.subscriptions.push(this.charaservice.listenfor('Updated_one_attack').subscribe(data => {
+    this.subscriptions = (this.charaservice.listenfor('Updated_one_attack').subscribe(data => {
       // data is the updated attack
     }));
 
-    this.subscriptions.push(this.charaservice.listenfor('Deleted_feature_attack').subscribe(data => {
+    this.subscriptions.add(this.charaservice.listenfor('Deleted_feature_attack').subscribe(data => {
       // data is the deleted attack
       const deletedattack = data as Attack;
       if (this.attack._id === deletedattack._id) {
         this.thisDialog.close();
       }
     }));
-    this.charaservice.listenfor('Deleted_item_attack').subscribe(data => {
+    this.subscriptions.add(this.charaservice.listenfor('Deleted_item_attack').subscribe(data => {
       // data is the deleted attack
       const deletedattack = data as Attack;
       if (this.attack._id === deletedattack._id) {
         this.thisDialog.close();
       }
-    });
-    this.subscriptions.push(this.charaservice.listenfor('Deleted_spell_attack').subscribe(data => {
+    }));
+    this.subscriptions.add(this.charaservice.listenfor('Deleted_spell_attack').subscribe(data => {
       // data is the deleted attack
       const deletedattack = data as Attack;
       if (this.attack._id === deletedattack._id) {

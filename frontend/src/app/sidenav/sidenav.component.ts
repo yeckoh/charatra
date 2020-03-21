@@ -5,6 +5,7 @@ import { Router } from '@angular/router'; // router to redirect
 import { CharaService } from '../shared/chara.service';
 import { Chara } from '../shared/chara.model';
 import { MatSnackBar } from '@angular/material';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -19,28 +20,26 @@ export class SidenavComponent implements OnInit, OnDestroy {
               private alohaSnackBar: MatSnackBar,
               private charaservice: CharaService) { }
 
-  private subscriptions = [];
   private allcharas = [];
 
+  private subscriptions: Subscription;
+
   ngOnDestroy() {
-    this.subscriptions.forEach(element => {
-      element.unsubscribe();
-    });
-    this.subscriptions.length = 0;
+    this.subscriptions.unsubscribe();
   }
 
   ngOnInit() {
-    this.charaservice.listenfor('Read_all_user_charas').subscribe((data) => {
+    this.subscriptions = (this.charaservice.listenfor('Read_all_user_charas').subscribe((data) => {
         this.allcharas = data as Chara[];
         console.log('readallcharas\n', data);
-    });
+    }));
 
-    this.charaservice.listenfor('Updated_one_chara').subscribe((data) => {
+    this.subscriptions.add(this.charaservice.listenfor('Updated_one_chara').subscribe((data) => {
       const replacementIndex = this.allcharas.findIndex(e => e._id === (data as Chara)._id);
       this.allcharas[replacementIndex] = data as Chara;
-    });
+    }));
 
-    this.charaservice.listenfor('Created_new_chara').subscribe((data) => {
+    this.subscriptions.add(this.charaservice.listenfor('Created_new_chara').subscribe((data) => {
       // get all characterids in user localstorage obj
       // append this new chara id
       // set localstorage new characterlist
@@ -48,9 +47,9 @@ export class SidenavComponent implements OnInit, OnDestroy {
       userinfo.charas.push((data as Chara)._id); // add id to list of charas
       localStorage.setItem('user', JSON.stringify(userinfo));
       this.allcharas.push(data);
-    });
+    }));
 
-    this.charaservice.listenfor('Deleted_one_chara').subscribe((data) => {
+    this.subscriptions.add(this.charaservice.listenfor('Deleted_one_chara').subscribe((data) => {
       // get all characterids in user localstorage obj
       // remove id
       // set localstorage new characterlist
@@ -60,13 +59,13 @@ export class SidenavComponent implements OnInit, OnDestroy {
       localStorage.setItem('user', JSON.stringify(userinfo));
       this.allcharas.splice(arrayIndex, 1);
       console.log('attempted to delete');
-    });
+    }));
 
-    this.charaservice.listenfor('Read_user_ids').subscribe((charaids) => {
+    this.subscriptions.add(this.charaservice.listenfor('Read_user_ids').subscribe((charaids) => {
       const userinfo = JSON.parse(localStorage.getItem('user'));
       userinfo.charas = charaids; // add id to list of charas
       localStorage.setItem('user', JSON.stringify(userinfo));
-    });
+    }));
 
   }
 

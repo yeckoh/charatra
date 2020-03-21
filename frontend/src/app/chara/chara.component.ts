@@ -3,6 +3,7 @@ import { Component, OnInit, OnDestroy} from '@angular/core';
 import { CharaService } from '../shared/chara.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-chara',
@@ -15,21 +16,18 @@ export class CharaComponent implements OnInit, OnDestroy {
               private router: Router,
               private alohaSnackBar: MatSnackBar) { }
 
-  private subscriptions = [];
+  private subscriptions: Subscription;
 
   ngOnDestroy() {
-    this.subscriptions.forEach(element => {
-      element.unsubscribe();
-    });
-    this.subscriptions.length = 0;
+    this.subscriptions.unsubscribe();
   }
 
    ngOnInit() {
-     this.charaservice.listenfor('Deleted_this_chara').subscribe(data => {
+    this.subscriptions = (this.charaservice.listenfor('Deleted_this_chara').subscribe(data => {
       this.alohaSnackBar.open('Someone deleted this character', 'okay',
         {duration: 2000, verticalPosition: 'top', panelClass: ['alohasnackbar']});
       this.router.navigate(['/home']);
-     });
+     }));
    } // end.of ngoninit
 
 }
