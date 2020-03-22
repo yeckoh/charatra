@@ -72,7 +72,7 @@ const appRoutes: Routes = [
     FlashMessagesModule.forRoot()
   ],
   providers: [ValidateService, AuthService, CharaService],
-  entryComponents: [DialogNewcharaComponent, DialogFeatureComponent],
+  entryComponents: [DialogNewcharaComponent, DialogFeatureComponent, DialogPersonaComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
