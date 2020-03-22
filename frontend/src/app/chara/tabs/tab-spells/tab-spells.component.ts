@@ -13,7 +13,7 @@ export class TabSpellsComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription;
 
   ngOnDestroy() {
-    this.subscriptions.unsubscribe();
+    // this.subscriptions.unsubscribe();
   }
 
   ngOnInit() {

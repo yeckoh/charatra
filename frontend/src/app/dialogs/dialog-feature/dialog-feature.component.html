@@ -14,12 +14,27 @@
   <button mat-button class='mat-elevation-z4' color='primary'>New Proficiency?</button>
   </div>
 
-  <div *ngFor="let item of feature.listof_atks" (click)='openAttackDialog(item)'>
-    <label>ngfor attack</label>
+  <div class='attunementseparatorlabel'> Attacks </div>
+  <div *ngFor="let attack of feature.listof_atks" (click)='openAttackDialog(attack)'>
+    <table> <!-- attack item -->
+      <tr><td rowspan='2' class='attackbonus'>
+        <label *ngIf="nonRegularFormula(attack.atkbonus) > -1">+</label>
+        {{nonRegularFormula(attack.atkbonus)}}</td>
+          <td class='damagedice'>
+            {{nonRegularFormula(attack.damage)}}
+          </td>
+        </tr>
+        <tr *ngIf="attack.details != ''">
+          <td class='damagedice'>
+            {{attack.details}}
+          </td>
+        </tr>
+      </table>
   </div>
 
+  <div class='attunementseparatorlabel'> Saves </div>
   <div *ngFor="let item of feature.listof_saves">
-    <p>ngfor saves</p>
+    <p>ngfor item</p>
   </div>
 
   <div *ngFor="let item of feature.listof_featureprofs">

@@ -110,7 +110,7 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
   openFeatureDialog(selected_feature) {
     // this.features = selected_feature;
     // open accepts 2 params (component, optional_configuration {data: something})
-    this.featureDialog.open(DialogFeatureComponent, {data: selected_feature});
+    this.featureDialog.open(DialogFeatureComponent, {data: {selected_feature, chara: this.chara}});
   }
 
   openAttackDialog(selected_attack) {
@@ -182,10 +182,21 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
     }));
 
     this.subscriptions.add(this.charaservice.listenfor('Updated_one_feature').subscribe(data => {
-      const featureIndex = this.features.findIndex(e => e._id === (data as Features)._id);
-      this.features[featureIndex] = data as Features;
-      console.log('heard updatedonefeature');
+      const newdata = data as Features;
+      const featureIndex = this.features.findIndex(e => e._id === newdata._id);
+      // this.features[featureIndex] = data as Features; <-- does not return listof_ subdocs
+      // either filter and substitute new, replace and substitute old, or make more calls to populate and replace
+      // this.charaservice.sendback('Get_all_attacks', newdata.listof_attacks);
+      // this.charaservice.sendback('Get_all_saves', newdata.listof_saves);
+      this.features[featureIndex].descript = newdata.descript;
+      this.features[featureIndex].selected_color = newdata.selected_color;
+      this.features[featureIndex].title = newdata.title;
+      this.features[featureIndex].toggleable = newdata.toggleable;
+      this.features[featureIndex].uses = newdata.uses;
+      this.features[featureIndex].uses_left = newdata.uses_left;
     }));
+    // listenfor('Read_all_attacks') and replace
+    // listenfor('Read_all_saves') and replace
 
     this.subscriptions.add(this.charaservice.listenfor('Deleted_one_feature').subscribe(data => {
       // data is a featureid
@@ -278,10 +289,11 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
       const deletedattack = data as Attack;
       const attackIndex = this.featureattacks.findIndex(e => e._id === deletedattack._id);
       if (attackIndex !== -1) { // was it from an active feature? <-- UNIMPLEMENTED RIGHT NOW, ALWAYS TRUE
-        // console.log('pre filter: ', this.features);
-        this.featureattacks.splice(attackIndex, 1);
-        // this.features = this.features.filter(feature => feature.listof_atks.filter(attack => attack !== deletedattack)); // TRY TO: remove attack from parent feature in this.features too
-        // console.log('post filter: ', this.features);
+        this.featureattacks.splice(attackIndex, 1); // remove from sidebarattack list
+        const featureIndex = this.features.findIndex(e => e._id === deletedattack.parentFeature); // remove child from the feature in featurelist
+        // console.log('pre filter: ', this.features[featureIndex].listof_atks);
+        this.features[featureIndex].listof_atks = this.features[featureIndex].listof_atks.filter(e => e._id !== deletedattack._id) as [Attack];
+        // console.log('post filter: ', this.features[featureIndex].listof_atks);
       }
     }));
     this.subscriptions.add(this.charaservice.listenfor('Deleted_spell_attack').subscribe(data => {

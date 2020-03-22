@@ -30,6 +30,7 @@ import { CharaService } from './shared/chara.service';
 import { ModifierPipe } from './pipes/modifier.pipe';
 import { DialogStatComponent } from './dialogs/dialog-stat/dialog-stat.component';
 import { DialogAttackComponent } from './dialogs/dialog-attack/dialog-attack.component';
+import { DialogItemComponent } from './dialogs/dialog-item/dialog-item.component';
 
 const appRoutes: Routes = [
   { path: '', component: SigninComponent }, // TODO: make a splashpage
@@ -57,7 +58,8 @@ const appRoutes: Routes = [
     DialogFeatureComponent,
     ModifierPipe,
     DialogStatComponent,
-    DialogAttackComponent
+    DialogAttackComponent,
+    DialogItemComponent
   ],
   imports: [
     BrowserModule,
