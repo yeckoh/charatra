@@ -31,6 +31,7 @@ import { DialogFeatureComponent } from './dialogs/dialog-feature/dialog-feature.
 import { CharaService } from './shared/chara.service';
 import { ModifierPipe } from './pipes/modifier.pipe';
 import { EquipmentListComponent } from './equipment-list/equipment-list.component';
+import { DialogPersonaComponent } from './dialog-persona/dialog-persona.component';
 
 const appRoutes: Routes = [
   { path: '', component: SigninComponent }, // TODO: make a splashpage
@@ -58,7 +59,8 @@ const appRoutes: Routes = [
     SecretSocketComponent,
     DialogFeatureComponent,
     ModifierPipe,
-    EquipmentListComponent
+    EquipmentListComponent,
+    DialogPersonaComponent
   ],
   imports: [
     BrowserModule,
