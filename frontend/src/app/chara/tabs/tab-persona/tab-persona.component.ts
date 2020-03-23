@@ -16,15 +16,6 @@ export class TabPersonaComponent implements OnInit, OnDestroy {
 
   private chara: Chara = new Chara();
 
-  private name;
-  private gender;
-  private description;
-  private personality;
-  private ideals;
-  private bonds;
-  private race;
-  private background;
-
   private subscriptions: Subscription;
 
   constructor(private charaservice: CharaService, private personaDialog: MatDialog) { }
@@ -35,23 +26,16 @@ export class TabPersonaComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscriptions = (this.charaservice.listenfor('Updated_one_chara').subscribe((data) => {
+      console.log(this.chara.persona);
       this.chara = data as Chara;
-      this.name = this.chara.persona.name;
-      this.gender = this.chara.persona.gender;
-      this.description = this.chara.persona.description;
-      this.personality = this.chara.persona.personality;
-      this.ideals = this.chara.persona.ideals;
-      this.bonds = this.chara.persona.bonds;
-      this.race = this.chara.persona.race;
-      this.background = this.chara.persona.background;
-
-      console.log('did a thing')
+      console.log("s");
     }));
+
   }
 
   // The parameter is the "dataType" the communitcates what is being changed in the persona tab
   openPersonaDialog(personaDataType) {
-    this.personaDialog.open(DialogPersonaComponent, {data: {inPersonaDataType: personaDataType}});
+    let refDialog = this.personaDialog.open(DialogPersonaComponent, {data: {inPersonaDataType: personaDataType, currentValue: this.chara}});
     console.log(personaDataType + " was clicked on.");
   }
 }
