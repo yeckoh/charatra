@@ -1,5 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material';
+import { CharaService } from 'src/app/shared/chara.service';
+import { SecretSocketComponent } from 'src/app/secret-socket/secret-socket.component';
 
 @Component({
   selector: 'app-dialog-persona',
