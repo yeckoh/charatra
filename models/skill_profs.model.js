@@ -14,7 +14,7 @@ var SkillProfSchema = mongoose.Schema({
     nature: String,
     perception: String,
     performance: String,
-    persuation: String,
+    persuasion: String,
     religion: String,
     sleight_of_hand: String,
     stealth: String,
@@ -25,3 +25,28 @@ var SkillProfSchema = mongoose.Schema({
 const Skill_Prof = module.exports = mongoose.model('Skill_Profs', SkillProfSchema);
   
 // schema model functions -> {mongoose functions}
+
+
+module.exports.MakeProficiencies = function() {
+    let newProfList = new Skill_Prof ({
+        acrobatics: 'dexMod',
+        animal_handling: 'wisMod',
+        arcana: 'intMod',
+        athletics: 'strMod',
+        deception: 'chaMod',
+        history: 'intMod',
+        insight: 'wisMod',
+        intimidation: 'chaMod',
+        investigation: 'intMod',
+        medicine: 'wisMod',
+        nature: 'intMod',
+        perception: 'wisMod',
+        performance: 'chaMod',
+        persuasion: 'chaMod',
+        religion: 'intMod',
+        sleight_of_hand: 'dexMod',
+        stealth: 'dexMod',
+        survival: 'wisMod'
+    });
+    return newProfList;
+}

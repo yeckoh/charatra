@@ -1,0 +1,44 @@
+<div>
+
+
+  <table>
+    <tr>
+      <td rowspan=3 style='padding-right: 2rem;'>
+        <mat-form-field class='formulabar'>
+          <input matInput placeholder='Attack Bonus' (change)='updateAttack()' [(ngModel)]="attack.atkbonus">
+        </mat-form-field>
+      </td>
+    <td>
+  <mat-form-field>
+    <input matInput placeholder='Attack Name' (change)='updateAttack()' [(ngModel)]="attack.name">
+  </mat-form-field>
+  </td>
+</tr>
+<tr>
+  <td>
+    <mat-form-field class='formulabar'>
+      <input matInput placeholder='Damage' (change)='updateAttack()' [(ngModel)]="attack.damage">
+    </mat-form-field>
+  </td>
+    </tr>
+<tr>
+  <td>
+    <mat-form-field class='formulabar'>
+      <input matInput placeholder='Properties' (change)='updateAttack()' [(ngModel)]="attack.details">
+    </mat-form-field>
+    </td>
+  </tr>
+</table>
+<button mat-button color='warn' (click)='deleteAttack()'>del</button>
+
+
+
+
+
+
+
+
+
+
+
+</div>

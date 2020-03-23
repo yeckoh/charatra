@@ -1,12 +1,55 @@
 .dialogdiv {
-  width: 32rem;
+  width: 40rem;
+  min-width: 16rem;
   height: 32rem;
 }
 
 .dialogtext {
-  width: 32rem;
+  width: 100%;
+  min-width: 16rem;
+  height: 16rem;
   word-wrap: break-word;
   white-space: pre-wrap;
   overflow:hidden;
   resize:none;
+}
+
+
+.atkandsavediv {
+  width: 22rem;
+  padding: 8px;
+}
+
+.atkandsavecard {
+  padding: 0px;
+  border-radius: 0px;
+  max-width: 22rem;
+}
+
+.attackbonus {
+  font-size: 32px;
+  margin-right: 1rem;
+  padding-right: 1rem;
+}
+
+.originatorname {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.damagedice {
+  font-size: 18px;
+}
+
+.tableitem {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.attunementseparatorlabel {
+  padding: 1rem;
+  font-size: 18px;
+  padding-bottom: 0.5rem;
+
+  color: darkgray;
 }

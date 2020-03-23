@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { SecretSocketComponent } from 'src/app/secret-socket/secret-socket.component';
+import { Component, OnInit } from '@angular/core';
+import { CharaService } from 'src/app/shared/chara.service';
 
 
 @Component({
@@ -9,7 +9,7 @@ import { SecretSocketComponent } from 'src/app/secret-socket/secret-socket.compo
 })
 export class DialogNewcharaComponent implements OnInit {
 
-  constructor() { }
+  constructor(private charaservice: CharaService) { }
 
   public cardtitle = 'nothing';
   public cardcontent = 'card content';
@@ -18,6 +18,8 @@ export class DialogNewcharaComponent implements OnInit {
   charaname: string;
   gender: string;
   race: string;
+
+
 
   ngOnInit() {
   }
@@ -34,12 +36,13 @@ export class DialogNewcharaComponent implements OnInit {
     }
 
     const newChara = {
+      userid: this.charaservice.UserRoom,
       name: this.charaname,
       gender: this.gender,
       race: this.race
     };
 
-    SecretSocketComponent.newCharacter(newChara);
+    this.charaservice.sendback('Make_new_chara', newChara);
 
 
   } // end.of onnewcharasubmit

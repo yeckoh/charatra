@@ -11,4 +11,8 @@ export class Attack {
   details: string;
   atkbonus: string;
   damage: string;
+
+  parentFeature: string;
+  parentItem: string;
+  parentSpell: string;
 }

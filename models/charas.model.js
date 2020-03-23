@@ -1,6 +1,11 @@
 /// defines the entrypoint for the chara model
 
 const mongoose = require('mongoose');
+Container = require('./containers.model');
+Feature = require('./features.model');
+// require('./classes.model');
+require('./skill_profs.model');
+// require('./spell_list.model');
 
 /// TODO: HITDICE
 
@@ -8,30 +13,34 @@ const mongoose = require('mongoose');
 // create a chara model
 var CharaSchema = mongoose.Schema({
   selected_color: String,
-  feature_category0: String, // user defined feature separation names
-  feature_category1: String,
-  feature_category2: String,
-  feature_category3: String,
 
   current_hitpoints: Number,
   deathsaves: Number, // -3 to 3 for now. -3:3 maps -> 3fails, 3successes
 
-  // stats:{
-  //   // str: Number,
-  //   // dex: Number,
-  //   // con: Number,
-  //   // int: Number,
-  //   // wis: Number,
-  //   // cha: Number,
-  //   // NatAC: Number,
-  //   // total_AC: Number,
-  //   // total_speed: Number,
-  //   // total_hitpoints: Number,
-  //   // total_hitdice: Number, <-- potentially separate into its own model
-  //   // total_lvl: Number,
-  //   // total_proficiencybonus: Number,
-  //   // total_casterlvl: Number
-  // },
+  stats:{
+    str: Number,
+    dex: Number,
+    con: Number,
+    int: Number,
+    wis: Number,
+    cha: Number,
+    baseAC: Number,
+    speed: Number,
+    level: Number,
+  },
+  formuolis: {
+    hitpoints: String,
+    initiative: String,
+    proficiency: String
+  },
+  saves: {
+    str: String,
+    dex: String,
+    con: String,
+    int: String,
+    wis: String,
+    cha: String,
+  },
 
   spellslots: {
     first: Number,
@@ -52,24 +61,24 @@ var CharaSchema = mongoose.Schema({
     personality: String,
     ideals: String,
     bonds: String,
-    race: {
-      actualrace: String,
-      listof_racefeatures: [mongoose.Schema.Types.ObjectId],
-      racespelllist: mongoose.Schema.Types.ObjectId
-    },
-    background: {
-      actualbackground: String,
-      listof_backgroundfeatures: [mongoose.Schema.Types.ObjectId]
-    }
+    race: String,
+    background: String,
   },
 
-  skills: mongoose.Schema.Types.ObjectId,
+  skills: mongoose.model('Skill_Profs').schema,
 
-  equipped_itemcontainer: mongoose.Schema.Types.ObjectId, // a containerid
-  inventory_container: mongoose.Schema.Types.ObjectId, // a containerid
-  listof_characontainers: [mongoose.Schema.Types.ObjectId], // a list of containerids
-  listof_characlasses: [mongoose.Schema.Types.ObjectId], // a list of classes
-  listof_charafeatures: [mongoose.Schema.Types.ObjectId], // a list of features
+  // equipped_itemcontainer: mongoose.model('Containers').schema, // a containerid
+  // inventory_container: mongoose.model('Containers').schema, // a containerid
+  equipped_itemcontainer: {type: mongoose.Schema.Types.ObjectId, ref: 'Containers'}, // a containerid
+  inventory_container: {type: mongoose.Schema.Types.ObjectId, ref: 'Containers'}, // a containerid
+
+
+  // REVISIT: list of extra containers instead of a single extracontainer
+  extra_characontainer: {type: mongoose.Schema.Types.ObjectId, ref: 'Containers'}, // a list of containerids
+  listof_characlasses: [{type: mongoose.Schema.Types.ObjectId, ref: 'Classes'}], // a list of classes
+  //  listof_charafeatures: [mongoose.model('Features').schema], // a list of features
+  listof_charafeatures: [{type: mongoose.Schema.Types.ObjectId, ref: 'Features'}], // a list of features
+  listof_spelllists: [{type: mongoose.Schema.Types.ObjectId, ref: 'Spell_list'}],
 
   special_stuff: {
     superiority_dice: Number,
@@ -83,9 +92,18 @@ var CharaSchema = mongoose.Schema({
 });
 
 
+
+// pre operations must come before the model definition according to docs
+// before deleting this character, call remove on immediate children from other collections, who will also call pre.remove
+
+
+
 const Character = module.exports = mongoose.model('Characters', CharaSchema);
 
 // schema model functions -> {mongoose functions}
+
+
+
 
 
 
@@ -109,7 +127,66 @@ module.exports.GetAllCharacters = function(allids) {
 
 module.exports.GetOneCharacter = function(charaid) {
   // returns a promise
-  var query = Character.findById(charaid).exec();
+  var query = Character.findById(charaid)
+  .populate({ // feature attacks
+    path: 'listof_charafeatures',
+    populate: {path: 'listof_atks'}
+  })
+  .populate({ // we cant populate multiple paths from one command
+    path: 'listof_charafeatures',
+    populate: {path: 'listof_saves'}
+  })
+  .populate({ // equipment item attacks
+    path: 'equipped_itemcontainer',
+    populate: {
+      path: 'listof_items',
+      populate: {
+        path: 'listof_attacks'
+      }}
+  })
+  .populate({ // equipment item saves
+    path: 'equipped_itemcontainer',
+    populate: {
+      path: 'listof_items',
+      populate: {
+        path: 'listof_savingthrows'
+      }}
+  })
+  .populate({ // inventory item attacks
+    path: 'inventory_container',
+    populate: {
+      path: 'listof_items',
+      populate: {
+        path: 'listof_attacks'
+      }}
+  })
+  .populate({ // inventory item saves
+    path: 'inventory_container',
+    populate: {
+      path: 'listof_items',
+      populate: {
+        path: 'listof_savingthrows'
+      }}
+  })
+  .populate({ // extra attacks
+    path: 'extra_characontainer',
+    populate: {
+      path: 'listof_items',
+      populate: {
+        path: 'listof_attacks'
+      }}
+  })
+  .populate({ // extra saves
+    path: 'extra_characontainer',
+    populate: {
+      path: 'listof_items',
+      populate: {
+        path: 'listof_savingthrows'
+      }}
+  })
+  // populate spelllists and classes too
+  .exec();
+
   return query;
 }
 
@@ -118,8 +195,8 @@ module.exports.UpdateOneCharacter = function(charaobj) {
 }
 
 // add new character feature
-module.exports.AddToListoffeaturesbyid = function(charaid, featureid) {
-  Character.findByIdAndUpdate(charaid, {$push: {listof_charafeatures: [featureid] }}).exec();
+module.exports.AddToListoffeatures = function(charaid, feature) {
+  Character.findByIdAndUpdate(charaid, {$push: {listof_charafeatures: [feature] }}).exec();
 }
 
 // add a new container to the character
@@ -130,3 +207,33 @@ module.exports.AddToListofcharacontainersbyid = function(charaid, containerid) {
 module.exports.AddToListofother_profsbyid = function(charaid, other_profid) {
   // TODO: add list insinside the chara model to append data to
 }
+
+// DeleteCascadE == this is the topmost thing being requested for deletion. parent only removes this _id
+// also implies Delete_One && that Delete_One is being called in the hook after this runs
+module.exports.DeleteCascading = function(charaids) {
+  Character.find().where('_id').in(charaids).exec().then((charas) => {
+    let containers = [];
+    let featureids = [];
+    charas.forEach(element => {
+      containers.push(element.equipped_itemcontainer, element.inventory_container, element.extra_characontainer);
+      featureids.push(...element.listof_charafeatures);
+    });
+    Container.DeleteCascading(containers);
+    Feature.DeleteCascading(featureids);
+  });
+  Character.deleteMany({_id: charaids}).exec();
+}
+
+
+
+// DeleteCascadING == this is being deleted because a parent is being deleted
+// module.exports.DeleteCascading = function(charaids) {
+
+// }
+
+  /// for a list of ids
+  // use let promise = find where id in exec
+  // let compiledchildids = []
+  // foreach promise e -> compiledchildids.push e.list
+  // deletecascding compiledchildids
+  // deleteMany listoftheseids

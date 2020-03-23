@@ -1,7 +1,9 @@
 <div>
   <br>
   <br>
-  Hitpoints:<mat-slider [max]='numbah' [step]='1' [tickInterval]='numbah/4' [thumbLabel]='true' [(ngModel)]=numbah (input)='updateVal($event.value)' style='width: 80%'></mat-slider><b style='font-size: 24px;'> {{numbah}}</b>
+  <div class='mat-elevation-z4 floatingbox' style='min-width: 14rem; padding: 1rem; max-width: 90%; margin: 4px;'>
+    Hitpoints: <mat-slider #hpbar [max]='totalHitpoints' [step]='1' [tickInterval]='totalHitpoints/4' [thumbLabel]='true' [(ngModel)]=chara.current_hitpoints (change)='updateVal($event.value)' style='width: 90%'></mat-slider><b style='font-size: 24px;'> {{chara.current_hitpoints}}</b>
+  </div>
 <div class='flexdiv' style='flex-wrap: wrap;'>
 
 <!-- column 1 -->
@@ -10,9 +12,9 @@
   <div class='mat-elevation-z4 flexdiv floatingbox'>
     <table style='width: 18rem; border-collapse: collapse;'>
       <tr>
-        <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(124, 62, 62);'>{{6}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Stranth</td>
+        <td class='statnumber strcolor' (click)="openEditingDialog('str')">{{chara.stats.str}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Stranth</td>
     </tr>
-        <tr style='font-size: 24px; text-align: center; background-color:rgb(124, 62, 62);'><div *ngIf="6 < 10;else plus"></div><ng-template #plus>+</ng-template>{{66 | modifier}}</tr>
+        <tr class='statmodnumber strcolor'><div *ngIf="chara.stats.str < 10;else plus"></div><ng-template #plus>+</ng-template>{{chara.stats.str | modifier}}</tr>
     </table>
   </div>
 
@@ -20,9 +22,9 @@
   <div class='mat-elevation-z4 flexdiv floatingbox'>
     <table style='width: 18rem; border-collapse: collapse;'>
       <tr>
-        <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(66, 122, 61);'>{{6}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Dexterity</td>
+        <td class='statnumber dexcolor' (click)="openEditingDialog('dex')">{{chara.stats.dex}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Dexterity</td>
     </tr>
-        <tr style='font-size: 24px; text-align: center; background-color:rgb(66, 122, 61);'><div *ngIf="6 < 10;else plus"></div><ng-template #plus>+</ng-template>{{6 | modifier}}</tr>
+        <tr class='statmodnumber dexcolor'><div *ngIf="chara.stats.dex < 10;else plus"></div><ng-template #plus>+</ng-template>{{chara.stats.dex | modifier}}</tr>
     </table>
   </div>
 
@@ -30,9 +32,9 @@
   <div class='mat-elevation-z4 flexdiv floatingbox'>
     <table style='width: 18rem; border-collapse: collapse;'>
       <tr>
-        <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(71, 5, 0);'>{{6}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Constitution</td>
+        <td class='statnumber concolor' (click)="openEditingDialog('con')">{{chara.stats.con}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Constitution</td>
     </tr>
-        <tr style='font-size: 24px; text-align: center; background-color:rgb(71, 5, 0);'><div *ngIf="6 < 10;else plus"></div><ng-template #plus>+</ng-template>{{6 | modifier}}</tr>
+        <tr class='statmodnumber concolor'><div *ngIf="chara.stats.con < 10;else plus"></div><ng-template #plus>+</ng-template>{{chara.stats.con | modifier}}</tr>
     </table>
   </div>
 
@@ -40,9 +42,9 @@
     <div class='mat-elevation-z4 flexdiv floatingbox'>
       <table style='width: 18rem; border-collapse: collapse;'>
         <tr>
-          <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(62, 103, 124);'>{{6}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Intelligence</td>
+          <td class='statnumber intcolor' (click)="openEditingDialog('int')">{{chara.stats.int}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Intelligence</td>
       </tr>
-          <tr style='font-size: 24px; text-align: center; background-color:rgb(62, 103, 124);'><div *ngIf="6 < 10;else plus"></div><ng-template #plus>+</ng-template>{{6 | modifier}}</tr>
+          <tr class='statmodnumber intcolor'><div *ngIf="chara.stats.int < 10;else plus"></div><ng-template #plus>+</ng-template>{{chara.stats.int | modifier}}</tr>
       </table>
     </div>
 
@@ -50,9 +52,9 @@
   <div class='mat-elevation-z4 flexdiv floatingbox'>
     <table style='width: 18rem; border-collapse: collapse;'>
       <tr>
-        <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(89, 61, 122);'>{{6}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Wisdom</td>
+        <td class='statnumber wiscolor' (click)="openEditingDialog('wis')">{{chara.stats.wis}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Wisdom</td>
     </tr>
-        <tr style='font-size: 24px; text-align: center; background-color:rgb(89, 61, 122);'><div *ngIf="6 < 10;else plus"></div><ng-template #plus>+</ng-template>{{6 | modifier}}</tr>
+        <tr class='statmodnumber wiscolor'><div *ngIf="chara.stats.wis < 10;else plus"></div><ng-template #plus>+</ng-template>{{chara.stats.wis | modifier}}</tr>
     </table>
   </div>
 
@@ -60,9 +62,9 @@
     <div class='mat-elevation-z4 flexdiv floatingbox'>
       <table style='width: 18rem; border-collapse: collapse;'>
         <tr>
-          <td style='width: 4rem; font-size: 32px; text-align: center; background-color:rgb(122, 122, 61);'>{{6}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Charisma</td>
+          <td class='statnumber chacolor' (click)="openEditingDialog('cha')">{{chara.stats.cha}}</td> <td rowspan='2' class='mat-display-1' style='padding-left: 1rem;'>Charisma</td>
       </tr>
-          <tr style='font-size: 24px; text-align: center; background-color:rgb(122, 122, 61);'><div *ngIf="6 < 10;else plus"></div><ng-template #plus>+</ng-template>{{6 | modifier}}</tr>
+          <tr class='statmodnumber chacolor'><div *ngIf="chara.stats.cha < 10;else plus"></div><ng-template #plus>+</ng-template>{{chara.stats.cha | modifier}}</tr>
       </table>
     </div>
 
@@ -72,21 +74,209 @@
 
 <!-- column 2 -->
 <div style='min-width: 18rem; padding: 1rem;'>
-  <div class='mat-elevation-z4' style='padding: 1rem;'>
-    speed ac initiative stuff goes here
+
+  <!-- AC -->
+  <div class='mat-elevation-z4 flexdiv floatingbox'>
+    <table style='width: 18rem; border-collapse: collapse;'>
+      <tr>
+        <td class='miscnumber'>{{chara.stats.baseAC + (chara.stats.dex|modifier)}}</td> <td class='mat-display-1' style='padding-left: 1rem;'>Armor Class</td>
+    </tr>
+  </table>
   </div>
+  <!-- speed -->
+  <div class='mat-elevation-z4 flexdiv floatingbox'>
+    <table style='width: 18rem; border-collapse: collapse;'>
+      <tr>
+        <td class='miscnumber' (click)="openEditingDialog('Speed')">{{chara.stats.speed}}</td> <td class='mat-display-1' style='padding-left: 1rem;'>Speed</td>
+    </tr>
+  </table>
+  </div>
+  <!-- initiative -->
+  <div class='mat-elevation-z4 flexdiv floatingbox'>
+    <table style='width: 18rem; border-collapse: collapse;'>
+      <tr>
+        <td class='miscnumber' (click)="openEditingDialog('Initiative Formula')"><div *ngIf="chara.stats.dex < 10;else plus"></div><ng-template #plus>+</ng-template>{{initiative}}</td> <td class='mat-display-1' style='padding-left: 1rem;'>Initiative</td>
+    </tr>
+  </table>
+  </div>
+  <!-- proficiencybonus -->
+  <div class='mat-elevation-z4 flexdiv floatingbox'>
+    <table style='width: 18rem; border-collapse: collapse;'>
+      <tr>
+        <td class='miscnumber' (click)="openEditingDialog('Proficiency Formula')"><div *ngIf="profBonus < 10;else plus"></div><ng-template #plus>+</ng-template>{{profBonus}}</td> <td class='mat-display-1' style='padding-left: 1rem;'>Proficiency Bonus</td>
+    </tr>
+  </table>
+  </div>
+
+
 </div>
 <!-- column 3 -->
 <div style='min-width: 18rem; padding: 1rem;'>
-  <div class='mat-elevation-z4' style='padding: 1rem;'>
-  saving throws go here
+  <div class='mat-elevation-z4 flexdiv floatingbox'>
+    <table style='width: 18rem; border-collapse: collapse;'>
+      <tr>
+        <td class='mat-display-1' style='text-align: center;' colspan='3'>Saving Throws</td>
+      </tr>
+
+      <tr>
+        <td [ngClass]="{'strcolor': strSaveIsProficient}" class='proficientbar'></td>
+        <td class='savenumberzone strcolor' (click)="openEditingDialog('Str save')"><div *ngIf="strSave < 0;else plus"></div>
+          <ng-template #plus>+</ng-template>{{strSave}}</td> <td class='savename'>Strength</td>
+      </tr>
+
+      <tr>
+        <td [ngClass]="{'dexcolor': dexSaveIsProficient}" class='proficientbar'></td>
+        <td class='savenumberzone dexcolor' (click)="openEditingDialog('Dex save')"><div *ngIf="dexSave < 0;else plus"></div>
+          <ng-template #plus>+</ng-template>{{dexSave}}</td> <td class='savename'>Dexterity</td>
+      </tr>
+
+      <tr>
+        <td [ngClass]="{'concolor': conSaveIsProficient}" class='proficientbar'></td>
+        <td class='savenumberzone concolor' (click)="openEditingDialog('Con save')"><div *ngIf="conSave < 0;else plus"></div>
+          <ng-template #plus>+</ng-template>{{conSave}}</td> <td class='savename'>Constitution</td>
+      </tr>
+
+      <tr>
+        <td [ngClass]="{'intcolor': intSaveIsProficient}" class='proficientbar'></td>
+        <td class='savenumberzone intcolor' (click)="openEditingDialog('Int save')"><div *ngIf="intSave < 0;else plus"></div>
+          <ng-template #plus>+</ng-template>{{intSave}}</td> <td class='savename'>Intelligence</td>
+      </tr>
+
+      <tr>
+        <td [ngClass]="{'wiscolor': wisSaveIsProficient}" class='proficientbar'></td>
+        <td class='savenumberzone wiscolor' (click)="openEditingDialog('Wis save')"><div *ngIf="wisSave < 0;else plus"></div>
+          <ng-template #plus>+</ng-template>{{wisSave}}</td> <td class='savename'>Wisdom</td>
+      </tr>
+
+      <tr>
+        <td [ngClass]="{'chacolor': chaSaveIsProficient}" class='proficientbar'></td>
+        <td class='savenumberzone chacolor' (click)="openEditingDialog('Cha save')"><div *ngIf="chaSave < 0;else plus"></div>
+          <ng-template #plus>+</ng-template>{{chaSave}}</td> <td class='savename'>Charisma</td>
+      </tr>
+
+    </table>
   </div>
 </div>
 <!-- column 4 -->
 <div style='min-width: 18rem; padding: 1rem;'>
-  <div class='mat-elevation-z4' style='padding: 1rem;'>
-  skills go here
+  <div class='mat-elevation-z4 flexdiv floatingbox'>
+  <table style='width: 18rem; border-collapse: collapse;'>
+    <tr>
+      <td class='mat-display-1' style='text-align: center;' colspan='3'>Skills</td>
+    </tr>
+
+    <tr>
+      <td [ngClass]="{'dexcolor': acrobaticsIsProficient}" class='proficientbar'></td>
+      <td class='skillnumberzone dexcolor' (click)="openEditingDialog('acrobatics')"><div *ngIf="acrobatics < 0;else plus"></div>
+        <ng-template #plus>+</ng-template>{{acrobatics}}</td> <td class='savename'>Acrobatics</td>
+    </tr>
+
+    <tr>
+      <td [ngClass]="{'wiscolor': handlingIsProficient}" class='proficientbar'></td>
+      <td class='skillnumberzone wiscolor' (click)="openEditingDialog('animal_handling')"><div *ngIf="handling < 0;else plus"></div>
+        <ng-template #plus>+</ng-template>{{handling}}</td> <td class='savename'>Animal Handling</td>
+    </tr>
+
+    <tr>
+      <td [ngClass]="{'intcolor': arcanaIsProficient}" class='proficientbar'></td>
+      <td class='skillnumberzone intcolor' (click)="openEditingDialog('arcana')"><div *ngIf="arcana < 0;else plus"></div>
+        <ng-template #plus>+</ng-template>{{arcana}}</td> <td class='savename'>Arcana</td>
+    </tr>
+
+    <tr>
+      <td [ngClass]="{'strcolor': athleticsIsProficient}" class='proficientbar'></td>
+      <td class='skillnumberzone strcolor' (click)="openEditingDialog('athletics')"><div *ngIf="athletics < 0;else plus"></div>
+        <ng-template #plus>+</ng-template>{{athletics}}</td> <td class='savename'>Athletics</td>
+    </tr>
+
+    <tr>
+      <td [ngClass]="{'chacolor': deceptionIsProficient}" class='proficientbar'></td>
+      <td class='skillnumberzone chacolor' (click)="openEditingDialog('deception')"><div *ngIf="deception < 0;else plus"></div>
+        <ng-template #plus>+</ng-template>{{deception}}</td> <td class='savename'>Deception</td>
+    </tr>
+
+    <tr>
+      <td [ngClass]="{'intcolor': historyIsProficient}" class='proficientbar'></td>
+      <td class='skillnumberzone intcolor' (click)="openEditingDialog('history')"><div *ngIf="history < 0;else plus"></div>
+        <ng-template #plus>+</ng-template>{{history}}</td> <td class='savename'>History</td>
+    </tr>
+
+    <tr>
+      <td [ngClass]="{'wiscolor': insightIsProficient}" class='proficientbar'></td>
+      <td class='skillnumberzone wiscolor' (click)="openEditingDialog('insight')"><div *ngIf="insight < 0;else plus"></div>
+        <ng-template #plus>+</ng-template>{{insight}}</td> <td class='savename'>Insight</td>
+    </tr>
+
+    <tr>
+      <td [ngClass]="{'chacolor': intimidationIsProficient}" class='proficientbar'></td>
+      <td class='skillnumberzone chacolor' (click)="openEditingDialog('intimidation')"><div *ngIf="intimidation < 0;else plus"></div>
+        <ng-template #plus>+</ng-template>{{intimidation}}</td> <td class='savename'>Intimidation</td>
+    </tr>
+
+    <tr>
+      <td [ngClass]="{'intcolor': investigationIsProficient}" class='proficientbar'></td>
+      <td class='skillnumberzone intcolor' (click)="openEditingDialog('investigation')"><div *ngIf="investigation < 0;else plus"></div>
+        <ng-template #plus>+</ng-template>{{investigation}}</td> <td class='savename'>Investigation</td>
+    </tr>
+
+    <tr>
+      <td [ngClass]="{'wiscolor': medicineIsProficient}" class='proficientbar'></td>
+      <td class='skillnumberzone wiscolor' (click)="openEditingDialog('medicine')"><div *ngIf="medicine < 0;else plus"></div>
+        <ng-template #plus>+</ng-template>{{medicine}}</td> <td class='savename'>Medicine</td>
+    </tr>
+
+    <tr>
+      <td [ngClass]="{'intcolor': natureIsProficient}" class='proficientbar'></td>
+      <td class='skillnumberzone intcolor' (click)="openEditingDialog('nature')"><div *ngIf="nature < 0;else plus"></div>
+        <ng-template #plus>+</ng-template>{{nature}}</td> <td class='savename'>Nature</td>
+    </tr>
+
+    <tr>
+      <td [ngClass]="{'wiscolor': perceptionIsProficient}" class='proficientbar'></td>
+      <td class='skillnumberzone wiscolor' (click)="openEditingDialog('perception')"><div *ngIf="perception < 0;else plus"></div>
+        <ng-template #plus>+</ng-template>{{perception}}</td> <td class='savename'>Perception</td>
+    </tr>
+
+    <tr>
+      <td [ngClass]="{'chacolor': performanceIsProficient}" class='proficientbar'></td>
+      <td class='skillnumberzone chacolor' (click)="openEditingDialog('performance')"><div *ngIf="performance < 0;else plus"></div>
+        <ng-template #plus>+</ng-template>{{performance}}</td> <td class='savename'>Performance</td>
+    </tr>
+
+    <tr>
+      <td [ngClass]="{'chacolor': persuasionIsProficient}" class='proficientbar'></td>
+      <td class='skillnumberzone chacolor' (click)="openEditingDialog('persuasion')"><div *ngIf="persuasion < 0;else plus"></div>
+        <ng-template #plus>+</ng-template>{{persuasion}}</td> <td class='savename'>Persuasion</td>
+    </tr>
+
+    <tr>
+      <td [ngClass]="{'intcolor': religionIsProficient}" class='proficientbar'></td>
+      <td class='skillnumberzone intcolor' (click)="openEditingDialog('religion')"><div *ngIf="religion < 0;else plus"></div>
+        <ng-template #plus>+</ng-template>{{religion}}</td> <td class='savename'>Religion</td>
+    </tr>
+
+    <tr>
+      <td [ngClass]="{'dexcolor': sleightIsProficient}" class='proficientbar'></td>
+      <td class='skillnumberzone dexcolor' (click)="openEditingDialog('sleight_of_hand')"><div *ngIf="sleight < 0;else plus"></div>
+        <ng-template #plus>+</ng-template>{{sleight}}</td> <td class='savename'>Sleight of Hand</td>
+    </tr>
+
+    <tr>
+      <td [ngClass]="{'dexcolor': stealthIsProficient}" class='proficientbar'></td>
+      <td class='skillnumberzone dexcolor' (click)="openEditingDialog('stealth')"><div *ngIf="stealth < 0;else plus"></div>
+        <ng-template #plus>+</ng-template>{{stealth}}</td> <td class='savename'>Stealth</td>
+    </tr>
+
+    <tr>
+      <td [ngClass]="{'wiscolor': survivalIsProficient}" class='proficientbar'></td>
+      <td class='skillnumberzone wiscolor' (click)="openEditingDialog('survival')"><div *ngIf="survival < 0;else plus"></div>
+        <ng-template #plus>+</ng-template>{{survival}}</td> <td class='savename'>Survival</td>
+    </tr>
+
+  </table>
+
 </div>
+
 </div>
 
 

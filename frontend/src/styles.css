@@ -10,13 +10,6 @@ mat-card { max-width: 20rem; }
 
 mat-expansion-panel { max-width: 24rem; }
 
-/*
-mat-form-field {
-  min-width: 150px;
-  max-width: 300px;
-  width: 100%;
-}
-*/
 
 /* Angular doesnt let u use all the colors in the palette according to stackoverflow; reeeeeeeeeeee */
 /* we can concat classes so: class='mat-display-1 p400' will apply the mat-display and also p400's color */

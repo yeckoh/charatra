@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CharaService } from 'src/app/shared/chara.service';
+import { Subscription } from 'rxjs';
 
 import { DialogPersonaComponent } from 'src/app/dialog-persona/dialog-persona.component';
 import { MatDialog } from '@angular/material';
@@ -13,7 +14,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './tab-persona.component.html',
   styleUrls: ['./tab-persona.component.css']
 })
-export class TabPersonaComponent implements OnInit {
+export class TabPersonaComponent implements OnInit, OnDestroy {
 
   constructor(private charaservice: CharaService, private personaDialog: MatDialog) { }
 
@@ -27,6 +28,12 @@ export class TabPersonaComponent implements OnInit {
   private background: string = this.charaservice.CharaSelected.persona.background;
 
   private subscriptions: Subscription;
+
+  private subscriptions: Subscription;
+
+  ngOnDestroy() {
+    // this.subscriptions.unsubscribe();
+  }
 
   ngOnInit() {
   }

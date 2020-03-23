@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 
+const Attack = require('./attacks.model');
+const Saves = require('./savethrows.model');
+
 var FeatureSchema = mongoose.Schema({
     selected_color: String,
     feature_category: Number, // user defined feature separation names
@@ -10,10 +13,8 @@ var FeatureSchema = mongoose.Schema({
     uses_left: Number,
     toggleable: Boolean,
     is_enabled: Boolean,
-    listof_atks: [mongoose.Schema.Types.ObjectId],
-    listof_saves: [mongoose.Schema.Types.ObjectId],
-    listof_featureprofs: [mongoose.Schema.Types.ObjectId],
-    listof_effects: [mongoose.Schema.Types.ObjectId]
+    listof_atks: [{type: mongoose.Schema.Types.ObjectId, ref:'Attacks'}],
+    listof_saves: [{type: mongoose.Schema.Types.ObjectId, ref:'Saving_Throws'}],
 });
 
 
@@ -36,11 +37,11 @@ module.exports.GetAllFeatures = function(allids) {
     return query;
 }
 
-module.exports.AddToListofatksbyid = function(featureid, atkid) {
+module.exports.AddToListofattacks = function(featureid, atkid) {
     Feature.findByIdAndUpdate(featureid, {$push: {listof_atks: [atkid] }}).exec();
 }
 
-module.exports.AddToListofsavesbyid = function(featureid, saveid) {
+module.exports.AddToListofsaves = function(featureid, saveid) {
     Feature.findByIdAndUpdate(featureid, {$push: {listof_saves: [saveid] }}).exec();
 }
 
@@ -48,4 +49,18 @@ module.exports.AddToListofsavesbyid = function(featureid, saveid) {
 
 module.exports.AddToListofeffectsbyid = function(featureid, effectid) {
     Feature.findByIdAndUpdate(featureid, {$push: {listof_effects: [effectid] }}).exec();
+}
+
+module.exports.DeleteCascading = function(featureids) {
+    Feature.find().where('_id').in(featureids).exec().then((features) => {
+        let atkids = [];
+        let saveids = [];
+        features.forEach(element => {
+            atkids.push(...element.listof_atks);
+            saveids.push(...element.listof_saves);
+        });
+        Attack.DeleteCascading(atkids);
+        Saves.DeleteCascading(saveids);
+    });
+    Feature.deleteMany({_id: featureids}).exec();
 }

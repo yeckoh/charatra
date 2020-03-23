@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { AuthService } from '../shared/auth.service';
 import { Router } from '@angular/router'; // router to redirect
-import { FlashMessagesService } from 'angular2-flash-messages';
 import { CharaService } from '../shared/chara.service';
-import { SecretSocketComponent } from '../secret-socket/secret-socket.component';
+import { Chara } from '../shared/chara.model';
+import { MatSnackBar } from '@angular/material';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -12,35 +13,80 @@ import { SecretSocketComponent } from '../secret-socket/secret-socket.component'
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.css']
 })
-export class SidenavComponent implements OnInit {
+export class SidenavComponent implements OnInit, OnDestroy {
 
   constructor(private authServ: AuthService,
               private router: Router,
-              private flashMsg: FlashMessagesService,
+              private alohaSnackBar: MatSnackBar,
               private charaservice: CharaService) { }
 
-  ngOnInit() {}
+  private allcharas = [];
 
+  private subscriptions: Subscription;
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
+
+  ngOnInit() {
+    this.subscriptions = (this.charaservice.listenfor('Read_all_user_charas').subscribe((data) => {
+        this.allcharas = data as Chara[];
+        console.log('readallcharas\n', data);
+    }));
+
+    this.subscriptions.add(this.charaservice.listenfor('Updated_one_chara').subscribe((data) => {
+      const replacementIndex = this.allcharas.findIndex(e => e._id === (data as Chara)._id);
+      this.allcharas[replacementIndex] = data as Chara;
+    }));
+
+    this.subscriptions.add(this.charaservice.listenfor('Created_new_chara').subscribe((data) => {
+      // get all characterids in user localstorage obj
+      // append this new chara id
+      // set localstorage new characterlist
+      const userinfo = JSON.parse(localStorage.getItem('user'));
+      userinfo.charas.push((data as Chara)._id); // add id to list of charas
+      localStorage.setItem('user', JSON.stringify(userinfo));
+      this.allcharas.push(data);
+    }));
+
+    this.subscriptions.add(this.charaservice.listenfor('Deleted_one_chara').subscribe((data) => {
+      // get all characterids in user localstorage obj
+      // remove id
+      // set localstorage new characterlist
+      const userinfo = JSON.parse(localStorage.getItem('user'));
+      const arrayIndex = userinfo.charas.indexOf(data);
+      userinfo.charas.splice(arrayIndex, 1); // remove id to list of charas
+      localStorage.setItem('user', JSON.stringify(userinfo));
+      this.allcharas.splice(arrayIndex, 1);
+      console.log('attempted to delete');
+    }));
+
+    this.subscriptions.add(this.charaservice.listenfor('Read_user_ids').subscribe((charaids) => {
+      const userinfo = JSON.parse(localStorage.getItem('user'));
+      userinfo.charas = charaids; // add id to list of charas
+      localStorage.setItem('user', JSON.stringify(userinfo));
+    }));
+
+  }
 
   onSignoutClick() {
     this.authServ.signout(); // dont need an observer so this is good enough
-    this.charaservice.CharaSelected = null;
-    this.charaservice.CharaAll = null;
-    this.flashMsg.show('You\'ve been logged out', {timeout: 3000});
+    this.charaservice.leaveCharacterRoom(this.charaservice.CharaId);
+    this.charaservice.leaveUserRoom(); // this probably doesn't work like its supposed to
+    this.allcharas.length = 0;
+    this.alohaSnackBar.open('You\'ve logged out', 'okay',
+      {duration: 2000, verticalPosition: 'top', panelClass: ['alohasnackbar']});
     this.router.navigate(['/signin']);
     return false;
   }
 
   loadCharacterIdAndRoom(chara) {
     if (this.charaservice.CharaId != null) { // leave this room
-      SecretSocketComponent.leaveCharacterRoom(this.charaservice.CharaId);
+      this.charaservice.leaveCharacterRoom(this.charaservice.CharaId);
     }
     this.charaservice.CharaId = chara._id;
-    this.charaservice.CharaSelected = chara;
-    SecretSocketComponent.joinCharacterRoom(this.charaservice.CharaId);
-    SecretSocketComponent.getSelectedCharacter(this.charaservice.CharaId);
-    SecretSocketComponent.getManualFeatures(this.charaservice.CharaSelected.listof_charafeatures, this.charaservice.CharaId);
-    // this.charaservice.CharaSelected.stats.total_hitpoints = 54;
+    this.charaservice.joinCharacterRoom(chara._id);
+    this.charaservice.sendback('Get_selected_chara', {characterid: chara._id});
   }
 
 }

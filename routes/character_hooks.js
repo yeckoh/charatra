@@ -6,6 +6,7 @@ const User = require('../models/user.model');
 
 // make unique containers for equipped and inventory
 const Container = require('../models/containers.model');
+const Skill_Prof = require('../models/skill_profs.model');
 
 // import mongoose just to generate a _id: right here, right now
 var mongoose = require('mongoose');
@@ -27,6 +28,31 @@ module.exports = function(socket) {
             current_hitpoints: 0,
             deathsaves: 0,
 
+            stats: {
+                str: 10,
+                dex: 10,
+                con: 10,
+                int: 10,
+                wis: 10,
+                cha: 10,
+                baseAC: 10,
+                speed: 30,
+                level: 1,
+            },
+
+            saves: {
+                str: 'strMod',
+                dex: 'dexMod',
+                con: 'conMod',
+                int: 'intMod',
+                wis: 'wisMod',
+                cha: 'chaMod'
+            },
+            formuolis: {
+                hitpoints: 'conMod*level',
+                initiative: 'dexMod',
+                proficiency: 'this needs math.ceil'
+              },
             spellslots: {
                 first: 0,
                 second: 0,
@@ -46,24 +72,18 @@ module.exports = function(socket) {
                 personality: '',
                 ideals: '',
                 bonds: '',
-                race: {
-                    actualrace: sent_in_data.race,
-                    listof_racefeatures: [],
-                    racespelllist: undefined // ObjectID
-                },
-                background: {
-                    actualbackground: '',
-                    listof_backgroundfeatures: []
-                }
+                race: sent_in_data.race,
+                background: '',
             },
 
-            skills: undefined,
+            skills: Skill_Prof.MakeProficiencies(),
 
             equipped_itemcontainer: Container.MakeNewEquipmentContainer(),
             inventory_container: Container.MakeNewInventoryContainer(),
-            listof_characontainers: [],
+            extra_characontainer: Container.MakeExtraContainer(),
             listof_characlasses: [],
             listof_charafeatures: [],
+            listof_spelllists: [],
 
             special_stuff: {
                 superiority_dice: 0,
@@ -76,7 +96,6 @@ module.exports = function(socket) {
             }
         });
 
-
         // save new character
         Character.SaveCharacter(newchara);
 
@@ -88,6 +107,13 @@ module.exports = function(socket) {
         
 
 
+    });
+
+    // this is really dumb
+    socket.on('Get_user_ids', function(sent_in_data) {
+        User.findById(sent_in_data).exec().then(function(user) {
+            socket.emit('Read_user_ids', user.listof_characters);
+        });
     });
 
     // READ_ALL
@@ -109,9 +135,24 @@ module.exports = function(socket) {
     // UPDATE_ONE
     socket.on('Update_selected_chara', function(sent_in_data) {
         Character.UpdateOneCharacter(sent_in_data.chara);
+        console.log('updating selected chara');
         /// TODO: after sidenav only reads charaname and id, update charaname only below
-        socket.broadcast.in(sent_in_data.userid).emit('Updated_one_chara', sent_in_data.chara); // send back to originator
+        socket.emit('Updated_one_chara', sent_in_data.chara);
+        socket.broadcast.in(sent_in_data.userid).emit('Updated_one_chara', sent_in_data.chara); // send to all who's this user
         socket.broadcast.in(sent_in_data.chara._id).emit('Updated_one_chara', sent_in_data.chara); // send to all who's viewing this chara
+    });
+
+    // DELETE_ONE
+    socket.on('Delete_selected_chara', function(sent_in_data) {
+        // sentindata is .charaid and .userid
+        Character.DeleteCascading(sent_in_data.charaid);
+        User.findByIdAndUpdate(sent_in_data.userid, {$pull: {listof_characters: sent_in_data.charaid }}).exec(); // remove from parent
+        console.log('character deleted');
+        // Character.findByIdAndRemove(sent_in_data.charaid).exec();
+        // tell userid and charaid rooms that it was deleted here
+        socket.emit('Deleted_one_chara', sent_in_data.charaid); // tell the deletor its gone
+        socket.broadcast.in(sent_in_data.userid).emit('Deleted_one_chara', sent_in_data.charaid); // send to all user to remove from sidebar
+        socket.broadcast.in(sent_in_data.charaid).emit('Deleted_this_chara', 'cya l8r m8'); // tell all whos viewing this chara to go home
     });
 
 

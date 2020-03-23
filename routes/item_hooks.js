@@ -15,13 +15,17 @@ module.exports = function(socket) {
             _id: mongoose.Types.ObjectId(),
             selected_color: 'rgb(127, 0, 0)',
 
+            name: 'new item',
             descript: 'description goes here',
+            count: 1,
             weight: 0,
             value: 0,
             attunement: false,
-            equipped: false,
-            listof_itemsfeatures: [],
-            listof_spells: []
+            // equipped: false,
+            // listof_itemsfeatures: [],
+            // listof_spells
+            listof_attacks: [],
+            listof_savingthrows: []
         });
 
         Item.SaveItem(newitem);
@@ -34,12 +38,11 @@ module.exports = function(socket) {
 
 
     // when get all Item gets fired... READ_ALL
-    socket.on('Get_all_chara_items', function(sent_in_data) {
+    socket.on('Get_all_container_items', function(sent_in_data) {
         // a_promise.then -> do stuff with the data
         Items.GetAllItems(sent_in_data.itemids).then(function(allItems) {
             socket.emit('Read_all_chara_items', allItems);
         });
-
     });
 
     // when 'update selected item' gets fired... UPDATE_ONE
@@ -48,5 +51,18 @@ module.exports = function(socket) {
             socket.broadcast.in(sent_in_data.charaid).emit('Updated_one_item', updatedItem);
         });
     });
+
+    /// TODO: BRING IN PARENT CONTAINER ID
+    /// TODO: DETERMINE FRONT LOGIC CASES: DO WE EMIT BROADCAST THE SAME OR DIFFERENT HOOKS?
+    socket.on('Delete_selected_item', function(sent_in_data) {
+        // data consists of .itemid .charaid .parentid
+        Item.DeleteCascading(sent_in_data.itemid);
+        Container.findByIdAndUpdate(sent_in_data.parentid, {$pull: {listof_items: sent_in_data.itemid }}).exec(); // remove from parent
+        console.log('item deleted');
+        // tell userid and charaid rooms that it was deleted here
+        socket.emit('Deleted_one_item', sent_in_data.itemid); // tell the deletor its gone
+        socket.broadcast.in(sent_in_data.charaid).emit('Deleted_one_item', sent_in_data.itemid); // tell all whos viewing this item its gone
+    });
+
 
 }

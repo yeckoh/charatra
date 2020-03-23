@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 
 import { ValidateService } from '../shared/validate.service';
 import { AuthService } from '../shared/auth.service';
-import { FlashMessagesService } from 'angular2-flash-messages';
 
 import {Router} from '@angular/router';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-signup',
@@ -20,7 +20,7 @@ export class SignupComponent implements OnInit {
 
 
   constructor(private validateService: ValidateService,
-              private flashMessage: FlashMessagesService,
+              private alohaSnackBar: MatSnackBar,
               private authService: AuthService,
               private router: Router) { }
 
@@ -39,30 +39,29 @@ export class SignupComponent implements OnInit {
 
     // req fields
     if (!this.validateService.validateSignup(user)) {
-      // tell them to fill in everything
-      // console.log('some fields are blank');
-      // console.log(user);
-      this.flashMessage.show('All fields must be filled in', {timeout: 3500});
+      this.alohaSnackBar.open('All fields must be filled in', 'okay',
+        {duration: 2000, verticalPosition: 'top', panelClass: ['alohasnackbar']});
       return false;
     }
 
     // valid email
     if (!this.validateService.validateEmail(user.email)) {
-      // tell them to use a valid email
       console.log('email failed regex');
-      this.flashMessage.show('Use a valid email', {timeout: 3000});
+      this.alohaSnackBar.open('Use a valid email', 'okay',
+        {duration: 2000, verticalPosition: 'top', panelClass: ['alohasnackbar']});
       return false;
     }
 
   // register user
     this.authService.signupUser(user).subscribe(data => {
       if (data) {
-        this.flashMessage.show('Sign up successful', {timeout: 3000});
+        // this.flashMessage.show('Sign up successful', {timeout: 3000});
+        this.alohaSnackBar.open('Sign up successful', 'okay',
+          {duration: 2000, verticalPosition: 'top', panelClass: ['alohasnackbar']});
         // you're now registered and can login
         this.router.navigate(['/signin']);
       } else {
-        this.flashMessage.show('Sign up was unsuccessful', {timeout: 4000});
-        this.router.navigate(['/signup']);
+        // this.flashMessage.show('Sign up was unsuccessful', {timeout: 4000});
         // u arent registered
       }
     });

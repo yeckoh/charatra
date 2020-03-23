@@ -1,0 +1,56 @@
+.oBox {
+  min-width: 18rem;
+  padding: 1rem;
+  background-color:rgb(124, 62, 62);
+  max-width: 20rem;
+}
+.listitem {
+  margin: 1rem;
+
+}
+
+.equipmentListItem {
+  display: flex;
+  justify-content: space-between;
+}
+
+.columnbox {
+  min-width: 20rem;
+  max-width: 24rem;
+}
+
+.columncontainer {
+  padding: 8px;
+  margin: 0px;
+  margin-bottom: 1rem;
+}
+
+.mat-card {
+  padding: 0px;
+  border-radius: 0px;
+  max-width: 22rem;
+}
+
+.noborders {
+  padding: 0px;
+  margin: 0px;
+  border-radius: 0px;
+  max-width: 22rem;
+}
+
+.attunementseparatorlabel {
+  padding: 1rem;
+  font-size: 18px;
+  padding-bottom: 0.5rem;
+
+  color: darkgray;
+}
+
+.tritem {
+  height: 2rem;
+  font-size: 16px;
+}
+
+.number {
+  text-align: right;
+}

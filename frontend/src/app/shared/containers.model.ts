@@ -1,3 +1,5 @@
+import { Items } from './items.model';
+
 export class Containers {
   // tslint:disable: variable-name
 
@@ -6,5 +8,10 @@ export class Containers {
   _id: string;
   name: string;
   descript: string;
-  listof_items: [string];
+  listof_items: [Items];
+
+  // constructor() {
+  //   this.listof_items = [] as Items[];
+  // }
 }
+

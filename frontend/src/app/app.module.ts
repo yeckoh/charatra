@@ -16,9 +16,7 @@ import { SignupComponent } from './signup/signup.component';
 
 import { ValidateService } from './shared/validate.service';
 import { AuthService } from './shared/auth.service';
-import {FlashMessagesModule} from 'angular2-flash-messages';
-
-import { ColeTestButtonComponent } from './cole-test-button/cole-test-button.component';
+// import {FlashMessagesModule} from 'angular2-flash-messages';
 
 import { TabOverviewComponent } from './chara/tabs/tab-overview/tab-overview.component';
 import { TabFeatureComponent } from './chara/tabs/tab-feature/tab-feature.component';
@@ -26,12 +24,13 @@ import { TabInventoryComponent } from './chara/tabs/tab-inventory/tab-inventory.
 import { TabSpellsComponent } from './chara/tabs/tab-spells/tab-spells.component';
 import { TabPersonaComponent } from './chara/tabs/tab-persona/tab-persona.component';
 import { DialogNewcharaComponent } from './dialogs/dialog-newchara/dialog-newchara.component';
-import { SecretSocketComponent } from './secret-socket/secret-socket.component';
+// import { SecretSocketComponent } from './secret-socket/secret-socket.component';
 import { DialogFeatureComponent } from './dialogs/dialog-feature/dialog-feature.component';
 import { CharaService } from './shared/chara.service';
 import { ModifierPipe } from './pipes/modifier.pipe';
-import { EquipmentListComponent } from './equipment-list/equipment-list.component';
-import { DialogPersonaComponent } from './dialog-persona/dialog-persona.component';
+import { DialogStatComponent } from './dialogs/dialog-stat/dialog-stat.component';
+import { DialogAttackComponent } from './dialogs/dialog-attack/dialog-attack.component';
+import { DialogItemComponent } from './dialogs/dialog-item/dialog-item.component';
 
 const appRoutes: Routes = [
   { path: '', component: SigninComponent }, // TODO: make a splashpage
@@ -49,18 +48,18 @@ const appRoutes: Routes = [
     SigninComponent,
     HomeComponent,
     SignupComponent,
-    ColeTestButtonComponent,
     TabOverviewComponent,
     TabFeatureComponent,
     TabInventoryComponent,
     TabSpellsComponent,
     TabPersonaComponent,
     DialogNewcharaComponent,
-    SecretSocketComponent,
+//    SecretSocketComponent,
     DialogFeatureComponent,
     ModifierPipe,
-    EquipmentListComponent,
-    DialogPersonaComponent
+    DialogStatComponent,
+    DialogAttackComponent,
+    DialogItemComponent
   ],
   imports: [
     BrowserModule,
@@ -68,11 +67,11 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     MymatModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes),
-    FlashMessagesModule.forRoot()
+    RouterModule.forRoot(appRoutes)
+//    FlashMessagesModule.forRoot()
   ],
-  providers: [ValidateService, AuthService, CharaService],
-  entryComponents: [DialogNewcharaComponent, DialogFeatureComponent, DialogPersonaComponent],
+  providers: [ValidateService, AuthService, CharaService, ModifierPipe],
+  entryComponents: [DialogNewcharaComponent, DialogFeatureComponent, DialogStatComponent, DialogAttackComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
