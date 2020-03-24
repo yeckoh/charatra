@@ -7,6 +7,8 @@ const User = require('../models/user.model');
 // make unique containers for equipped and inventory
 const Container = require('../models/containers.model');
 const Skill_Prof = require('../models/skill_profs.model');
+const Chara_Class = require('../models/classes.model');
+const Spell_List = require('../models/spell_list.model');
 
 // import mongoose just to generate a _id: right here, right now
 var mongoose = require('mongoose');
@@ -81,9 +83,11 @@ module.exports = function(socket) {
             equipped_itemcontainer: Container.MakeNewEquipmentContainer(),
             inventory_container: Container.MakeNewInventoryContainer(),
             extra_characontainer: Container.MakeExtraContainer(),
-            listof_characlasses: [],
+            // listof_characlasses: [],
+            // listof_spelllists: [],
             listof_charafeatures: [],
-            listof_spelllists: [],
+            chara_class: Chara_Class.MakeNewClass(),
+            chara_spelllist: Spell_List.MakeNewList(),
 
             special_stuff: {
                 superiority_dice: 0,
@@ -109,7 +113,7 @@ module.exports = function(socket) {
 
     });
 
-    // this is really dumb
+    // outdated client character listing mitigation countermeasure
     socket.on('Get_user_ids', function(sent_in_data) {
         User.findById(sent_in_data).exec().then(function(user) {
             socket.emit('Read_user_ids', user.listof_characters);

@@ -3,9 +3,9 @@ const mongoose = require('mongoose');
 var ClassSchema = mongoose.Schema({
     selected_color: String, // we probably wont use this for classes
 
-    class_hitpoints: Number,
+    class_hitpoints: String,
     class_level: Number,
-    caster_level: Number,
+    caster_level: String,
 });
 
 
@@ -20,4 +20,15 @@ module.exports.SaveClass = function(classobj) {
 module.exports.GetAllClasses = function(allids) {
     var query = Class.find().where('_id').in(allids).exec();
     return query;
+}
+
+module.exports.MakeNewClass = function() {
+    let newclass = new Class({
+        selected_color: 'tomato',
+        class_hitpoints: 'class_level*4',
+        class_level: 1,
+        caster_level: 'class_level*1'
+    });
+    newclass.save();
+    return newclass._id;
 }

@@ -75,10 +75,13 @@ var CharaSchema = mongoose.Schema({
 
   // REVISIT: list of extra containers instead of a single extracontainer
   extra_characontainer: {type: mongoose.Schema.Types.ObjectId, ref: 'Containers'}, // a list of containerids
-  listof_characlasses: [{type: mongoose.Schema.Types.ObjectId, ref: 'Classes'}], // a list of classes
+  // listof_characlasses: [{type: mongoose.Schema.Types.ObjectId, ref: 'Classes'}], // a list of classes
   //  listof_charafeatures: [mongoose.model('Features').schema], // a list of features
   listof_charafeatures: [{type: mongoose.Schema.Types.ObjectId, ref: 'Features'}], // a list of features
-  listof_spelllists: [{type: mongoose.Schema.Types.ObjectId, ref: 'Spell_list'}],
+  // listof_spelllists: [{type: mongoose.Schema.Types.ObjectId, ref: 'Spell_list'}],
+  chara_class: {type: mongoose.Schema.Types.ObjectId, ref: 'Classes'},
+  chara_spelllist: {type: mongoose.Schema.Types.ObjectId, ref: 'Spell_list'},
+  
 
   special_stuff: {
     superiority_dice: Number,
@@ -184,7 +187,33 @@ module.exports.GetOneCharacter = function(charaid) {
         path: 'listof_savingthrows'
       }}
   })
-  // populate spelllists and classes too
+  .populate({
+    path: 'chara_class',
+    populate: {
+      path: 'listof_spells',
+      populate: {
+        path: 'listof_spellattacks'
+    }}
+  })
+  .populate({
+    path: 'chara_spelllist',
+    populate: {
+      path: 'listof_spells',
+      populate: {
+        path: 'listof_spellsaves'
+    }}
+  })
+  .populate({
+    path: 'chara_spelllist',
+    populate: {
+      path: 'listof_spells',
+      populate: {
+        path: 'listof_spellattacks'
+    }}
+  })
+  .populate({
+    path: 'chara_class',
+  })
   .exec();
 
   return query;

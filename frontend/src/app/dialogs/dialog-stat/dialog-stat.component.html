@@ -1,4 +1,6 @@
 <div style='width: 24rem;'>
     <mat-card-title>Edit {{stat}}</mat-card-title>
-    <mat-card-title><mat-form-field style='width: 100%; font-size: 16px;'><input matInput placeholder='formula' (input)='updateParentComponentInput()' (change)='sendStatDialogUpdate()' [(ngModel)]="updata" name='updata'></mat-form-field></mat-card-title>
+    <mat-card-title><mat-form-field style='width: 100%; font-size: 16px;'>
+      <input matInput placeholder='formula' (input)='updateParentComponentInput()' (change)='sendStatDialogUpdate()' [(ngModel)]="updata" name='updata'></mat-form-field>
+    </mat-card-title>
 </div>

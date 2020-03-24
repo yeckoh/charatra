@@ -5,8 +5,8 @@ export class SpellList {
 
   _id: string;
   name: string;
-  saveDC: number;
-  atk_bonus: number;
+  saveDC: string;
+  atk_bonus: string;
   max_prepared: number;
   listof_spells: [string];
 }
