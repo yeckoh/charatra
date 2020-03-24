@@ -74,9 +74,11 @@ export class Chara {
   equipped_itemcontainer: Containers;
   inventory_container: Containers;
   extra_characontainer: Containers;
-  listof_characlass = [] as Classes[];
+  // listof_characlass = [] as Classes[];
+  // listof_spelllists = [] as SpellList[];
   listof_charafeatures = [] as Features[];
-  listof_spelllists = [] as SpellList[];
+  chara_class: Classes;
+  chara_spelllist: SpellList;
 
   special_stuff: {
     superiority_dice: number,
@@ -138,19 +140,21 @@ export class Chara {
     this.equipped_itemcontainer = new Containers();
     this.inventory_container = new Containers();
     this.extra_characontainer = new Containers();
-    this.listof_characlass = [] as Classes[];
+    // this.listof_characlass = [] as Classes[];
+    // this.listof_spelllists = [] as SpellList[];
     this.listof_charafeatures = [] as Features[];
-    this.listof_spelllists = [] as SpellList[];
+    this.chara_class = new Classes();
+    this.chara_spelllist = new SpellList();
 
-    // special_stuff: {
-    //   superiority_dice: number,
-    //   expertise_dice: number,
-    //   sorcery_points: number,
-    //   ki_points: number,
-    //   rage_dmg: number,
-    //   other_name: string,
-    //   other_number: number
-    // };
+    this.special_stuff = {
+      superiority_dice: 0,
+      expertise_dice: 0,
+      sorcery_points: 0,
+      ki_points: 0,
+      rage_dmg: 0,
+      other_name: 'none',
+      other_number: 0
+    };
   }
 }
 
