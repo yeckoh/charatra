@@ -12,14 +12,32 @@ import { Chara } from 'src/app/shared/chara.model';
 export class DialogClassesComponent implements OnInit {
 
   title: string;
+  dataToReturn: Chara
 
-  constructor(@Inject(MAT_DIALOG_DATA) data) {
+  classLevel: number;
+  classHitpoints: string;
+  casterLevel: string;
+
+  constructor(@Inject(MAT_DIALOG_DATA) data, private charaservice: CharaService) {
     this.title = data.inPersonaDataType;
+    this.dataToReturn = data.currentValue;
   }
 
   ngOnInit() {
   }
 
+  sendPersonaClassUpdate() {
+    this.dataToReturn.chara_class.class_level = this.classLevel;
+    this.dataToReturn.chara_class.class_hitpoints = this.classHitpoints;
+    this.dataToReturn.chara_class.caster_level = this.casterLevel;
+
+    const userid = this.charaservice.UserRoom;
+    const useridAndChara = {
+      userid, // needed for user room. purpose: update sidebar for namechange
+      chara: this.dataToReturn
+    };
+    this.charaservice.sendback('Update_selected_chara', useridAndChara);
+  }
 
 
 }

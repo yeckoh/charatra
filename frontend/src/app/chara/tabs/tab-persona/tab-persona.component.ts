@@ -7,6 +7,7 @@ import { DialogClassesComponent } from 'src/app/dialogs/dialog-classes/dialog-cl
 import { MatDialog } from '@angular/material';
 
 import { Chara } from 'src/app/shared/chara.model';
+import { Classes } from 'src/app/shared/classes.model';
 
 @Component({
   selector: 'app-tab-persona',
@@ -28,7 +29,8 @@ export class TabPersonaComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscriptions = (this.charaservice.listenfor('Updated_one_chara').subscribe((data) => {
       console.log(this.chara.persona);
-      this.chara = data as Chara;
+      this.chara = data as Chara
+      if( typeof this.chara.chara_class == "undefined" ) {this.chara.chara_class = new Classes();}
       console.log("s");
     }));
 

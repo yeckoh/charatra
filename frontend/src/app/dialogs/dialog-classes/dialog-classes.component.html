@@ -5,13 +5,13 @@
 </mat-form-field> <br>
 <mat-form-field>
   <mat-label>Class Hitpoints</mat-label>
-  <input matInput>
+  <input matInput [(ngModel)]="this.classHitpoints" (change)="sendPersonaClassUpdate()">
 </mat-form-field> <br>
 <mat-form-field>
   <mat-label>Class Level</mat-label>
-  <input matInput>
+  <input matInput [(ngModel)]="this.classLevel" (change)="sendPersonaClassUpdate()">
 </mat-form-field> <br>
 <mat-form-field>
   <mat-label>Caster Level</mat-label>
-  <input matInput>
+  <input matInput [(ngModel)]="this.casterLevel" (change)="sendPersonaClassUpdate()">
 </mat-form-field>
