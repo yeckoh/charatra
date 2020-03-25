@@ -36,7 +36,7 @@ module.exports.MakeNewInventoryContainer = function() {
 
 module.exports.MakeExtraContainer = function() {
   let newContainer = new Container({
-    name: 'Other',
+    name: 'Elsweyr',
     descript: 'Maybe its a hideyhole',
     listof_items: [Item.MakeNewItem(), Item.MakeNewItem()]
   })

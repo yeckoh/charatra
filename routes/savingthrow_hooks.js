@@ -58,7 +58,6 @@ module.exports = function(socket) {
     // separate hooks for features, items, and spells is probably better
     socket.on('Delete_feature_save', function(sent_in_data) {
         // data consists of .saveid .charaid .parentid
-        console.log('feature save deletion called');
         Save.findById(sent_in_data.saveid).exec().then(function(deletedsave) {
             // technically we're telling the front we've fulfilled a promise before completing it :^)
             socket.emit('Deleted_feature_save', deletedsave); // tell the deletor its gone

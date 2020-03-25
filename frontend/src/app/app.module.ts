@@ -78,7 +78,8 @@ const appRoutes: Routes = [
       DialogFeatureComponent,
       DialogStatComponent,
       DialogAttackComponent,
-      DialogSavingthrowComponent
+      DialogSavingthrowComponent,
+      DialogItemComponent
     ],
   bootstrap: [AppComponent]
 })

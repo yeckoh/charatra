@@ -5,6 +5,8 @@ import { Items } from 'src/app/shared/items.model';
 import { Chara } from 'src/app/shared/chara.model';
 import { MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs';
+import { DialogItemComponent } from 'src/app/dialogs/dialog-item/dialog-item.component';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-tab-inventory',
@@ -123,4 +125,24 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
 
   } // endof.ngoninit
 
+
+  openItemDialog(selected_item) {
+    this.matDialog.open(DialogItemComponent, {data: selected_item});
+  }
+
+
+  drop(event: CdkDragDrop<Items[]>) {
+    moveItemInArray(this.listof_equipmentitems, event.previousIndex, event.currentIndex);
+  }
+
+
+
 }
+
+
+
+// openFeatureDialog(selected_feature) {
+//   // this.features = selected_feature;
+//   // open accepts 2 params (component, optional_configuration {data: something})
+//   this.featureDialog.open(DialogFeatureComponent, {data: {selected_feature, chara: this.chara}});
+// }

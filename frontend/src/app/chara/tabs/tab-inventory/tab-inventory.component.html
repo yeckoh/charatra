@@ -22,7 +22,7 @@
 <!-- column 2 equipment list-->
 <div class='columncontainer'>
   <!-- equipment bar -->
-  <div class='columnbox mat-elevation-z4'>
+  <div class='columnbox mat-elevation-z4' cdkDropList (cdkDropListDropped)='drop($event)'>
     <mat-card-title class='noborders' style='padding: 1rem; background-color: rgb(77, 50, 77);'>
       Inventory
     </mat-card-title>
@@ -32,8 +32,8 @@
     <!-- requires attunement flag: true -->
     <div class='attunementseparatorlabel'> Attuned </div>
     <mat-divider></mat-divider>
-    <div *ngFor="let item of listof_equipmentitems">
-      <table *ngIf="item.attunement" style='width: 100%;'> <!-- list item -->
+    <div *ngFor="let item of listof_equipmentitems" cdkDrag>
+      <table *ngIf="item.attunement" style='width: 100%;' (click)='openItemDialog(item)'> <!-- list item -->
         <tr class='tritem'>
           <td class='number'> <!-- left column: item count -->
             <label *ngIf="item.count > 1">{{item.count}}</label>
@@ -53,8 +53,8 @@
     <!-- regular equipment -->
     <div class='attunementseparatorlabel'> Equipment </div>
     <mat-divider></mat-divider>
-    <div *ngFor="let item of listof_equipmentitems">
-      <table *ngIf="!item.attunement" style='width: 100%;'> <!-- list item -->
+    <div *ngFor="let item of listof_equipmentitems" cdkDrag>
+      <table *ngIf="!item.attunement" style='width: 100%;' (click)='openItemDialog(item)'> <!-- list item -->
         <tr class='tritem'>
           <td style='width: 42px; padding-right: 6px;' class='number'> <!-- left column: item count -->
             <label *ngIf="item.count > 1">{{item.count}}</label>
@@ -83,9 +83,9 @@
     </mat-card-title>
     <mat-card>
       <mat-card-content>
-
-    <div *ngFor="let item of listof_inventoryitems">
-      <table style='width: 100%;'> <!-- list item -->
+      <div cdkDropList (cdkDropListDropped)='drop($event)'>
+    <div *ngFor="let item of listof_inventoryitems" cdkDrag>
+      <table style='width: 100%;' (click)='openItemDialog(item)'> <!-- list item -->
         <tr class='tritem'>
           <td class='number'> <!-- left column: item count -->
             <label *ngIf="item.count > 1">{{item.count}}</label>
@@ -98,6 +98,7 @@
           </td>
         </tr>
         </table>
+      </div>
       </div>
     </mat-card-content>
   </mat-card>
@@ -115,7 +116,7 @@
       <mat-card-content>
 
     <div *ngFor="let item of listof_extraitems">
-      <table style='width: 100%;'> <!-- list item -->
+      <table style='width: 100%;' (click)='openItemDialog(item)'> <!-- list item -->
         <tr class='tritem'>
           <td class='number'> <!-- left column: item count -->
             <label *ngIf="item.count > 1">{{item.count}}</label>

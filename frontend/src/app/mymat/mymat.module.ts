@@ -36,6 +36,8 @@ import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 
+import {DragDropModule} from '@angular/cdk/drag-drop';
+
 // import { MatInputModule } from '@angular/material';
 
 const mymatComponents = [
@@ -71,7 +73,8 @@ const mymatComponents = [
   MatTableModule,
   MatSortModule,
   MatPaginatorModule,
-  FormsModule
+  FormsModule,
+  DragDropModule
 ];
 
 @NgModule({
