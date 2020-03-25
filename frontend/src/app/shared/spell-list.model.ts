@@ -1,3 +1,5 @@
+import { Spells } from './spells.model';
+
 export class SpellList {
   // tslint:disable: variable-name
 
@@ -8,5 +10,5 @@ export class SpellList {
   saveDC: string;
   atk_bonus: string;
   max_prepared: number;
-  listof_spells: [string];
+  listof_spells: [Spells];
 }

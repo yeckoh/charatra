@@ -39,10 +39,10 @@ module.exports.MakeNewItem = function() {
         descript: 'this is a new item',
         count: 1,
         weight: 123,
-        value: 9999,
+        value: 357,
         attunement: false,
         listof_attacks: [],
-        listof_savingthrows: [Saves.MakeASavingThrow()]
+        listof_savingthrows: []
     });
     newitem.save();
     return newitem._id;

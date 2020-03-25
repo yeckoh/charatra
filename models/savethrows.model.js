@@ -18,13 +18,17 @@ var SavingThrowSchema = mongoose.Schema({
   
   // schema model functions -> {mongoose functions}
 
+  module.exports.SaveSavingthrow = function(savethrowobj) {
+    savethrowobj.save();
+}
+
   // for testing subdoc popyulate only
   module.exports.MakeASavingThrow = function() {
     let newsave = new SavingThrow({
       name: 'Fireball',
       details: 'save for half',
-      saveDC: '{intDC} dex',
-      damage: '8d6 fire'
+      saveDC: '{111} dex',
+      damage: '111'
     });
     newsave.save();
     return newsave._id;

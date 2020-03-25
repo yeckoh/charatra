@@ -8,6 +8,8 @@ import { Attack } from 'src/app/shared/attack.model';
 import { Subscription } from 'rxjs';
 import evaluate, { registerFunction } from 'ts-expression-evaluator';
 import {ModifierPipe} from 'src/app/pipes/modifier.pipe';
+import { Savethrows } from 'src/app/shared/savethrows.model';
+import { DialogSavingthrowComponent } from '../dialog-savingthrow/dialog-savingthrow.component';
 
 @Component({
   selector: 'app-dialog-feature',
@@ -33,6 +35,13 @@ export class DialogFeatureComponent implements OnInit, OnDestroy {
     private wisMod = 0;
     private chaMod = 0;
 
+    private strDC = 0;
+    private dexDC = 0;
+    private conDC = 0;
+    private intDC = 0;
+    private wisDC = 0;
+    private chaDC = 0;
+
     private profBonus = 0;
     private level = 0;
 
@@ -57,6 +66,12 @@ export class DialogFeatureComponent implements OnInit, OnDestroy {
     this.intMod = this.modPipe.transform(this.int);
     this.wisMod = this.modPipe.transform(this.wis);
     this.chaMod = this.modPipe.transform(this.cha);
+    this.strDC = 8 + this.strMod + this.profBonus;
+    this.dexDC = 8 + this.dexMod + this.profBonus;
+    this.conDC = 8 + this.conMod + this.profBonus;
+    this.intDC = 8 + this.intMod + this.profBonus;
+    this.wisDC = 8 + this.wisMod + this.profBonus;
+    this.chaDC = 8 + this.chaMod + this.profBonus;
   }
 
   // do not edit if infocus
@@ -177,6 +192,25 @@ export class DialogFeatureComponent implements OnInit, OnDestroy {
     //   }
     // }));
 
+    this.subscriptions.add(this.charaservice.listenfor('Created_new_save').subscribe(data => {
+      // data is a new attack
+      const newsave = data as Savethrows;
+      if (newsave.parentFeature === this.feature._id) {
+        this.feature.listof_saves.push(newsave);
+        return;
+      }
+    }));
+
+    this.subscriptions.add(this.charaservice.listenfor('Updated_one_save').subscribe(data => {
+      // data is a new attack
+      const newsave = data as Savethrows;
+      if (newsave.parentFeature === this.feature._id) {
+        const saveIndex = this.feature.listof_saves.findIndex(e => e._id === newsave._id);
+        this.feature.listof_saves[saveIndex] = newsave;
+        return;
+      }
+    }));
+
   }
 
   sendFeatureDialogUpdate() {
@@ -204,9 +238,21 @@ export class DialogFeatureComponent implements OnInit, OnDestroy {
     this.charaservice.sendback('Make_new_attack', forwardingdata);
   }
 
+  newSave() {
+    const forwardingdata = {
+      feature_id: this.feature._id,
+      chara_id: this.charaservice.CharaId
+    };
+    this.charaservice.sendback('Make_new_save', forwardingdata);
+  }
+
   // tslint:disable: variable-name
   openAttackDialog(selected_attack) {
     this.attackDialog.open(DialogAttackComponent, {data: selected_attack});
+  }
+
+  openSaveDialog(selected_save) {
+    this.attackDialog.open(DialogSavingthrowComponent, {data: selected_save});
   }
 
 

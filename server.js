@@ -77,7 +77,7 @@ wsocket.on('connection', function(socket) {
   require('./routes/feature_hooks')(socket);
   require('./routes/attack_hooks')(socket);
   // require('./routes/effect_hooks')(socket);
-  // require('./routes/savingthrow_hooks')(socket);
+  require('./routes/savingthrow_hooks')(socket);
   console.log('list of all socketids:');
   console.log(socket_ids);
   console.log('\n');

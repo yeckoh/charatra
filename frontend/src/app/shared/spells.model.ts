@@ -1,3 +1,6 @@
+import { Attack } from './attack.model';
+import { Savethrows } from './savethrows.model';
+
 export class Spells {
   // tslint:disable: variable-name
 
@@ -14,5 +17,7 @@ export class Spells {
   is_concentration: boolean;
   is_ritual: boolean;
   duration: string;
-  listof_spellsfeatures: [string];
+  listof_spellattacks: Attack;
+  listof_spellsaves: Savethrows;
+  // listof_spellsfeatures: [string];
 }

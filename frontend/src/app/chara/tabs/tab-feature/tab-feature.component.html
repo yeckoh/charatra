@@ -15,7 +15,7 @@
           <label>Items</label>
           <mat-divider></mat-divider>
           <!-- item attacks get listed here -->
-          <table *ngFor="let attack of itemattacks" class='tableitem'>
+          <table *ngFor="let attack of itemattacks" class='tableitem' (click)='openAttackDialog(attack)'>
             <tr><td rowspan='3' class='attackbonus'>
               <label *ngIf="nonRegularFormula(attack.atkbonus) > -1">+</label>
               {{nonRegularFormula(attack.atkbonus)}}</td> <td class='originatorname'>{{attack.name}}</td>
@@ -87,7 +87,7 @@
           <label>Items</label>
           <mat-divider></mat-divider>
           <!-- item attacks get listed here -->
-          <table *ngFor="let save of itemsaves" class='tableitem'>
+          <table *ngFor="let save of itemsaves" class='tableitem' (click)='openSaveDialog(save)'>
             <tr><td rowspan='3' class='attackbonus'>
               {{nonRegularFormula(save.saveDC)}}</td> <td class='originatorname'>{{save.name}}</td>
               </tr>
@@ -105,7 +105,7 @@
             <label>Features</label>
             <mat-divider></mat-divider>
             <!-- feature attacks go here -->
-            <table *ngFor="let save of featuresaves" class='tableitem'>
+            <table *ngFor="let save of featuresaves" class='tableitem' (click)='openSaveDialog(save)'>
               <tr><td rowspan='3' class='attackbonus'>
                 {{nonRegularFormula(save.saveDC)}}</td> <td class='originatorname'>{{save.name}}</td>
                 </tr>

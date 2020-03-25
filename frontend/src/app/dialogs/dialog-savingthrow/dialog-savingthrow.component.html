@@ -1,0 +1,44 @@
+<div>
+
+
+  <table>
+    <tr>
+      <td rowspan=3 style='padding-right: 2rem;'>
+        <mat-form-field class='formulabar'>
+          <input matInput placeholder='Save DC' (change)='updateSave()' [(ngModel)]="save.saveDC">
+        </mat-form-field>
+      </td>
+    <td>
+  <mat-form-field>
+    <input matInput placeholder='Save Name' (change)='updateSave()' [(ngModel)]="save.name">
+  </mat-form-field>
+  </td>
+</tr>
+<tr>
+  <td>
+    <mat-form-field class='formulabar'>
+      <input matInput placeholder='Damage' (change)='updateSave()' [(ngModel)]="save.damage">
+    </mat-form-field>
+  </td>
+    </tr>
+<tr>
+  <td>
+    <mat-form-field class='formulabar'>
+      <input matInput placeholder='Properties' (change)='updateSave()' [(ngModel)]="save.details">
+    </mat-form-field>
+    </td>
+  </tr>
+</table>
+<button mat-button color='warn' (click)='deleteSave()'>del</button>
+
+
+
+
+
+
+
+
+
+
+
+</div>

@@ -12,6 +12,7 @@ import { Items } from 'src/app/shared/items.model';
 import { DialogAttackComponent } from 'src/app/dialogs/dialog-attack/dialog-attack.component';
 import { Spells } from 'src/app/shared/spells.model';
 import { Subscription } from 'rxjs';
+import { DialogSavingthrowComponent } from 'src/app/dialogs/dialog-savingthrow/dialog-savingthrow.component';
 
 @Component({
   selector: 'app-tab-feature',
@@ -116,6 +117,10 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
   openAttackDialog(selected_attack) {
       this.attackDialog.open(DialogAttackComponent, {data: selected_attack});
   }
+
+  openSaveDialog(selected_save) {
+    this.attackDialog.open(DialogSavingthrowComponent, {data: selected_save});
+}
 
   makeNewFeature() {
     // SecretSocketComponent.newFeature(this.charaservice.CharaId);
@@ -250,7 +255,23 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
       }
       // look through spellattacks list or do we separate all 3
     }));
-
+    this.subscriptions.add(this.charaservice.listenfor('Created_new_save').subscribe(data => {
+      // data is a new save
+      // look for item parent, oof.
+      const newsave = data as Savethrows;
+      if (newsave.parentFeature !== undefined) {
+        this.featuresaves.push(newsave);
+        return;
+      }
+      console.log('itemsavefilter...'); // UNTESTED
+      // modify logic to account for new spell saves
+      const filteredsaves = this.items.filter(e => e._id === newsave.parentItem);
+      if (filteredsaves.length === 1) {
+        console.log('itemsavefilter success');
+        this.itemsaves.push(newsave);
+      }
+      // look through spellattacks list or do we separate all 3
+    }));
     // made new item attack ?
     // made new item save ?
     // made new spell attack ?
@@ -273,6 +294,23 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
         return;
       }
       // spellattacks
+    }));
+
+    this.subscriptions.add(this.charaservice.listenfor('Updated_one_save').subscribe(data => {
+      // data is an attack
+      const newsave = data as Savethrows;
+      let saveIndex = this.itemattacks.findIndex(e => e._id === newsave._id);
+      if (saveIndex !== -1) {
+        // its in the itemattacks, wohoo!
+        this.itemsaves[saveIndex] = newsave;
+        return;
+      }
+      saveIndex = this.featuresaves.findIndex(e => e._id === newsave._id);
+      if (saveIndex !== -1) {
+        this.featuresaves[saveIndex] = newsave;
+        return;
+      }
+      // spellsaves
     }));
 
     this.subscriptions.add(this.charaservice.listenfor('Deleted_item_attack').subscribe(data => {
@@ -307,7 +345,34 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
     }));
 
 
-
+    // this.subscriptions.add(this.charaservice.listenfor('Deleted_item_save').subscribe(data => {
+    //   // data is the deleted attack
+    //   const deletedsave = data as Savethrows;
+    //   const attackIndex = this.itemattacks.findIndex(e => e._id === deletedsave._id);
+    //   if (attackIndex !== -1) { // was it in the inventory container?
+    //     this.itemattacks.splice(attackIndex, 1);
+    //     this.items = this.items.filter(item => item.listof_attacks.findIndex(attack => attack._id === deletedsave._id) !== -1);
+    //   }
+    // }));
+    this.subscriptions.add(this.charaservice.listenfor('Deleted_feature_save').subscribe(data => {
+      // data is the deleted save
+      const deletedsave = data as Savethrows;
+      const saveIndex = this.featuresaves.findIndex(e => e._id === deletedsave._id);
+      if (saveIndex !== -1) { // was it from an active feature? <-- UNIMPLEMENTED RIGHT NOW, ALWAYS TRUE
+        this.featuresaves.splice(saveIndex, 1); // remove from sidebarattack list
+        const featureIndex = this.features.findIndex(e => e._id === deletedsave.parentFeature); // remove child from the feature in featurelist
+        this.features[featureIndex].listof_saves = this.features[featureIndex].listof_saves.filter(e => e._id !== deletedsave._id) as [Savethrows];
+      }
+    }));
+    // this.subscriptions.add(this.charaservice.listenfor('Deleted_spell_save').subscribe(data => {
+    //   // data is the deleted attack
+    //   const deletedsave = data as Savethrows;
+    //   const attackIndex = this.spellattacks.findIndex(e => e._id === deletedsave._id);
+    //   if (attackIndex !== -1) { // was it a prepared spell? <-- UNIMPLEMENTED RIGHT NOW, ALWAYS TRUE
+    //     this.spellattacks.splice(attackIndex, 1);
+    //     // update the relevant parentspell to remove the attackid since it no longer exists
+    //   }
+    // }));
     // deleted feature save
     // deleted item save
     // deleted spell save
