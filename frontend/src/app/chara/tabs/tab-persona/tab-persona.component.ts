@@ -3,6 +3,7 @@ import { CharaService } from 'src/app/shared/chara.service';
 import { Subscription } from 'rxjs';
 
 import { DialogPersonaComponent } from 'src/app/dialogs/dialog-persona/dialog-persona.component';
+import { DialogClassesComponent } from 'src/app/dialogs/dialog-classes/dialog-classes.component';
 import { MatDialog } from '@angular/material';
 
 import { Chara } from 'src/app/shared/chara.model';
@@ -18,7 +19,7 @@ export class TabPersonaComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription;
 
-  constructor(private charaservice: CharaService, private personaDialog: MatDialog) { }
+  constructor(private charaservice: CharaService, private personaDialog: MatDialog, private classesDialog: MatDialog) { }
 
   ngOnDestroy() {
     // this.subscriptions.unsubscribe();
@@ -36,6 +37,11 @@ export class TabPersonaComponent implements OnInit, OnDestroy {
   // The parameter is the "dataType" the communitcates what is being changed in the persona tab
   openPersonaDialog(personaDataType) {
     let refDialog = this.personaDialog.open(DialogPersonaComponent, {data: {inPersonaDataType: personaDataType, currentValue: this.chara}});
+    console.log(personaDataType + " was clicked on.");
+  }
+
+  openPersonaClassesDialog(personaDataType) {
+    let refDialog = this.classesDialog.open(DialogClassesComponent, {data: {inPersonaDataType: personaDataType, currentValue: this.chara}});
     console.log(personaDataType + " was clicked on.");
   }
 }
