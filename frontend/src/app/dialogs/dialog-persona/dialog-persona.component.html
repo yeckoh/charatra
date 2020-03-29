@@ -1,4 +1,4 @@
-<h1 mat-dialog-title> {{this.title}} </h1>
+<h1 mat-dialog-title> {{title}} </h1>
 <mat-form-field>
-  <textarea matInput [(ngModel)]="this.dataTemp" (change)="sendPersonaUpdate()">{{this.textboxData}}</textarea>
+  <textarea matInput [(ngModel)]="updata" (input)='updateParentPersonaComponent()' (change)="updateBackendChara()">{{updata}}</textarea>
 </mat-form-field>

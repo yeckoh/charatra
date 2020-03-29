@@ -20,7 +20,9 @@ export class TabPersonaComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription;
 
-  constructor(private charaservice: CharaService, private personaDialog: MatDialog, private classesDialog: MatDialog) { }
+  constructor(private charaservice: CharaService,
+              private personaDialog: MatDialog,
+              private classesDialog: MatDialog) { }
 
   ngOnDestroy() {
     // this.subscriptions.unsubscribe();
@@ -28,22 +30,20 @@ export class TabPersonaComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscriptions = (this.charaservice.listenfor('Updated_one_chara').subscribe((data) => {
-      console.log(this.chara.persona);
-      this.chara = data as Chara
-      if( typeof this.chara.chara_class == "undefined" ) {this.chara.chara_class = new Classes();}
-      console.log("s");
+      this.chara = data as Chara;
     }));
 
+    this.subscriptions.add(this.charaservice.listenfor('Updated_selected_class').subscribe(data => {
+      this.chara.chara_class = data as Classes;
+      console.log('heard classupdate');
+    }));
   }
 
-  // The parameter is the "dataType" the communitcates what is being changed in the persona tab
-  openPersonaDialog(personaDataType) {
-    let refDialog = this.personaDialog.open(DialogPersonaComponent, {data: {inPersonaDataType: personaDataType, currentValue: this.chara}});
-    console.log(personaDataType + " was clicked on.");
+  openPersonaDialog(datafield) {
+    this.personaDialog.open(DialogPersonaComponent, {data: {chara: this.chara, whichField: datafield}});
   }
 
-  openPersonaClassesDialog(personaDataType) {
-    let refDialog = this.classesDialog.open(DialogClassesComponent, {data: {inPersonaDataType: personaDataType, currentValue: this.chara}});
-    console.log(personaDataType + " was clicked on.");
+  openPersonaClassesDialog() {
+    this.classesDialog.open(DialogClassesComponent, {data: {chara: this.chara}});
   }
 }

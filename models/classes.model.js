@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 var ClassSchema = mongoose.Schema({
     selected_color: String, // we probably wont use this for classes
 
+    class_name: String,
     class_hitpoints: String,
     class_level: Number,
     caster_level: String,
@@ -25,7 +26,8 @@ module.exports.GetAllClasses = function(allids) {
 module.exports.MakeNewClass = function() {
     let newclass = new Class({
         selected_color: 'tomato',
-        class_hitpoints: 'class_level*4',
+        class_name: 'Fightman',
+        class_hitpoints: '(6+conMod)*class_level',
         class_level: 1,
         caster_level: 'class_level*1'
     });

@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material';
 import { CharaService } from 'src/app/shared/chara.service';
 import { Chara } from 'src/app/shared/chara.model';
+import { Classes } from 'src/app/shared/classes.model';
 
 @Component({
   selector: 'app-dialog-classes',
@@ -11,32 +12,29 @@ import { Chara } from 'src/app/shared/chara.model';
 
 export class DialogClassesComponent implements OnInit {
 
-  title: string;
-  dataToReturn: Chara
+  chara: Chara;
 
   classLevel: number;
   classHitpoints: string;
   casterLevel: string;
 
   constructor(@Inject(MAT_DIALOG_DATA) data, private charaservice: CharaService) {
-    this.title = data.inPersonaDataType;
-    this.dataToReturn = data.currentValue;
+    this.chara = data.chara as Chara;
   }
 
   ngOnInit() {
   }
 
-  sendPersonaClassUpdate() {
-    this.dataToReturn.chara_class.class_level = this.classLevel;
-    this.dataToReturn.chara_class.class_hitpoints = this.classHitpoints;
-    this.dataToReturn.chara_class.caster_level = this.casterLevel;
+  // updateParentPersonaComponent() {
+  // }
 
-    const userid = this.charaservice.UserRoom;
-    const useridAndChara = {
-      userid, // needed for user room. purpose: update sidebar for namechange
-      chara: this.dataToReturn
+  sendPersonaClassUpdate() {
+    const charaid = this.charaservice.CharaId;
+    const charaidAndClass = {
+      charaid,
+      class: this.chara.chara_class
     };
-    this.charaservice.sendback('Update_selected_chara', useridAndChara);
+    this.charaservice.sendback('Update_selected_class', charaidAndClass);
   }
 
 

@@ -24,7 +24,7 @@ module.exports = function(socket) {
             listof_classfeatures: []
           });
 
-        Class.SaveClass(newclass);
+        Classes.SaveClass(newclass);
 
         /// TODO: supply specification for which listof_classes
         Character.AddToListofclassesbyid(sent_in_data.chara_id, newclass._id);
@@ -37,7 +37,7 @@ module.exports = function(socket) {
     // when get all cahra classes gets fired... READ_ALL
     socket.on('Get_all_chara_classes', function(sent_in_data) {
         // a_promise.then -> do stuff with the data
-        Class.GetAllClasses(sent_in_data.classids).then(function(allclasses) {
+        Classes.GetAllClasses(sent_in_data.classids).then(function(allclasses) {
             socket.emit('Read_all_chara_classes', allclasses);
             socket.in(sent_in_data.charaid).emit('Read_all_chara_classes', allclasses);
         });
@@ -45,7 +45,7 @@ module.exports = function(socket) {
 
     // when 'update selected classes' gets fired... UPDATE_ONE
     socket.on('Update_selected_class', function(sent_in_data) {
-        Class.findByIdAndUpdate(sent_in_data.class._id, sent_in_data.class, {new: true}, function(err, updatedClass) {
+        Classes.findByIdAndUpdate(sent_in_data.class._id, sent_in_data.class, {new: true}, function(err, updatedClass) {
             socket.emit('Updated_selected_class', updatedClass);
             socket.in(sent_in_data.charaid).emit('Updated_selected_class', updatedClass);
         });

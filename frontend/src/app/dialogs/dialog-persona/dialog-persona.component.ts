@@ -1,58 +1,63 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { CharaService } from 'src/app/shared/chara.service';
 import { Chara } from 'src/app/shared/chara.model';
 
 @Component({
   selector: 'app-dialog-persona',
   templateUrl: './dialog-persona.component.html',
-  styleUrls: ['./dialog-persona.component.css']
+  styleUrls: ['./dialog-persona.component.scss']
 })
 export class DialogPersonaComponent implements OnInit {
 
   title: string;
-  textboxData: string;
+  chara: Chara;
+  public updata; // actual form input data which replaces the stat right before updating
+  somethingWasEdited = false; // dont send an update if nothing changed
 
-  type: string;
-
-  dataTemp: string;
-  dataToReturn: Chara;
-
-  constructor(@Inject(MAT_DIALOG_DATA) data, private charaservice: CharaService) {
-    console.log(data.inPersonaDataType)
-    this.title = data.inPersonaDataType;
-    this.dataToReturn = data.currentValue;
-    this.type = data.inPersonaDataType;
-    if (data.inPersonaDataType == "Name") {this.textboxData = data.currentValue.persona.name;}
-    else if(data.inPersonaDataType == "Gender") {this.textboxData = data.currentValue.persona.gender;}
-    else if (data.inPersonaDataType == "Description") {this.textboxData = data.currentValue.persona.description;}
-    else if (data.inPersonaDataType == "Personality") {this.textboxData = data.currentValue.persona.personality;}
-    else if (data.inPersonaDataType == "Ideals") {this.textboxData = data.currentValue.persona.ideals;}
-    else if (data.inPersonaDataType == "Bonds") {this.textboxData = data.currentValue.persona.bonds;}
-    else if (data.inPersonaDataType == "Race") {this.textboxData = data.currentValue.persona.race;}
-    else if (data.inPersonaDataType == "Backgrounds") {this.textboxData = data.currentValue.persona.background;}
+  constructor( @Inject(MAT_DIALOG_DATA) data,
+               private charaservice: CharaService,
+               private thisDialog: MatDialogRef<DialogPersonaComponent>) {
+    this.chara = data.chara as Chara;
+    this.title = data.whichField;
+    switch (this.title) {
+      case 'Name': this.updata = this.chara.persona.name; break;
+      case 'Gender': this.updata = this.chara.persona.gender; break;
+      case 'Description': this.updata = this.chara.persona.description; break;
+      case 'Personality': this.updata = this.chara.persona.personality; break;
+      case 'Ideals': this.updata = this.chara.persona.ideals; break;
+      case 'Bonds': this.updata = this.chara.persona.bonds; break;
+      case 'Race': this.updata = this.chara.persona.race; break;
+      case 'Background': this.updata = this.chara.persona.background; break;
+    }
   }
 
-  sendPersonaUpdate() {
+  updateParentPersonaComponent() {
+    switch (this.title) {
+      case 'Name': this.chara.persona.name = this.updata; break;
+      case 'Gender': this.chara.persona.gender = this.updata; break;
+      case 'Description': this.chara.persona.description = this.updata; break;
+      case 'Personality': this.chara.persona.personality = this.updata; break;
+      case 'Ideals': this.chara.persona.ideals = this.updata; break;
+      case 'Bonds': this.chara.persona.bonds = this.updata; break;
+      case 'Race': this.chara.persona.race = this.updata; break;
+      case 'Background': this.chara.persona.background = this.updata; break;
+    }
+    this.somethingWasEdited = true;
+  }
 
-    if (this.type == "Name") {this.dataToReturn.persona.name = this.dataTemp;}
-    else if(this.type == "Gender") {this.dataToReturn.persona.gender = this.dataTemp;}
-    else if (this.type == "Description") {this.dataToReturn.persona.description = this.dataTemp;}
-    else if (this.type == "Personality") {this.dataToReturn.persona.personality = this.dataTemp;}
-    else if (this.type == "Ideals") {this.dataToReturn.persona.ideals = this.dataTemp;}
-    else if (this.type == "Bonds") {this.dataToReturn.persona.bonds = this.dataTemp;}
-    else if (this.type == "Race") {this.dataToReturn.persona.race = this.dataTemp;}
-    else if (this.type == "Backgrounds") {this.dataToReturn.persona.background = this.dataTemp;}
-
+updateBackendChara() {
+    if (!this.somethingWasEdited || this.chara._id === 'none') {
+      return;
+    }
     const userid = this.charaservice.UserRoom;
     const useridAndChara = {
       userid, // needed for user room. purpose: update sidebar for namechange
-      chara: this.dataToReturn
+      chara: this.chara
     };
     this.charaservice.sendback('Update_selected_chara', useridAndChara);
   }
 
-  ngOnInit() {
-  }
+ngOnInit() { }
 
 }
