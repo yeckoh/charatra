@@ -2,7 +2,7 @@
   <br>
   <br>
   <div class='mat-elevation-z4 floatingbox' style='min-width: 14rem; padding: 1rem; max-width: 90%; margin: 4px;'>
-    Hitpoints: <mat-slider #hpbar [max]='totalHitpoints' [step]='1' [tickInterval]='totalHitpoints/4' [thumbLabel]='true' [(ngModel)]=chara.current_hitpoints (change)='updateVal($event.value)' style='width: 90%'></mat-slider><b style='font-size: 24px;'> {{chara.current_hitpoints}}</b>
+    Hitpoints: <mat-slider #hpbar [max]='totalHitpoints' [step]='1' [tickInterval]='totalHitpoints/4' [thumbLabel]='true' [(ngModel)]=currentHitpoints (input)='updateLocalHitpoints($event.value)' (change)='updateVal($event.value)' style='width: 90%'></mat-slider><b style='font-size: 24px;'> {{currentHitpoints}}</b>
   </div>
 <div class='flexdiv' style='flex-wrap: wrap;'>
 

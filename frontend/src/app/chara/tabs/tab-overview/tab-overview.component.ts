@@ -90,6 +90,7 @@ export class TabOverviewComponent implements OnInit, OnDestroy {
 
   private profBonus = 0;
   private totalHitpoints = 1337;
+  private currentHitpoints = 256;
   private initiative;
   private level: number; // THIS GETS MODIFIED FROM CLASSES, ITS REALLY READ-ONLY HERE
 
@@ -108,6 +109,10 @@ export class TabOverviewComponent implements OnInit, OnDestroy {
     this.chara.current_hitpoints = item;
     this.updateBackendChara();
   }
+  updateLocalHitpoints(slidervalue) {
+    this.currentHitpoints = slidervalue;
+  }
+
 
   updateBackendChara() {
     const userid = this.charaservice.UserRoom;
@@ -189,8 +194,24 @@ export class TabOverviewComponent implements OnInit, OnDestroy {
       this.stealthIsProficient = this.chara.skills.stealth.includes('profBonus');
       this.survivalIsProficient = this.chara.skills.survival.includes('profBonus');
 
-      this.totalHitpoints = this.regularFormula(this.chara.formuolis.hitpoints);
+      // this.totalHitpoints = this.regularFormula(this.chara.formuolis.hitpoints);
+      this.totalHitpoints = this.regularFormula(this.chara.chara_class.class_hitpoints);
+      if (this.totalHitpoints < this.chara.current_hitpoints) {
+        this.chara.current_hitpoints = this.totalHitpoints;
+      }
+      this.currentHitpoints = this.chara.current_hitpoints;
+
       this.initiative = this.regularFormula(this.chara.formuolis.initiative);
+    }));
+
+    this.subscriptions.add(this.charaservice.listenfor('Updated_selected_class').subscribe(data => {
+      this.updateProf();
+
+      this.totalHitpoints = this.regularFormula(this.chara.chara_class.class_hitpoints);
+      if (this.totalHitpoints < this.chara.current_hitpoints) {
+        this.chara.current_hitpoints = this.totalHitpoints;
+      }
+      this.currentHitpoints = this.chara.current_hitpoints;
     }));
 
   }
@@ -201,7 +222,7 @@ export class TabOverviewComponent implements OnInit, OnDestroy {
   }
 
   updateProf() {
-    this.level = this.chara.stats.level;
+    this.level = this.chara.chara_class.class_level;
     this.profBonus = 1 + Math.ceil(this.level / 4); // evaluate cant use math atm. funcs so rest in rip for now
   }
 

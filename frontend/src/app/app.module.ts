@@ -32,6 +32,8 @@ import { DialogStatComponent } from './dialogs/dialog-stat/dialog-stat.component
 import { DialogAttackComponent } from './dialogs/dialog-attack/dialog-attack.component';
 import { DialogItemComponent } from './dialogs/dialog-item/dialog-item.component';
 import { DialogSavingthrowComponent } from './dialogs/dialog-savingthrow/dialog-savingthrow.component';
+import { DialogPersonaComponent } from './dialogs/dialog-persona/dialog-persona.component';
+import { DialogClassesComponent } from './dialogs/dialog-classes/dialog-classes.component';
 
 const appRoutes: Routes = [
   { path: '', component: SigninComponent }, // TODO: make a splashpage
@@ -61,7 +63,9 @@ const appRoutes: Routes = [
     DialogStatComponent,
     DialogAttackComponent,
     DialogItemComponent,
-    DialogSavingthrowComponent
+    DialogSavingthrowComponent,
+    DialogPersonaComponent,
+    DialogClassesComponent
   ],
   imports: [
     BrowserModule,
@@ -79,7 +83,9 @@ const appRoutes: Routes = [
       DialogStatComponent,
       DialogAttackComponent,
       DialogSavingthrowComponent,
-      DialogItemComponent
+      DialogItemComponent,
+      DialogPersonaComponent,
+      DialogClassesComponent
     ],
   bootstrap: [AppComponent]
 })

@@ -1,0 +1,30 @@
+<div>
+<h1 mat-dialog-title> Class </h1>
+<!--
+<div>
+<mat-form-field>
+  <input placeholder='Color' matInput [(ngModel)]="chara.chara_class.selected_color">
+</mat-form-field>
+</div>
+-->
+<div>
+  <mat-form-field>
+    <input placeholder='Name' matInput [(ngModel)]="chara.chara_class.class_name" (change)="sendPersonaClassUpdate()">
+  </mat-form-field>
+  </div>
+<div>
+<mat-form-field>
+  <input placeholder='Hitpoints {}' matInput [(ngModel)]="chara.chara_class.class_hitpoints" (change)="sendPersonaClassUpdate()">
+</mat-form-field>
+</div>
+<div>
+<mat-form-field>
+  <input placeholder='Level' matInput [(ngModel)]="chara.chara_class.class_level" (change)="sendPersonaClassUpdate()">
+</mat-form-field>
+</div>
+<div>
+<mat-form-field>
+  <input placeholder='Caster Level {}' matInput [(ngModel)]="chara.chara_class.caster_level" (change)="sendPersonaClassUpdate()">
+</mat-form-field>
+</div>
+</div>
