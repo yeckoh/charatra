@@ -7,6 +7,7 @@ import evaluate, { registerFunction } from 'ts-expression-evaluator';
 import { Observable, Subscription } from 'rxjs';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { DialogStatComponent } from 'src/app/dialogs/dialog-stat/dialog-stat.component';
+import { Classes } from 'src/app/shared/classes.model';
 
 @Component({
   selector: 'app-tab-overview',
@@ -205,8 +206,8 @@ export class TabOverviewComponent implements OnInit, OnDestroy {
     }));
 
     this.subscriptions.add(this.charaservice.listenfor('Updated_selected_class').subscribe(data => {
+      this.chara.chara_class = data as Classes;
       this.updateProf();
-
       this.totalHitpoints = this.regularFormula(this.chara.chara_class.class_hitpoints);
       if (this.totalHitpoints < this.chara.current_hitpoints) {
         this.chara.current_hitpoints = this.totalHitpoints;

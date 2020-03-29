@@ -33,10 +33,9 @@ export class TabPersonaComponent implements OnInit, OnDestroy {
       this.chara = data as Chara;
     }));
 
-    this.subscriptions.add(this.charaservice.listenfor('Updated_selected_class').subscribe(data => {
-      this.chara.chara_class = data as Classes;
-      console.log('heard classupdate');
-    }));
+    // this.subscriptions.add(this.charaservice.listenfor('Updated_selected_class').subscribe(data => {
+    //   this.chara.chara_class = data as Classes;
+    // }));
   }
 
   openPersonaDialog(datafield) {

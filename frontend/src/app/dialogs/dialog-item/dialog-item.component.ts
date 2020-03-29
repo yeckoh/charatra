@@ -51,7 +51,8 @@ export class DialogItemComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription;
 
   ngOnDestroy() {
-    this.subscriptions.unsubscribe();
+    // uncomment when we start using listenfor
+    // this.subscriptions.unsubscribe();
   }
 
   updateProf() {
