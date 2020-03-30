@@ -8,10 +8,13 @@
   <div><mat-form-field class='dialogtext'>
     <textarea matInput class='dialogtext' placeholder='description' (focus)='!descriptFocus' (blur)='!descriptFocus' (change)='sendFeatureDialogUpdate()' style='overflow:hidden; resize: none;' [(ngModel)]="feature.descript" name='feature.descript'></textarea>
   </mat-form-field></div>
+  <mat-divider></mat-divider>
 
   <div style='display: flex;'><button mat-button class='mat-elevation-z4' color='primary' (click)='newAttack()'>New Attack</button>
   <button mat-button class='mat-elevation-z4' color='primary' (click)='newSave()'>New Saving Throw</button>
+<!--
   <button mat-button class='mat-elevation-z4' color='primary'>New Proficiency?</button>
+-->
   </div>
 
   <div class='attunementseparatorlabel'> Attacks </div>
@@ -48,9 +51,9 @@
         </tr>
       </table>
   </div>
-
+<!--
   <div *ngFor="let item of feature.listof_featureprofs">
     <p>ngfor profs</p>
   </div>
-
+-->
 </div>

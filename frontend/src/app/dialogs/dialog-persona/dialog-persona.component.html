@@ -1,6 +1,9 @@
 <div class='dialogdiv'>
-<h1 mat-dialog-title> {{title}} </h1>
+<div mat-dialog-title> {{title}} </div>
+<div>
 <mat-form-field class='dialogtext'>
-  <textarea matInput class='dialogtext' [(ngModel)]="updata" (input)='updateParentPersonaComponent()' (change)="updateBackendChara()">{{updata}}</textarea>
+  <textarea matInput class='dialogtext' placeholder='text input' [(ngModel)]='updata' (input)='updateParentPersonaComponent()' (change)="updateBackendChara()">{{updata}}</textarea>
 </mat-form-field>
+</div>
+<mat-divider></mat-divider>
 </div>
