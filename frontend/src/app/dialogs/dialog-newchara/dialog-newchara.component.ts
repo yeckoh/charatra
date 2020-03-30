@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CharaService } from 'src/app/shared/chara.service';
+import { MatSnackBar, MatDialogRef } from '@angular/material';
 
 
 @Component({
@@ -9,7 +10,9 @@ import { CharaService } from 'src/app/shared/chara.service';
 })
 export class DialogNewcharaComponent implements OnInit {
 
-  constructor(private charaservice: CharaService) { }
+  constructor(private charaservice: CharaService,
+              private thisDialog: MatDialogRef<DialogNewcharaComponent>,
+              private alohaSnackBar: MatSnackBar) { }
 
   public cardtitle = 'nothing';
   public cardcontent = 'card content';
@@ -44,7 +47,9 @@ export class DialogNewcharaComponent implements OnInit {
 
     this.charaservice.sendback('Make_new_chara', newChara);
 
-
+    this.alohaSnackBar.open(this.charaname + ' has been created!', 'okay',
+      {duration: 2000, verticalPosition: 'top', panelClass: ['alohasnackbar']});
+    this.thisDialog.close();
   } // end.of onnewcharasubmit
 
 }

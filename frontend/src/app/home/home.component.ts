@@ -25,17 +25,4 @@ export class HomeComponent implements OnInit {
     this.dialog.open(DialogNewcharaComponent);
   }
 
-  deleteCharacter() {
-    // open dialog to make sure they absolutely want to delete
-    // then move this logic into the dialog
-    const userandcharaids = {
-      userid: this.charaservice.UserRoom,
-      charaid: this.charaservice.CharaId
-    };
-    this.charaservice.sendback('Delete_selected_chara', userandcharaids);
-
-    // add listenfor into everywhere for 'deleted_chara'
-    // this.router.navigate(['/home']);
-  }
-
 }

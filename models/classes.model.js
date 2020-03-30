@@ -27,7 +27,7 @@ module.exports.MakeNewClass = function() {
     let newclass = new Class({
         selected_color: 'tomato',
         class_name: 'Fightman',
-        class_hitpoints: '(6+conMod)*class_level',
+        class_hitpoints: '(6+conMod)*level+4',
         class_level: 1,
         caster_level: 'class_level*1'
     });

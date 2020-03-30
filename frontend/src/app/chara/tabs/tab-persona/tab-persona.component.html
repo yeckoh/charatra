@@ -68,4 +68,27 @@
     </div>
   </div>
 
+
+
+  <div class='personaCard'>
+    <div class='mat-elevation-z8 innerWrapper' >
+      <div class='header a100' style='background: rgb(31, 69, 104);' (click)="deleteConfirm = !deleteConfirm; deleteConfirmName = ''">Delete Character</div>
+        <mat-card-content *ngIf="deleteConfirm" style='padding: 1rem; font-size: 16px; white-space: pre-wrap;'>
+          Are you sure?
+          <br>
+          Enter '{{chara.persona.name}}' to confirm for deletion
+          <div>
+          <mat-form-field>
+            <input matInput [(ngModel)]="deleteConfirmName" placeholder='Name'>
+          </mat-form-field>
+          <button mat-button class='mat-elevation-z4' color='warn' [disabled]='deleteConfirmName !== chara.persona.name' (click)='deleteCharacter()'>
+            Delete
+          </button>
+        </div>
+      </mat-card-content>
+  </div>
+</div>
+
+
+
 </div>
