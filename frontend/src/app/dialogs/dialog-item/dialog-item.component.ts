@@ -9,6 +9,8 @@ import { Items } from 'src/app/shared/items.model';
 import { Containers } from 'src/app/shared/containers.model';
 import { DialogAttackComponent } from '../dialog-attack/dialog-attack.component';
 import { DialogSavingthrowComponent } from '../dialog-savingthrow/dialog-savingthrow.component';
+import { Attack } from 'src/app/shared/attack.model';
+import { Savethrows } from 'src/app/shared/savethrows.model';
 
 @Component({
   selector: 'app-dialog-item',
@@ -123,10 +125,12 @@ export class DialogItemComponent implements OnInit, OnDestroy {
       this.extra = this.chara.extra_characontainer;
 
     }));
-
     // updated_one_item gets handled in the inventory-tab
     // deleted_one_item same thing but also if deleted, close this dialog
 
+    /// THESE ARE HANDLED IN INVENTORY-TAB
+    // this.subscriptions.add(this.charaservice.listenfor('Created_new_attack').subscribe(data => {
+    // this.subscriptions.add(this.charaservice.listenfor('Created_new_save').subscribe(data => {
 
   }
 
@@ -205,7 +209,7 @@ export class DialogItemComponent implements OnInit, OnDestroy {
             this.chara.extra_characontainer.listof_items.push(this.thisItem);
             break;
           case 'fromCarried':
-            this.chara.extra_characontainer.listof_items.splice(itemIndex, 1);
+            this.chara.inventory_container.listof_items.splice(itemIndex, 1);
             this.chara.extra_characontainer.listof_items.push(this.thisItem);
             break;
             }

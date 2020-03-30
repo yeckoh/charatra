@@ -7,6 +7,8 @@ import { MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { DialogItemComponent } from 'src/app/dialogs/dialog-item/dialog-item.component';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import { Attack } from 'src/app/shared/attack.model';
+import { Savethrows } from 'src/app/shared/savethrows.model';
 
 @Component({
   selector: 'app-tab-inventory',
@@ -18,7 +20,7 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
   constructor(private charaservice: CharaService,
               private matDialog: MatDialog) { }
 
-  private equipment: Containers = new Containers();
+  private equipment: Containers = new Containers(); // UNNEEDED
   private inventory: Containers = new Containers();
   private extra: Containers = new Containers();
   // private listofcontainers = [] as Container[];
@@ -75,28 +77,12 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
     })); // endof listenfor updatedonechara
 
 
-    /// TODO: figure out if we want 1 set of hooks for all 3 containers
-    // these 3 pretty much only handle item moves
-    // 2 should always get fired on-move. one to remove from their list, the other to add to their list
-    this.subscriptions.add(this.charaservice.listenfor('Updated_equipment_container').subscribe(updatedcontainer => {
-
-    }));
-
-    this.subscriptions.add(this.charaservice.listenfor('Updated_inventory_container').subscribe(updatedcontainer => {
-
-    }));
-
-    this.subscriptions.add(this.charaservice.listenfor('Updated_extra_container').subscribe(updatedcontainer => {
-      // if something was moved or taken from here, recalc value
-    }));
-
-    this.subscriptions.add(this.charaservice.listenfor('Made_new_item').subscribe(data => {
+    this.subscriptions.add(this.charaservice.listenfor('Created_new_item').subscribe(data => {
       // always go into inventory
       const newitem = data as Items;
       this.listof_inventoryitems.push(newitem);
       this.inventory.listof_items.push(newitem);
     }));
-
 
     // the item wasn't moved, we just updated it's properties
     this.subscriptions.add(this.charaservice.listenfor('Updated_one_item').subscribe(data => {
@@ -122,6 +108,67 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
       itemIndex = this.listof_extraitems.findIndex(e => e._id === updateditem._id); // EXTRA LIST
       this.listof_extraitems[itemIndex] = updateditem;
     }));
+
+
+    this.subscriptions.add(this.charaservice.listenfor('Created_new_attack').subscribe(data => {
+      const newattack = data as Attack;
+      const parent = newattack.parentItem;
+      if (parent === undefined) {
+        return;
+      }
+      let itemIndex = this.chara.equipped_itemcontainer.listof_items.findIndex(e => e._id === parent);
+      // check find parent item in equipped
+      // tslint:disable: no-conditional-assignment
+      if (itemIndex !== -1) {
+        this.chara.equipped_itemcontainer.listof_items[itemIndex].listof_attacks.push(newattack);
+        // this.equipment = this.chara.equipped_itemcontainer;
+        return;
+      }
+      // check find parent item in inventory
+      itemIndex = this.chara.inventory_container.listof_items.findIndex(e => e._id === parent);
+      if (itemIndex !== -1) {
+        this.chara.inventory_container.listof_items[itemIndex].listof_attacks.push(newattack);
+        // this.inventory = this.chara.inventory_container;
+        return;
+      }
+      // check find parent item in inventory
+      itemIndex = this.chara.extra_characontainer.listof_items.findIndex(e => e._id === parent);
+      if (itemIndex !== -1) {
+        this.chara.extra_characontainer.listof_items[itemIndex].listof_attacks.push(newattack);
+        // this.extra = this.chara.extra_characontainer;
+      }
+    }));
+
+    this.subscriptions.add(this.charaservice.listenfor('Created_new_save').subscribe(data => {
+      const newsave = data as Savethrows;
+      const parent = newsave.parentItem;
+      if (parent === undefined) {
+        return;
+      }
+      let itemIndex = this.chara.equipped_itemcontainer.listof_items.findIndex(e => e._id === parent);
+      // check find parent item in equipped
+      // tslint:disable: no-conditional-assignment
+      if (itemIndex !== -1) {
+        this.chara.equipped_itemcontainer.listof_items[itemIndex].listof_savingthrows.push(newsave);
+        return;
+      }
+      // check find parent item in inventory
+      itemIndex = this.chara.inventory_container.listof_items.findIndex(e => e._id === parent);
+      if (itemIndex !== -1) {
+        this.chara.inventory_container.listof_items[itemIndex].listof_savingthrows.push(newsave);
+        return;
+      }
+      // check find parent item in inventory
+      itemIndex = this.chara.extra_characontainer.listof_items.findIndex(e => e._id === parent);
+      if (itemIndex !== -1) {
+        this.chara.extra_characontainer.listof_items[itemIndex].listof_savingthrows.push(newsave);
+      }
+    }));
+
+    // DELETED ITEM
+    // DELETED ITEM ATTACK
+    // DELETED ITEM SAVE
+
 
 
   } // endof.ngoninit

@@ -4,7 +4,7 @@
   <div>
     <mat-card-title>
     <mat-form-field style='width: 100%;'>
-    <input matInput placeholder='name' [(ngModel)]='thisItem.name'>
+    <input matInput placeholder='name' [(ngModel)]='thisItem.name' (change)='sendItemDialogUpdate()'>
     </mat-form-field>
   </mat-card-title>
   </div>
@@ -12,7 +12,7 @@
   <!-- count -->
   <div>
     <mat-form-field>
-      <input matInput placeholder='Quantity' [(ngModel)]='thisItem.count'>
+      <input matInput placeholder='Quantity' [(ngModel)]='thisItem.count' (change)='sendItemDialogUpdate()'>
     </mat-form-field>
   </div>
   <!-- which container -->
@@ -32,7 +32,7 @@
   </mat-form-field>
 
   <mat-form-field class='dialogtext'>
-    <textarea matInput class='dialogtext' placeholder='description' [(ngModel)]='thisItem.descript' (change)="updateBackendChara()">{{thisItem.descript}}</textarea>
+    <textarea matInput class='dialogtext' placeholder='description' [(ngModel)]='thisItem.descript' (change)='sendItemDialogUpdate()'>{{thisItem.descript}}</textarea>
   </mat-form-field>
   <mat-divider></mat-divider>
 
