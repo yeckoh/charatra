@@ -23,6 +23,7 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
   private extra: Containers = new Containers();
   // private listofcontainers = [] as Container[];
 
+  private chara: Chara = new Chara();
   // tslint:disable: variable-name
   // tslint:disable: max-line-length
   private listof_equipmentitems = [] as Items[];
@@ -41,10 +42,10 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscriptions = (this.charaservice.listenfor('Updated_one_chara').subscribe(data => {
-      const chara = data as Chara;
-      this.equipment = chara.equipped_itemcontainer as Containers;
-      this.inventory = chara.inventory_container as Containers;
-      this.extra = chara.extra_characontainer as Containers;
+      this.chara = data as Chara;
+      this.equipment = this.chara.equipped_itemcontainer as Containers;
+      this.inventory = this.chara.inventory_container as Containers;
+      this.extra = this.chara.extra_characontainer as Containers;
       this.listof_equipmentitems = this.equipment.listof_items as Items[];
       this.listof_inventoryitems = this.inventory.listof_items as Items[];
       this.listof_extraitems = this.extra.listof_items as Items[];
@@ -126,8 +127,8 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
   } // endof.ngoninit
 
 
-  openItemDialog(selected_item) {
-    this.matDialog.open(DialogItemComponent, {data: selected_item});
+  openItemDialog(selected_item, container_name) {
+    this.matDialog.open(DialogItemComponent, {data: {item: selected_item, container: container_name, chara: this.chara}});
   }
 
 

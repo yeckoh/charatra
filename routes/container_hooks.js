@@ -41,10 +41,16 @@ module.exports = function(socket) {
 
     // when 'update selected container' gets fired... UPDATE_ONE
     socket.on('Update_selected_container', function(sent_in_data) {
-        Container.findByIdAndUpdate(sent_in_data.container._id, sent_in_data.container, {new: true}, function(err, updatedContainer) {
-            socket.emit('Updated_one_container', updatedContainer);
-            socket.broadcast.in(sent_in_data.charaid).emit('Updated_one_container', updatedContainer);
+      // sentindata is a .charaid, a .itemid, newcontainer, oldcontainer
+        Container.findByIdAndUpdate(sent_in_data.newcontainer._id, sent_in_data.newcontainer, {new: true}, function(err, updatedContainer) {
+            // socket.emit('Updated_one_container', updatedContainer);
+            // socket.broadcast.in(sent_in_data.charaid).emit('Updated_one_container', updatedContainer);
         });
+        Container.findByIdAndUpdate(sent_in_data.oldcontainer._id, sent_in_data.oldcontainer, {new: true}, function(err, updatedContainer) {
+          socket.emit('Updated_one_container', updatedContainer);
+          socket.broadcast.in(sent_in_data.charaid).emit('Updated_one_container', updatedContainer);
+      });
+      console.log('moved successfully, tell everyone what was swapped and where');
     });
 
     /// UNUSED UNLESS CHARACTERS CAN HAVE A LIST OF ANY NUMBER OF CONTAINERS

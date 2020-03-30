@@ -1,9 +1,82 @@
-<div>
+<div class='dialogdiv'>
 
+  <!-- name -->
+  <div>
+    <mat-card-title>
+    <mat-form-field style='width: 100%;'>
+    <input matInput placeholder='name' [(ngModel)]='thisItem.name'>
+    </mat-form-field>
+  </mat-card-title>
+  </div>
 
+  <!-- count -->
+  <div>
+    <mat-form-field>
+      <input matInput placeholder='Quantity' [(ngModel)]='thisItem.count'>
+    </mat-form-field>
+  </div>
+  <!-- which container -->
+  <mat-form-field>
+    <mat-label>Container</mat-label>
+  <mat-select [(ngModel)]=whichContainer (selectionChange)='sendItemMoveUpdate()'>
+    <mat-option value='inventory' style='height: 100%;'>
+      Inventory
+    </mat-option>
+    <mat-option value='carried' style='height: 100%;'>
+      Carried
+    </mat-option>
+    <mat-option value='extra' style='height: 100%;'>
+      Extra
+    </mat-option>
+  </mat-select>
+  </mat-form-field>
 
+  <mat-form-field class='dialogtext'>
+    <textarea matInput class='dialogtext' placeholder='description' [(ngModel)]='thisItem.descript' (change)="updateBackendChara()">{{thisItem.descript}}</textarea>
+  </mat-form-field>
+  <mat-divider></mat-divider>
 
+  <div style='display: flex;'><button mat-button class='mat-elevation-z4' color='primary' (click)='newAttack()'>New Attack</button>
+    <button mat-button class='mat-elevation-z4' color='primary' (click)='newSave()'>New Saving Throw</button>
+  <!--
+    <button mat-button class='mat-elevation-z4' color='primary'>New Proficiency?</button>
+  -->
+    </div>
 
+    <div class='attunementseparatorlabel'> Attacks </div>
+    <div *ngFor="let attack of thisItem.listof_attacks" (click)='openAttackDialog(attack)'>
+      <table> <!-- attack item -->
+        <tr><td rowspan='2' class='attackbonus'>
+          <label *ngIf="nonRegularFormula(attack.atkbonus) > -1">+</label>
+          {{nonRegularFormula(attack.atkbonus)}}</td>
+            <td class='damagedice'>
+              {{nonRegularFormula(attack.damage)}}
+            </td>
+          </tr>
+          <tr *ngIf="attack.details != ''">
+            <td class='damagedice'>
+              {{attack.details}}
+            </td>
+          </tr>
+        </table>
+    </div>
+
+    <div class='attunementseparatorlabel'> Saves </div>
+    <div *ngFor="let save of thisItem.listof_savingthrows" (click)='openSaveDialog(save)'>
+      <table> <!-- save item -->
+        <tr><td rowspan='2' class='attackbonus'>
+          {{nonRegularFormula(save.saveDC)}}</td>
+            <td class='damagedice'>
+              {{nonRegularFormula(save.damage)}}
+            </td>
+          </tr>
+          <tr *ngIf="save.details != ''">
+            <td class='damagedice'>
+              {{save.details}}
+            </td>
+          </tr>
+        </table>
+    </div>
 
 
 </div>

@@ -1,0 +1,15 @@
+.dialogdiv {
+  width: 40rem;
+  min-width: 16rem;
+  height: 32rem;
+}
+
+.dialogtext {
+  width: 100%;
+  min-width: 16rem;
+  height: 16rem;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  overflow:hidden;
+  resize:none;
+}
