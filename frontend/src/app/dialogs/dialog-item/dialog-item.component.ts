@@ -30,6 +30,21 @@ export class DialogItemComponent implements OnInit, OnDestroy {
                 this.inventory = this.chara.equipped_itemcontainer;
                 this.carried = this.chara.inventory_container;
                 this.extra = this.chara.extra_characontainer;
+
+                this.level = this.chara.chara_class.class_level;
+                this.updateProf();
+                this.str = this.chara.stats.str;
+                this.dex = this.chara.stats.dex;
+                this.con = this.chara.stats.con;
+                this.int = this.chara.stats.int;
+                this.wis = this.chara.stats.wis;
+                this.cha = this.chara.stats.cha;
+                this.strMod = this.modPipe.transform(this.str);
+                this.dexMod = this.modPipe.transform(this.dex);
+                this.conMod = this.modPipe.transform(this.con);
+                this.intMod = this.modPipe.transform(this.int);
+                this.wisMod = this.modPipe.transform(this.wis);
+                this.chaMod = this.modPipe.transform(this.cha);
                }
 
     thisItem: Items;
@@ -105,7 +120,7 @@ export class DialogItemComponent implements OnInit, OnDestroy {
     this.subscriptions = (this.charaservice.listenfor('Updated_one_chara').subscribe(data => {
       // really we only need the stats for formula evaluation
       this.chara = data as Chara;
-      this.level = this.chara.stats.level;
+      this.level = this.chara.chara_class.class_level;
       this.updateProf();
       this.str = this.chara.stats.str;
       this.dex = this.chara.stats.dex;

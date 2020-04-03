@@ -67,18 +67,13 @@ var CharaSchema = mongoose.Schema({
 
   skills: mongoose.model('Skill_Profs').schema,
 
-  // equipped_itemcontainer: mongoose.model('Containers').schema, // a containerid
-  // inventory_container: mongoose.model('Containers').schema, // a containerid
   equipped_itemcontainer: {type: mongoose.Schema.Types.ObjectId, ref: 'Containers'}, // a containerid
   inventory_container: {type: mongoose.Schema.Types.ObjectId, ref: 'Containers'}, // a containerid
 
 
   // REVISIT: list of extra containers instead of a single extracontainer
   extra_characontainer: {type: mongoose.Schema.Types.ObjectId, ref: 'Containers'}, // a list of containerids
-  // listof_characlasses: [{type: mongoose.Schema.Types.ObjectId, ref: 'Classes'}], // a list of classes
-  //  listof_charafeatures: [mongoose.model('Features').schema], // a list of features
   listof_charafeatures: [{type: mongoose.Schema.Types.ObjectId, ref: 'Features'}], // a list of features
-  // listof_spelllists: [{type: mongoose.Schema.Types.ObjectId, ref: 'Spell_list'}],
   chara_class: {type: mongoose.Schema.Types.ObjectId, ref: 'Classes'},
   chara_spelllist: {type: mongoose.Schema.Types.ObjectId, ref: 'Spell_list'},
   
