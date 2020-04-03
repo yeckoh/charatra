@@ -27,16 +27,18 @@ Mongoose Schemas: /charatra/models/
 
 socket.io is loaded in /charatra/server.js
 
-Backend WebSocket Hooks (listeners + emitters): /charatra/models/user.model.js
+Backend WebSocket Hooks (listeners + emitters): /charatra/routes/*_hooks.js
 
-Frontend WebSocket Hooks: /charatra/frontend/src/app/secret-socket/secret-socket.component.ts
+Frontend WebSocket Hooks: /charatra/frontend/src/app/*.component.ts (not all components have listeners)
+
+Frontend Websocket listenfor() and sendback(): /charatra/frontend/src/app/shared/chara.service.ts
 
 # to (sort of) deploy, change localhost:4200 urls in:
-Express CORS origin policy <---- charatra/server.js
+Express CORS origin policy <---- /charatra/server.js
 
-Angular user auth httproute <---- charatra/frontend/src/app/shared/auth.service.ts
+Angular user auth httproute <---- /charatra/frontend/src/app/shared/auth.service.ts
 
-Angular socket connection target url <---- charatra/frontend/src/app/secret-socket/secret-socket.component.ts
+Angular socket connection target url <---- /charatra/frontend/src/app/shared/chara.service.ts
 
 Run ng server --host (ip4)
 
