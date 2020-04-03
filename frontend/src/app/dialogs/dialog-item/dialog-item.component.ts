@@ -24,12 +24,23 @@ export class DialogItemComponent implements OnInit, OnDestroy {
               private thisDialog: MatDialogRef<DialogItemComponent>,
               private subDialog: MatDialog,
               private modPipe: ModifierPipe) {
-                this.thisItem = data.item as Items;
+                // this.thisItem = data.item as Items;
                 this.chara = data.chara as Chara;
                 this.whichContainer = data.container;
                 this.inventory = this.chara.equipped_itemcontainer;
                 this.carried = this.chara.inventory_container;
                 this.extra = this.chara.extra_characontainer;
+                switch (this.whichContainer) {
+                  case 'inventory':
+                    this.thisItem = this.chara.equipped_itemcontainer.listof_items.find(e => e._id === data.item._id);
+                    break;
+                  case 'carried':
+                    this.thisItem = this.chara.inventory_container.listof_items.find(e => e._id === data.item._id);
+                    break;
+                  case 'extra':
+                    this.thisItem = this.chara.extra_characontainer.listof_items.find(e => e._id === data.item._id);
+                    break;
+                }
 
                 this.level = this.chara.chara_class.class_level;
                 this.updateProf();
@@ -140,7 +151,19 @@ export class DialogItemComponent implements OnInit, OnDestroy {
       this.extra = this.chara.extra_characontainer;
 
     }));
-    // updated_one_item gets handled in the inventory-tab
+    // this.subscriptions.add(this.charaservice.listenfor('Updated_one_attack').subscribe(data => {
+    //   const newattack = data as Attack;
+    //   if (this.thisItem._id !== newattack.parentItem) {
+    //     return;
+    //   }
+    //   // update thisItem attack
+    //   const attackIndex = this.thisItem.listof_attacks.findIndex(e => e._id === newattack._id);
+    //   this.thisItem.listof_attacks[attackIndex] = newattack;
+    //   // update chara container item attack here
+    //   // if its updated via feature-tab it MUST be in the active inventory container
+    //   const itemIndex = this.chara.equipped_itemcontainer.listof_items.findIndex(e => e._id === this.thisItem._id);
+    //   this.chara.equipped_itemcontainer.listof_items[itemIndex].listof_attacks[attackIndex] = newattack;
+    // }));
     // deleted_one_item same thing but also if deleted, close this dialog
 
     /// THESE ARE HANDLED IN INVENTORY-TAB
@@ -194,40 +217,49 @@ export class DialogItemComponent implements OnInit, OnDestroy {
         data.newcontainer = this.inventory;
         switch (fromContainer) { // from
           case 'fromCarried':
-            this.chara.inventory_container.listof_items.splice(itemIndex, 1);
-            this.chara.equipped_itemcontainer.listof_items.push(this.thisItem);
+            // this.chara.inventory_container.listof_items.splice(itemIndex, 1);
+            // this.chara.equipped_itemcontainer.listof_items.push(this.thisItem);
+            this.carried.listof_items.splice(itemIndex, 1);
             break;
           case 'fromExtra':
-            this.chara.extra_characontainer.listof_items.splice(itemIndex, 1);
-            this.chara.equipped_itemcontainer.listof_items.push(this.thisItem);
+            // this.chara.extra_characontainer.listof_items.splice(itemIndex, 1);
+            // this.chara.equipped_itemcontainer.listof_items.push(this.thisItem);
+            this.extra.listof_items.splice(itemIndex, 1);
             break;
             }
+        this.inventory.listof_items.push(this.thisItem);
         break; // endof.into inventory
       case 'carried':
         data.newcontainer = this.carried;
         switch (fromContainer) { // from
           case 'fromInventory':
-            this.chara.equipped_itemcontainer.listof_items.splice(itemIndex, 1);
-            this.chara.inventory_container.listof_items.push(this.thisItem);
+            // this.chara.equipped_itemcontainer.listof_items.splice(itemIndex, 1);
+            // this.chara.inventory_container.listof_items.push(this.thisItem);
+            this.inventory.listof_items.splice(itemIndex, 1);
             break;
           case 'fromExtra':
-            this.chara.extra_characontainer.listof_items.splice(itemIndex, 1);
-            this.chara.inventory_container.listof_items.push(this.thisItem);
+            // this.chara.extra_characontainer.listof_items.splice(itemIndex, 1);
+            // this.chara.inventory_container.listof_items.push(this.thisItem);
+            this.extra.listof_items.splice(itemIndex, 1);
             break;
             }
+        this.carried.listof_items.push(this.thisItem);
         break; // endof.into carried
       case 'extra':
         data.newcontainer = this.extra;
         switch (fromContainer) { // from
           case 'fromInventory':
-            this.chara.equipped_itemcontainer.listof_items.splice(itemIndex, 1);
-            this.chara.extra_characontainer.listof_items.push(this.thisItem);
+            // this.chara.equipped_itemcontainer.listof_items.splice(itemIndex, 1);
+            // this.chara.extra_characontainer.listof_items.push(this.thisItem);
+            this.inventory.listof_items.splice(itemIndex, 1);
             break;
           case 'fromCarried':
-            this.chara.inventory_container.listof_items.splice(itemIndex, 1);
-            this.chara.extra_characontainer.listof_items.push(this.thisItem);
+            // this.chara.inventory_container.listof_items.splice(itemIndex, 1);
+            // this.chara.extra_characontainer.listof_items.push(this.thisItem);
+            this.carried.listof_items.splice(itemIndex, 1);
             break;
             }
+        this.extra.listof_items.push(this.thisItem);
         break; // endof.into extra
     }
     // console.log('post swap');

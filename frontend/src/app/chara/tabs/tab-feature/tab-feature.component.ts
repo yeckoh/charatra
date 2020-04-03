@@ -189,6 +189,69 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
       this.updateProf();
     }));
 
+    this.subscriptions.add(this.charaservice.listenfor('Updated_one_container').subscribe(data => {
+      // console.log(data);
+      class SwapData {
+        oldcontainer: string;
+        newcontainer: string;
+        itemid: string;
+      }
+      const swapdata = data as SwapData;
+      // find which oldcontainer
+      switch (swapdata.oldcontainer) {
+        case this.chara.equipped_itemcontainer._id:
+          switch (swapdata.newcontainer) { // from inventory into...
+            case this.chara.inventory_container._id: // ...into carried
+              this.chara.inventory_container.listof_items.push(...this.chara.equipped_itemcontainer.listof_items.filter(e => e._id === swapdata.itemid));
+              this.chara.equipped_itemcontainer.listof_items = this.chara.equipped_itemcontainer.listof_items.filter(e => e._id !== swapdata.itemid) as [Items];
+              break;
+            case this.chara.extra_characontainer._id: // into extra
+              this.chara.extra_characontainer.listof_items.push(...this.chara.equipped_itemcontainer.listof_items.filter(e => e._id === swapdata.itemid));
+              this.chara.equipped_itemcontainer.listof_items = this.chara.equipped_itemcontainer.listof_items.filter(e => e._id !== swapdata.itemid) as [Items];
+              break;
+          }
+
+          break;
+        case this.chara.inventory_container._id:
+          switch (swapdata.newcontainer) { // from carried into...
+            case this.chara.equipped_itemcontainer._id: // ...into inventory
+              this.chara.equipped_itemcontainer.listof_items.push(...this.chara.inventory_container.listof_items.filter(e => e._id === swapdata.itemid));
+              this.chara.inventory_container.listof_items = this.chara.inventory_container.listof_items.filter(e => e._id !== swapdata.itemid) as [Items];
+              break;
+            case this.chara.extra_characontainer._id: // ...into extra
+              this.chara.extra_characontainer.listof_items.push(...this.chara.inventory_container.listof_items.filter(e => e._id === swapdata.itemid));
+              this.chara.inventory_container.listof_items = this.chara.inventory_container.listof_items.filter(e => e._id !== swapdata.itemid) as [Items];
+              break;
+          }
+
+          break;
+        case this.chara.extra_characontainer._id:
+          switch (swapdata.newcontainer) { // from extra into...
+            case this.chara.equipped_itemcontainer._id: // ...into inventory
+              this.chara.equipped_itemcontainer.listof_items.push(...this.chara.extra_characontainer.listof_items.filter(e => e._id === swapdata.itemid));
+              this.chara.extra_characontainer.listof_items = this.chara.extra_characontainer.listof_items.filter(e => e._id !== swapdata.itemid) as [Items];
+              break;
+            case this.chara.inventory_container._id: // ...into carried
+              this.chara.inventory_container.listof_items.push(...this.chara.extra_characontainer.listof_items.filter(e => e._id === swapdata.itemid));
+              this.chara.extra_characontainer.listof_items = this.chara.extra_characontainer.listof_items.filter(e => e._id !== swapdata.itemid) as [Items];
+              break;
+          }
+          break;
+      }
+      // update item attack and save lists
+      this.items = this.chara.equipped_itemcontainer.listof_items;
+      // this.spells = this.chara.listof_spelllists.listof_spells;
+
+      // load attacks and saves
+      this.itemattacks.length = 0;
+      this.itemsaves.length = 0;
+      this.items.forEach(element => {
+        this.itemattacks.push(...element.listof_attacks); // use iterator notation to keep a single array
+        this.itemsaves.push(...element.listof_savingthrows);
+      });
+
+    }));
+
     this.subscriptions.add(this.charaservice.listenfor('Created_new_feature').subscribe(data => {
       this.features.push(data as Features);
       console.log('heard creatednewfeature');
