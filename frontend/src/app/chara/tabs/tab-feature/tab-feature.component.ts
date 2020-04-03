@@ -13,6 +13,7 @@ import { DialogAttackComponent } from 'src/app/dialogs/dialog-attack/dialog-atta
 import { Spells } from 'src/app/shared/spells.model';
 import { Subscription } from 'rxjs';
 import { DialogSavingthrowComponent } from 'src/app/dialogs/dialog-savingthrow/dialog-savingthrow.component';
+import { Classes } from 'src/app/shared/classes.model';
 
 @Component({
   selector: 'app-tab-feature',
@@ -128,7 +129,7 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
   }
 
   updateProf() {
-    this.profBonus = 1 + Math.ceil(this.chara.stats.level / 4); // evaluate cant use math atm. funcs so rest in rip for now
+    this.profBonus = 1 + Math.ceil(this.chara.chara_class.class_level / 4); // evaluate cant use math atm. funcs so rest in rip for now
   }
 
   ngOnInit() {
@@ -136,6 +137,7 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
     this.subscriptions = (this.charaservice.listenfor('Updated_one_chara').subscribe(data => {
       // set up shorthand variables for the user to use in formulas
       this.chara = data as Chara;
+      this.level = this.chara.chara_class.class_level;
       this.updateProf();
       this.str = this.chara.stats.str;
       this.dex = this.chara.stats.dex;
@@ -179,6 +181,12 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
       });
       // spellpopulate
       console.log('heard updatedonechara');
+    }));
+
+    this.subscriptions.add(this.charaservice.listenfor('Updated_selected_class').subscribe(data => {
+      this.chara.chara_class = data as Classes;
+      this.level = this.chara.chara_class.class_level;
+      this.updateProf();
     }));
 
     this.subscriptions.add(this.charaservice.listenfor('Created_new_feature').subscribe(data => {

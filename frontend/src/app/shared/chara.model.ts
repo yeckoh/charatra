@@ -74,8 +74,6 @@ export class Chara {
   equipped_itemcontainer: Containers;
   inventory_container: Containers;
   extra_characontainer: Containers;
-  // listof_characlass = [] as Classes[];
-  // listof_spelllists = [] as SpellList[];
   listof_charafeatures = [] as Features[];
   chara_class: Classes;
   chara_spelllist: SpellList;

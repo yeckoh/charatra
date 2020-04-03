@@ -45,11 +45,10 @@ module.exports.AddToListofsaves = function(featureid, saveid) {
     Feature.findByIdAndUpdate(featureid, {$push: {listof_saves: [saveid] }}).exec();
 }
 
-// probably going to merge proficiencies into effects
-
-module.exports.AddToListofeffectsbyid = function(featureid, effectid) {
-    Feature.findByIdAndUpdate(featureid, {$push: {listof_effects: [effectid] }}).exec();
-}
+// DEPRECIATED
+// module.exports.AddToListofeffectsbyid = function(featureid, effectid) {
+//     Feature.findByIdAndUpdate(featureid, {$push: {listof_effects: [effectid] }}).exec();
+// }
 
 module.exports.DeleteCascading = function(featureids) {
     Feature.find().where('_id').in(featureids).exec().then((features) => {
