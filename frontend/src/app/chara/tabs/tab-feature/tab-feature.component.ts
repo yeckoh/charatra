@@ -386,6 +386,7 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
 
     this.subscriptions.add(this.charaservice.listenfor('Deleted_item_attack').subscribe(data => {
       // data is the deleted attack
+      // this.chara gets updated in tab-inventory. Remove from local lists only
       const deletedattack = data as Attack;
       const attackIndex = this.itemattacks.findIndex(e => e._id === deletedattack._id);
       if (attackIndex !== -1) { // was it in the inventory container?

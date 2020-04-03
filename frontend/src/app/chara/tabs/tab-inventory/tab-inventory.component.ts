@@ -195,12 +195,18 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
     // DELETED ITEM
     // DELETED ITEM ATTACK
     this.subscriptions.add(this.charaservice.listenfor('Deleted_item_attack').subscribe(data => {
-      console.log('iteminventory attack deletion call');
       const delattack = data as Attack;
+
+      // this.chara.equipped_itemcontainer.listof_items = this.chara.equipped_itemcontainer.listof_items.filter(e => e.listof_attacks = e.listof_attacks.filter(i => i !== delattack) as [Attack]) as [Items];
+      // this.chara.inventory_container.listof_items = this.chara.inventory_container.listof_items.filter(e => e.listof_attacks = e.listof_attacks.filter(i => i !== delattack) as [Attack]) as [Items];
+      // this.chara.extra_characontainer.listof_items = this.chara.extra_characontainer.listof_items.filter(e => e.listof_attacks = e.listof_attacks.filter(i => i !== delattack) as [Attack]) as [Items];
+
+      // this.listof_equipmentitems = this.chara.equipped_itemcontainer.listof_items;
+      // this.listof_inventoryitems = this.chara.inventory_container.listof_items;
+      // this.listof_extraitems = this.chara.extra_characontainer.listof_items;
       let itemIndex = this.chara.equipped_itemcontainer.listof_items.findIndex(e => e._id = delattack.parentItem);
       let attackIndex;
       if (itemIndex !== -1) {
-        console.log('del from euqipped container');
         attackIndex = this.chara.equipped_itemcontainer.listof_items[itemIndex].listof_attacks.findIndex(e => e._id === delattack._id);
         this.chara.equipped_itemcontainer.listof_items[itemIndex].listof_attacks.splice(attackIndex, 1);
         this.listof_equipmentitems = this.chara.equipped_itemcontainer.listof_items;
@@ -208,19 +214,18 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
       }
       itemIndex = this.chara.inventory_container.listof_items.findIndex(e => e._id = delattack.parentItem);
       if (itemIndex !== -1) {
-        console.log('del from inventory container');
         attackIndex = this.chara.inventory_container.listof_items[itemIndex].listof_attacks.findIndex(e => e._id === delattack._id);
         this.chara.inventory_container.listof_items[itemIndex].listof_attacks.splice(attackIndex, 1);
         this.listof_inventoryitems = this.chara.inventory_container.listof_items;
         return;
       }
-      console.log('del from extra container');
       itemIndex = this.chara.extra_characontainer.listof_items.findIndex(e => e._id = delattack.parentItem);
       attackIndex = this.chara.inventory_container.listof_items[itemIndex].listof_attacks.findIndex(e => e._id === delattack._id);
       this.chara.inventory_container.listof_items[itemIndex].listof_attacks.splice(attackIndex, 1);
       this.listof_extraitems = this.chara.extra_characontainer.listof_items;
       return;
     }));
+
     // DELETED ITEM SAVE
 
     // MOVED ITEM BETWEEN CONTAINER

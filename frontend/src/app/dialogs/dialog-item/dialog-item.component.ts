@@ -151,25 +151,25 @@ export class DialogItemComponent implements OnInit, OnDestroy {
       this.extra = this.chara.extra_characontainer;
 
     }));
-    // this.subscriptions.add(this.charaservice.listenfor('Updated_one_attack').subscribe(data => {
-    //   const newattack = data as Attack;
-    //   if (this.thisItem._id !== newattack.parentItem) {
-    //     return;
-    //   }
-    //   // update thisItem attack
-    //   const attackIndex = this.thisItem.listof_attacks.findIndex(e => e._id === newattack._id);
-    //   this.thisItem.listof_attacks[attackIndex] = newattack;
-    //   // update chara container item attack here
-    //   // if its updated via feature-tab it MUST be in the active inventory container
-    //   const itemIndex = this.chara.equipped_itemcontainer.listof_items.findIndex(e => e._id === this.thisItem._id);
-    //   this.chara.equipped_itemcontainer.listof_items[itemIndex].listof_attacks[attackIndex] = newattack;
-    // }));
-    // deleted_one_item same thing but also if deleted, close this dialog
 
+    // attack updates are handled by features-tab
     /// THESE ARE HANDLED IN INVENTORY-TAB
     // this.subscriptions.add(this.charaservice.listenfor('Created_new_attack').subscribe(data => {
     // this.subscriptions.add(this.charaservice.listenfor('Created_new_save').subscribe(data => {
+    // this.subscriptions.add(this.charaservice.listenfor('Deleted_item_attack').subscribe(data => {
+    this.subscriptions.add(this.charaservice.listenfor('Updated_one_container').subscribe(data => {
+      // console.log(data);
+      class SwapData {
+        oldcontainer: string;
+        newcontainer: string;
+        itemid: string;
+      }
+      const swapdata = data as SwapData;
+      // thisItem needs to stay pointing to the this.chara.*.listof_items[x]
 
+    }));
+
+    // close dialog if item deletion is this one
   }
 
 
