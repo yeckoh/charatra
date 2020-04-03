@@ -157,17 +157,40 @@ export class DialogItemComponent implements OnInit, OnDestroy {
     // this.subscriptions.add(this.charaservice.listenfor('Created_new_attack').subscribe(data => {
     // this.subscriptions.add(this.charaservice.listenfor('Created_new_save').subscribe(data => {
     // this.subscriptions.add(this.charaservice.listenfor('Deleted_item_attack').subscribe(data => {
-    this.subscriptions.add(this.charaservice.listenfor('Updated_one_container').subscribe(data => {
-      // console.log(data);
-      class SwapData {
-        oldcontainer: string;
-        newcontainer: string;
-        itemid: string;
-      }
-      const swapdata = data as SwapData;
-      // thisItem needs to stay pointing to the this.chara.*.listof_items[x]
 
-    }));
+    // UPDATE REFERENCE OF THISITEM
+    // this.subscriptions.add(this.charaservice.listenfor('Updated_one_container').subscribe(data => {
+    //   // console.log(data);
+    //   class SwapData {
+    //     oldcontainer: string;
+    //     newcontainer: string;
+    //     itemid: string;
+    //   }
+    //   const swapdata = data as SwapData;
+    //   if (this.thisItem._id !== swapdata.itemid) {
+    //     return;
+    //   }
+    //   // thisItem needs to stay pointing to the this.chara.*.listof_items[x]
+    //   // probably unncessary
+    //   this.inventory = this.chara.equipped_itemcontainer;
+    //   this.carried = this.chara.inventory_container;
+    //   this.extra = this.chara.extra_characontainer;
+    //   let itemIndex;
+    //   switch (swapdata.newcontainer) {
+    //     case this.inventory._id:
+    //       itemIndex = this.inventory.listof_items.findIndex(i => i._id === swapdata.itemid);
+    //       this.thisItem = this.chara.equipped_itemcontainer.listof_items[itemIndex];
+    //       break;
+    //     case this.carried._id:
+    //       itemIndex = this.carried.listof_items.findIndex(i => i._id === swapdata.itemid);
+    //       this.thisItem = this.chara.inventory_container.listof_items[itemIndex];
+    //       break;
+    //     case this.extra._id:
+    //       itemIndex = this.extra.listof_items.findIndex(i => i._id === swapdata.itemid);
+    //       this.thisItem = this.chara.extra_characontainer.listof_items[itemIndex];
+    //       break;
+    //   }
+    // }));
 
     // close dialog if item deletion is this one
   }
