@@ -158,7 +158,7 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
       this.wisDC = 8 + this.wisMod + this.profBonus;
       this.chaDC = 8 + this.chaMod + this.profBonus;
 
-      // big money item
+      // big money items
       this.features = this.chara.listof_charafeatures;
       this.items = this.chara.equipped_itemcontainer.listof_items;
       // this.spells = this.chara.listof_spelllists.listof_spells;
@@ -180,7 +180,6 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
         this.itemsaves.push(...element.listof_savingthrows);
       });
       // spellpopulate
-      console.log('heard updatedonechara');
     }));
 
     this.subscriptions.add(this.charaservice.listenfor('Updated_selected_class').subscribe(data => {

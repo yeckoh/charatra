@@ -53,4 +53,6 @@
 
 .number {
   text-align: right;
+  width: 42px;
+  padding-right: 6px;
 }
