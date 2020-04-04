@@ -61,7 +61,44 @@
   <!--
     <button mat-button class='mat-elevation-z4' color='primary'>New Proficiency?</button>
   -->
+    <button mat-button class='mat-elevation-z4' color='accent' (click)='thisItem.applyarmor = !thisItem.applyarmor; sendItemDialogUpdate()'>Modifies Armor Class</button>
+</div>
+
+    <!-- armor -->
+    <div *ngIf="thisItem.applyarmor" class='mat-elevation-z1'>
+      <table>
+        <tr>
+          <td>
+        <label>base </label><mat-checkbox [(ngModel)]='thisItem.armormod.usebase' (change)='sendArmorUpdate()'></mat-checkbox>
+        </td>
+        <td>
+        <label>add </label><mat-checkbox [(ngModel)]='thisItem.armormod.useadd' (change)='sendArmorUpdate()'></mat-checkbox>
+      </td>
+      <td>
+        <label>max </label><mat-checkbox [(ngModel)]='thisItem.armormod.usemax' (change)='sendArmorUpdate()'></mat-checkbox>
+      </td>
+      </tr>
+      <tr>
+        <td>
+      <mat-form-field>
+        <input matInput [disabled]='!thisItem.armormod.usebase' placeholder='base AC' [(ngModel)]='thisItem.armormod.baseac' (change)='sendArmorUpdate()'>
+      </mat-form-field>
+    </td>
+    <td>
+      <mat-form-field>
+        <input matInput [disabled]='!thisItem.armormod.useadd' placeholder='+ AC' [(ngModel)]='thisItem.armormod.addac' (change)='sendArmorUpdate()'>
+      </mat-form-field>
+    </td>
+    <td>
+      <mat-form-field>
+        <input matInput [disabled]='!thisItem.armormod.usemax' placeholder='max AC' [(ngModel)]='thisItem.armormod.maxac' (change)='sendArmorUpdate()'>
+      </mat-form-field>
+      </td>
+      </tr>
+      </table>
     </div>
+
+
 
     <div class='attunementseparatorlabel'> Attacks </div>
     <div *ngFor="let attack of thisItem.listof_attacks" (click)='openAttackDialog(attack)'>
@@ -100,3 +137,4 @@
 
 
 </div>
+

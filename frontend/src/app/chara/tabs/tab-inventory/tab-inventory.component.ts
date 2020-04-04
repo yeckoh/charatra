@@ -9,6 +9,7 @@ import { DialogItemComponent } from 'src/app/dialogs/dialog-item/dialog-item.com
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import { Attack } from 'src/app/shared/attack.model';
 import { Savethrows } from 'src/app/shared/savethrows.model';
+import { ArmorMod } from 'src/app/shared/armor-mod.model';
 
 @Component({
   selector: 'app-tab-inventory',
@@ -89,6 +90,7 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
       const updateditem = data as Items; // gotta cast to use it
       let itemIndex = this.listof_equipmentitems.findIndex(e => e._id === updateditem._id); // EQUIPMENT LIST
       if (itemIndex !== -1) {
+        this.chara.equipped_itemcontainer.listof_items[itemIndex] = updateditem;
         this.netWorth -= this.listof_equipmentitems[itemIndex].value * this.listof_equipmentitems[itemIndex].count; // subtract old from networth
         this.netWorth += updateditem.value * updateditem.count; // add new to networth
         this.totalWeight -= this.listof_equipmentitems[itemIndex].weight * this.listof_equipmentitems[itemIndex].count; // subtract old from weight
@@ -98,6 +100,7 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
       }
       itemIndex = this.listof_inventoryitems.findIndex(e => e._id === updateditem._id); // INVENTORY LIST
       if (itemIndex !== -1) {
+        this.chara.inventory_container.listof_items[itemIndex] = updateditem;
         this.netWorth -= this.listof_inventoryitems[itemIndex].value * this.listof_inventoryitems[itemIndex].count; // subtract old from networth
         this.netWorth += updateditem.value * updateditem.count; // add new to networth
         this.totalWeight -= this.listof_inventoryitems[itemIndex].weight * this.listof_inventoryitems[itemIndex].count; // subtract old from weight
@@ -106,6 +109,7 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
         return;
       }
       itemIndex = this.listof_extraitems.findIndex(e => e._id === updateditem._id); // EXTRA LIST
+      this.chara.extra_characontainer.listof_items[itemIndex] = updateditem;
       this.listof_extraitems[itemIndex] = updateditem;
     }));
 
@@ -234,6 +238,28 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
       this.listof_equipmentitems = this.chara.equipped_itemcontainer.listof_items as Items[];
       this.listof_inventoryitems = this.chara.inventory_container.listof_items as Items[];
       this.listof_extraitems = this.chara.extra_characontainer.listof_items as Items[];
+    }));
+
+    this.subscriptions.add(this.charaservice.listenfor('Updated_selected_armormod').subscribe(data => {
+      // data is armormod
+      // update this.chara and local list
+      const armormod = data as ArmorMod;
+      let itemIndex = this.chara.equipped_itemcontainer.listof_items.findIndex(e => e._id = armormod.parentItem);
+      if (itemIndex !== -1) {
+        this.chara.equipped_itemcontainer.listof_items[itemIndex].armormod = armormod;
+        this.listof_equipmentitems = this.chara.equipped_itemcontainer.listof_items;
+        return;
+      }
+      itemIndex = this.chara.inventory_container.listof_items.findIndex(e => e._id = armormod.parentItem);
+      if (itemIndex !== -1) {
+        this.chara.inventory_container.listof_items[itemIndex].armormod = armormod;
+        this.listof_inventoryitems = this.chara.inventory_container.listof_items;
+        return;
+      }
+      itemIndex = this.chara.extra_characontainer.listof_items.findIndex(e => e._id = armormod.parentItem);
+      this.chara.inventory_container.listof_items[itemIndex].armormod = armormod;
+      this.listof_extraitems = this.chara.extra_characontainer.listof_items;
+      return;
     }));
 
   } // endof.ngoninit

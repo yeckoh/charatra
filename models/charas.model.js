@@ -150,6 +150,14 @@ module.exports.GetOneCharacter = function(charaid) {
         path: 'listof_savingthrows'
       }}
   })
+  .populate({ // equipment item armormodifiers
+    path: 'equipped_itemcontainer',
+    populate: {
+      path: 'listof_items',
+      populate: {
+        path: 'armormod'
+      }}
+  })
   .populate({ // inventory item attacks
     path: 'inventory_container',
     populate: {
@@ -166,6 +174,14 @@ module.exports.GetOneCharacter = function(charaid) {
         path: 'listof_savingthrows'
       }}
   })
+  .populate({ // inventory item armormodifiers
+    path: 'inventory_container',
+    populate: {
+      path: 'listof_items',
+      populate: {
+        path: 'armormod'
+      }}
+  })
   .populate({ // extra attacks
     path: 'extra_characontainer',
     populate: {
@@ -180,6 +196,14 @@ module.exports.GetOneCharacter = function(charaid) {
       path: 'listof_items',
       populate: {
         path: 'listof_savingthrows'
+      }}
+  })
+  .populate({ // extra item armormodifiers
+    path: 'extra_characontainer',
+    populate: {
+      path: 'listof_items',
+      populate: {
+        path: 'armormod'
       }}
   })
   .populate({

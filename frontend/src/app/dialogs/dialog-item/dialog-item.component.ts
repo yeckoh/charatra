@@ -151,6 +151,17 @@ export class DialogItemComponent implements OnInit, OnDestroy {
       this.extra = this.chara.extra_characontainer;
 
     }));
+    // this.subscriptions.add(this.charaservice.listenfor('Updated_one_item').subscribe(data => {
+    //   const item = data as Items;
+    //   if (item._id === this.thisItem._id) {
+    //     switch (this.whichContainer) {
+    //       case 'inventory':
+    //       case 'carried':
+    //         case ''
+    //     }
+    //     this.thisItem.applyarmor = item.applyarmor;
+    //   }
+    // }));
 
     // attack updates are handled by features-tab
     /// THESE ARE HANDLED IN INVENTORY-TAB
@@ -297,6 +308,14 @@ export class DialogItemComponent implements OnInit, OnDestroy {
       item: this.thisItem
     };
     this.charaservice.sendback('Update_selected_item', itemAndUserId);
+  }
+
+  sendArmorUpdate() {
+    const armorAndUserId = {
+      charaid: this.charaservice.CharaId,
+      armormod: this.thisItem.armormod
+    };
+    this.charaservice.sendback('Update_selected_armormod', armorAndUserId);
   }
 
   newAttack() {

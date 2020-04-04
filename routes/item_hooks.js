@@ -2,6 +2,7 @@
 const Item = require('../models/items.model');
 
 const Container = require('../models/containers.model');
+const ArmorMod = require('../models/armor_modifiers.model');
 
 // import mongoose just to generate a _id: right here, right now
 var mongoose = require('mongoose');
@@ -21,6 +22,8 @@ module.exports = function(socket) {
             weight: 0,
             value: 0,
             attunement: false,
+            applyarmor: false,
+            armormod: ArmorMod.MakeNewItemArmor(_id),
             // equipped: false,
             // listof_itemsfeatures: [],
             // listof_spells
