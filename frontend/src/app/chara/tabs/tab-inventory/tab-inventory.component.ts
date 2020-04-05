@@ -87,30 +87,50 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
 
     // the item wasn't moved, we just updated it's properties
     this.subscriptions.add(this.charaservice.listenfor('Updated_one_item').subscribe(data => {
-      const updateditem = data as Items; // gotta cast to use it
+      const updateditem = data as Items;
       let itemIndex = this.listof_equipmentitems.findIndex(e => e._id === updateditem._id); // EQUIPMENT LIST
       if (itemIndex !== -1) {
-        this.chara.equipped_itemcontainer.listof_items[itemIndex] = updateditem;
-        this.netWorth -= this.listof_equipmentitems[itemIndex].value * this.listof_equipmentitems[itemIndex].count; // subtract old from networth
-        this.netWorth += updateditem.value * updateditem.count; // add new to networth
+        this.netWorth -= this.listof_equipmentitems[itemIndex].value * this.listof_equipmentitems[itemIndex].count;
         this.totalWeight -= this.listof_equipmentitems[itemIndex].weight * this.listof_equipmentitems[itemIndex].count; // subtract old from weight
+        this.chara.equipped_itemcontainer.listof_items[itemIndex].applyarmor = updateditem.applyarmor;
+        this.chara.equipped_itemcontainer.listof_items[itemIndex].attunement = updateditem.attunement;
+        this.chara.equipped_itemcontainer.listof_items[itemIndex].count = updateditem.count;
+        this.chara.equipped_itemcontainer.listof_items[itemIndex].descript = updateditem.descript;
+        this.chara.equipped_itemcontainer.listof_items[itemIndex].name = updateditem.name;
+        this.chara.equipped_itemcontainer.listof_items[itemIndex].value = updateditem.value;
+        this.chara.equipped_itemcontainer.listof_items[itemIndex].weight = updateditem.weight;
+        this.netWorth += updateditem.value * updateditem.count; // add new to networth
         this.totalWeight += updateditem.weight * updateditem.count; // add new to weight
-        this.listof_equipmentitems[itemIndex] = updateditem; // replace old item with new item
+        this.listof_equipmentitems[itemIndex] = this.chara.equipped_itemcontainer.listof_items[itemIndex]; // replace old item with new item
         return;
       }
       itemIndex = this.listof_inventoryitems.findIndex(e => e._id === updateditem._id); // INVENTORY LIST
       if (itemIndex !== -1) {
-        this.chara.inventory_container.listof_items[itemIndex] = updateditem;
         this.netWorth -= this.listof_inventoryitems[itemIndex].value * this.listof_inventoryitems[itemIndex].count; // subtract old from networth
-        this.netWorth += updateditem.value * updateditem.count; // add new to networth
         this.totalWeight -= this.listof_inventoryitems[itemIndex].weight * this.listof_inventoryitems[itemIndex].count; // subtract old from weight
+        this.netWorth -= this.listof_equipmentitems[itemIndex].value * this.listof_equipmentitems[itemIndex].count;
+        this.totalWeight -= this.listof_equipmentitems[itemIndex].weight * this.listof_equipmentitems[itemIndex].count; // subtract old from weight
+        this.chara.inventory_container.listof_items[itemIndex].applyarmor = updateditem.applyarmor;
+        this.chara.inventory_container.listof_items[itemIndex].attunement = updateditem.attunement;
+        this.chara.inventory_container.listof_items[itemIndex].count = updateditem.count;
+        this.chara.inventory_container.listof_items[itemIndex].descript = updateditem.descript;
+        this.chara.inventory_container.listof_items[itemIndex].name = updateditem.name;
+        this.chara.inventory_container.listof_items[itemIndex].value = updateditem.value;
+        this.chara.inventory_container.listof_items[itemIndex].weight = updateditem.weight;
+        this.netWorth += updateditem.value * updateditem.count; // add new to networth
         this.totalWeight += updateditem.weight * updateditem.count; // add new to weight
-        this.listof_inventoryitems[itemIndex] = updateditem; // replace old item with new item
+        this.listof_equipmentitems[itemIndex] = this.chara.inventory_container.listof_items[itemIndex]; // replace old item with new item
         return;
       }
       itemIndex = this.listof_extraitems.findIndex(e => e._id === updateditem._id); // EXTRA LIST
-      this.chara.extra_characontainer.listof_items[itemIndex] = updateditem;
-      this.listof_extraitems[itemIndex] = updateditem;
+      this.chara.extra_characontainer.listof_items[itemIndex].applyarmor = updateditem.applyarmor;
+      this.chara.extra_characontainer.listof_items[itemIndex].attunement = updateditem.attunement;
+      this.chara.extra_characontainer.listof_items[itemIndex].count = updateditem.count;
+      this.chara.extra_characontainer.listof_items[itemIndex].descript = updateditem.descript;
+      this.chara.extra_characontainer.listof_items[itemIndex].name = updateditem.name;
+      this.chara.extra_characontainer.listof_items[itemIndex].value = updateditem.value;
+      this.chara.extra_characontainer.listof_items[itemIndex].weight = updateditem.weight;
+      this.listof_extraitems[itemIndex] = this.chara.extra_characontainer.listof_items[itemIndex];
     }));
 
 
@@ -125,21 +145,18 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
       // tslint:disable: no-conditional-assignment
       if (itemIndex !== -1) {
         this.chara.equipped_itemcontainer.listof_items[itemIndex].listof_attacks.push(newattack);
-        // this.equipment = this.chara.equipped_itemcontainer;
         return;
       }
       // check find parent item in inventory
       itemIndex = this.chara.inventory_container.listof_items.findIndex(e => e._id === parent);
       if (itemIndex !== -1) {
         this.chara.inventory_container.listof_items[itemIndex].listof_attacks.push(newattack);
-        // this.inventory = this.chara.inventory_container;
         return;
       }
-      // check find parent item in inventory
+      // check find parent item in extra
       itemIndex = this.chara.extra_characontainer.listof_items.findIndex(e => e._id === parent);
       if (itemIndex !== -1) {
         this.chara.extra_characontainer.listof_items[itemIndex].listof_attacks.push(newattack);
-        // this.extra = this.chara.extra_characontainer;
       }
     }));
 
@@ -162,7 +179,7 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
         this.chara.inventory_container.listof_items[itemIndex].listof_savingthrows.push(newsave);
         return;
       }
-      // check find parent item in inventory
+      // check find parent item in extra
       itemIndex = this.chara.extra_characontainer.listof_items.findIndex(e => e._id === parent);
       if (itemIndex !== -1) {
         this.chara.extra_characontainer.listof_items[itemIndex].listof_savingthrows.push(newsave);
@@ -200,14 +217,6 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
     // DELETED ITEM ATTACK
     this.subscriptions.add(this.charaservice.listenfor('Deleted_item_attack').subscribe(data => {
       const delattack = data as Attack;
-
-      // this.chara.equipped_itemcontainer.listof_items = this.chara.equipped_itemcontainer.listof_items.filter(e => e.listof_attacks = e.listof_attacks.filter(i => i !== delattack) as [Attack]) as [Items];
-      // this.chara.inventory_container.listof_items = this.chara.inventory_container.listof_items.filter(e => e.listof_attacks = e.listof_attacks.filter(i => i !== delattack) as [Attack]) as [Items];
-      // this.chara.extra_characontainer.listof_items = this.chara.extra_characontainer.listof_items.filter(e => e.listof_attacks = e.listof_attacks.filter(i => i !== delattack) as [Attack]) as [Items];
-
-      // this.listof_equipmentitems = this.chara.equipped_itemcontainer.listof_items;
-      // this.listof_inventoryitems = this.chara.inventory_container.listof_items;
-      // this.listof_extraitems = this.chara.extra_characontainer.listof_items;
       let itemIndex = this.chara.equipped_itemcontainer.listof_items.findIndex(e => e._id = delattack.parentItem);
       let attackIndex;
       if (itemIndex !== -1) {
@@ -265,23 +274,14 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
   } // endof.ngoninit
 
 
-  openItemDialog(selected_item, container_name) {
-    this.matDialog.open(DialogItemComponent, {data: {item: selected_item, container: container_name, chara: this.chara}});
-  }
+  // openItemDialog(selected_item, container_name) {
+  //   this.matDialog.open(DialogItemComponent, {data: {item: selected_item, container: container_name, chara: this.chara}});
+  // }
 
-
-  drop(event: CdkDragDrop<Items[]>) {
-    moveItemInArray(this.listof_equipmentitems, event.previousIndex, event.currentIndex);
-  }
+  // drop(event: CdkDragDrop<Items[]>) {
+  //   moveItemInArray(this.listof_equipmentitems, event.previousIndex, event.currentIndex);
+  // }
 
 
 
 }
-
-
-
-// openFeatureDialog(selected_feature) {
-//   // this.features = selected_feature;
-//   // open accepts 2 params (component, optional_configuration {data: something})
-//   this.featureDialog.open(DialogFeatureComponent, {data: {selected_feature, chara: this.chara}});
-// }

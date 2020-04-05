@@ -9,8 +9,6 @@ import { Items } from 'src/app/shared/items.model';
 import { Containers } from 'src/app/shared/containers.model';
 import { DialogAttackComponent } from '../dialog-attack/dialog-attack.component';
 import { DialogSavingthrowComponent } from '../dialog-savingthrow/dialog-savingthrow.component';
-import { Attack } from 'src/app/shared/attack.model';
-import { Savethrows } from 'src/app/shared/savethrows.model';
 
 @Component({
   selector: 'app-dialog-item',
@@ -24,7 +22,6 @@ export class DialogItemComponent implements OnInit, OnDestroy {
               private thisDialog: MatDialogRef<DialogItemComponent>,
               private subDialog: MatDialog,
               private modPipe: ModifierPipe) {
-                // this.thisItem = data.item as Items;
                 this.chara = data.chara as Chara;
                 this.whichContainer = data.container;
                 this.inventory = this.chara.equipped_itemcontainer;
@@ -63,9 +60,6 @@ export class DialogItemComponent implements OnInit, OnDestroy {
     inventory: Containers;
     carried: Containers;
     extra: Containers;
-    // inventoryItems: Items[];
-    // carriedItems: Items[];
-    // extraItems: Items[];
 
     chara: Chara;
     // pulled straight
@@ -151,57 +145,41 @@ export class DialogItemComponent implements OnInit, OnDestroy {
       this.extra = this.chara.extra_characontainer;
 
     }));
-    // this.subscriptions.add(this.charaservice.listenfor('Updated_one_item').subscribe(data => {
-    //   const item = data as Items;
-    //   if (item._id === this.thisItem._id) {
-    //     switch (this.whichContainer) {
-    //       case 'inventory':
-    //       case 'carried':
-    //         case ''
-    //     }
-    //     this.thisItem.applyarmor = item.applyarmor;
-    //   }
-    // }));
+    this.subscriptions.add(this.charaservice.listenfor('Updated_one_item').subscribe(data => {
+      const updateditem = data as Items;
+      let itemIndex = this.inventory.listof_items.findIndex(e => e._id === updateditem._id); // EQUIPMENT LIST
+      if (itemIndex !== -1) {
+        this.inventory = this.chara.equipped_itemcontainer;
+        if (this.thisItem._id === updateditem._id) {
+          this.thisItem = this.chara.equipped_itemcontainer.listof_items[itemIndex];
+        }
+        return;
+      }
+      itemIndex = this.carried.listof_items.findIndex(e => e._id === updateditem._id); // INVENTORY LIST
+      if (itemIndex !== -1) {
+        this.carried = this.chara.inventory_container;
+        if (this.thisItem._id === updateditem._id) {
+          this.thisItem = this.chara.inventory_container.listof_items[itemIndex];
+        }
+
+        return;
+      }
+      itemIndex = this.extra.listof_items.findIndex(e => e._id === updateditem._id); // EXTRA LIST
+      this.extra = this.chara.extra_characontainer;
+      if (this.thisItem._id === updateditem._id) {
+        this.thisItem = this.chara.extra_characontainer.listof_items[itemIndex];
+      }
+
+    }));
 
     // attack updates are handled by features-tab
     /// THESE ARE HANDLED IN INVENTORY-TAB
     // this.subscriptions.add(this.charaservice.listenfor('Created_new_attack').subscribe(data => {
     // this.subscriptions.add(this.charaservice.listenfor('Created_new_save').subscribe(data => {
     // this.subscriptions.add(this.charaservice.listenfor('Deleted_item_attack').subscribe(data => {
-
-    // UPDATE REFERENCE OF THISITEM
     // this.subscriptions.add(this.charaservice.listenfor('Updated_one_container').subscribe(data => {
-    //   // console.log(data);
-    //   class SwapData {
-    //     oldcontainer: string;
-    //     newcontainer: string;
-    //     itemid: string;
-    //   }
-    //   const swapdata = data as SwapData;
-    //   if (this.thisItem._id !== swapdata.itemid) {
-    //     return;
-    //   }
-    //   // thisItem needs to stay pointing to the this.chara.*.listof_items[x]
-    //   // probably unncessary
-    //   this.inventory = this.chara.equipped_itemcontainer;
-    //   this.carried = this.chara.inventory_container;
-    //   this.extra = this.chara.extra_characontainer;
-    //   let itemIndex;
-    //   switch (swapdata.newcontainer) {
-    //     case this.inventory._id:
-    //       itemIndex = this.inventory.listof_items.findIndex(i => i._id === swapdata.itemid);
-    //       this.thisItem = this.chara.equipped_itemcontainer.listof_items[itemIndex];
-    //       break;
-    //     case this.carried._id:
-    //       itemIndex = this.carried.listof_items.findIndex(i => i._id === swapdata.itemid);
-    //       this.thisItem = this.chara.inventory_container.listof_items[itemIndex];
-    //       break;
-    //     case this.extra._id:
-    //       itemIndex = this.extra.listof_items.findIndex(i => i._id === swapdata.itemid);
-    //       this.thisItem = this.chara.extra_characontainer.listof_items[itemIndex];
-    //       break;
-    //   }
-    // }));
+
+
 
     // close dialog if item deletion is this one
   }
@@ -241,23 +219,14 @@ export class DialogItemComponent implements OnInit, OnDestroy {
       console.log('all 3 pre-move checks: mission failed! We\'ll get em next time');
       return;
     }
-    // console.log('from: ', fromContainer);
-    // console.log('to: ', this.whichContainer);
-    // console.log('pre swap');
-    // console.log(this.chara.equipped_itemcontainer, this.chara.inventory_container, this.chara.extra_characontainer);
-    // move
     switch (this.whichContainer) { // move to
       case 'inventory':
         data.newcontainer = this.inventory;
         switch (fromContainer) { // from
           case 'fromCarried':
-            // this.chara.inventory_container.listof_items.splice(itemIndex, 1);
-            // this.chara.equipped_itemcontainer.listof_items.push(this.thisItem);
             this.carried.listof_items.splice(itemIndex, 1);
             break;
           case 'fromExtra':
-            // this.chara.extra_characontainer.listof_items.splice(itemIndex, 1);
-            // this.chara.equipped_itemcontainer.listof_items.push(this.thisItem);
             this.extra.listof_items.splice(itemIndex, 1);
             break;
             }
@@ -267,13 +236,9 @@ export class DialogItemComponent implements OnInit, OnDestroy {
         data.newcontainer = this.carried;
         switch (fromContainer) { // from
           case 'fromInventory':
-            // this.chara.equipped_itemcontainer.listof_items.splice(itemIndex, 1);
-            // this.chara.inventory_container.listof_items.push(this.thisItem);
             this.inventory.listof_items.splice(itemIndex, 1);
             break;
           case 'fromExtra':
-            // this.chara.extra_characontainer.listof_items.splice(itemIndex, 1);
-            // this.chara.inventory_container.listof_items.push(this.thisItem);
             this.extra.listof_items.splice(itemIndex, 1);
             break;
             }
@@ -283,22 +248,15 @@ export class DialogItemComponent implements OnInit, OnDestroy {
         data.newcontainer = this.extra;
         switch (fromContainer) { // from
           case 'fromInventory':
-            // this.chara.equipped_itemcontainer.listof_items.splice(itemIndex, 1);
-            // this.chara.extra_characontainer.listof_items.push(this.thisItem);
             this.inventory.listof_items.splice(itemIndex, 1);
             break;
           case 'fromCarried':
-            // this.chara.inventory_container.listof_items.splice(itemIndex, 1);
-            // this.chara.extra_characontainer.listof_items.push(this.thisItem);
             this.carried.listof_items.splice(itemIndex, 1);
             break;
             }
         this.extra.listof_items.push(this.thisItem);
         break; // endof.into extra
     }
-    // console.log('post swap');
-    // console.log(this.chara.equipped_itemcontainer, this.chara.inventory_container, this.chara.extra_characontainer);
-    // return;
     this.charaservice.sendback('Update_selected_container', data);
   }
 
