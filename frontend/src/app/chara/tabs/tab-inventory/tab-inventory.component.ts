@@ -273,10 +273,9 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
 
   } // endof.ngoninit
 
-
-  // openItemDialog(selected_item, container_name) {
-  //   this.matDialog.open(DialogItemComponent, {data: {item: selected_item, container: container_name, chara: this.chara}});
-  // }
+  openItemDialog(selected_item, container_name) {
+    this.matDialog.open(DialogItemComponent, {data: {item: selected_item, container: container_name, chara: this.chara}});
+  }
 
   // drop(event: CdkDragDrop<Items[]>) {
   //   moveItemInArray(this.listof_equipmentitems, event.previousIndex, event.currentIndex);
