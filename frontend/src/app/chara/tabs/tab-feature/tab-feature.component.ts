@@ -369,7 +369,7 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
     this.subscriptions.add(this.charaservice.listenfor('Updated_one_save').subscribe(data => {
       // data is an attack
       const newsave = data as Savethrows;
-      let saveIndex = this.itemattacks.findIndex(e => e._id === newsave._id);
+      let saveIndex = this.itemsaves.findIndex(e => e._id === newsave._id);
       if (saveIndex !== -1) {
         // its in the itemattacks, wohoo!
         this.itemsaves[saveIndex] = newsave;
@@ -416,15 +416,16 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
     }));
 
 
-    // this.subscriptions.add(this.charaservice.listenfor('Deleted_item_save').subscribe(data => {
-    //   // data is the deleted attack
-    //   const deletedsave = data as Savethrows;
-    //   const attackIndex = this.itemattacks.findIndex(e => e._id === deletedsave._id);
-    //   if (attackIndex !== -1) { // was it in the inventory container?
-    //     this.itemattacks.splice(attackIndex, 1);
-    //     this.items = this.items.filter(item => item.listof_attacks.findIndex(attack => attack._id === deletedsave._id) !== -1);
-    //   }
-    // }));
+    this.subscriptions.add(this.charaservice.listenfor('Deleted_item_save').subscribe(data => {
+      // data is the deleted save
+      const deletedsave = data as Savethrows;
+      const saveIndex = this.itemsaves.findIndex(e => e._id === deletedsave._id);
+      if (saveIndex !== -1) { // was it in the inventory container?
+        this.itemsaves.splice(saveIndex, 1);
+        this.items = this.items.filter(item => item.listof_savingthrows.findIndex(save => save._id === deletedsave._id) !== -1);
+      }
+    }));
+
     this.subscriptions.add(this.charaservice.listenfor('Deleted_feature_save').subscribe(data => {
       // data is the deleted save
       const deletedsave = data as Savethrows;

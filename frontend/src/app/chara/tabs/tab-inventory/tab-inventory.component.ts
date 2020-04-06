@@ -21,11 +21,6 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
   constructor(private charaservice: CharaService,
               private matDialog: MatDialog) { }
 
-  // private equipment: Containers = new Containers(); // UNNEEDED
-  // private inventory: Containers = new Containers();
-  // private extra: Containers = new Containers();
-  // private listofcontainers = [] as Container[];
-
   private chara: Chara = new Chara();
   // tslint:disable: variable-name
   // tslint:disable: max-line-length
@@ -46,9 +41,6 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscriptions = (this.charaservice.listenfor('Updated_one_chara').subscribe(data => {
       this.chara = data as Chara;
-      // this.equipment = this.chara.equipped_itemcontainer as Containers;
-      // this.inventory = this.chara.inventory_container as Containers;
-      // this.extra = this.chara.extra_characontainer as Containers;
       this.listof_equipmentitems = this.chara.equipped_itemcontainer.listof_items as Items[];
       this.listof_inventoryitems = this.chara.inventory_container.listof_items as Items[];
       this.listof_extraitems = this.chara.extra_characontainer.listof_items as Items[];
@@ -168,7 +160,6 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
       }
       let itemIndex = this.chara.equipped_itemcontainer.listof_items.findIndex(e => e._id === parent);
       // check find parent item in equipped
-      // tslint:disable: no-conditional-assignment
       if (itemIndex !== -1) {
         this.chara.equipped_itemcontainer.listof_items[itemIndex].listof_savingthrows.push(newsave);
         return;
@@ -213,7 +204,35 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
       return;
     }));
 
+    this.subscriptions.add(this.charaservice.listenfor('Updated_one_save').subscribe(data => {
+      const newsave = data as Savethrows;
+      if (newsave.parentItem === undefined) {
+        return;
+      }
+      let itemIndex = this.listof_equipmentitems.findIndex(e => e._id === newsave.parentItem);
+      let saveIndex;
+      if (itemIndex !== -1) { // if in equipment container, replace the save in the correct item
+        saveIndex = this.chara.equipped_itemcontainer.listof_items[itemIndex].listof_savingthrows.findIndex(e => e._id === newsave._id);
+        this.chara.equipped_itemcontainer.listof_items[itemIndex].listof_savingthrows[saveIndex] = newsave;
+        this.listof_equipmentitems = this.chara.equipped_itemcontainer.listof_items;
+        return;
+      }
+      itemIndex = this.listof_inventoryitems.findIndex(e => e._id === newsave.parentItem);
+      if (itemIndex !== -1) {
+        saveIndex = this.chara.inventory_container.listof_items[itemIndex].listof_savingthrows.findIndex(e => e._id === newsave._id);
+        this.chara.inventory_container.listof_items[itemIndex].listof_savingthrows[saveIndex] = newsave;
+        this.listof_inventoryitems = this.chara.inventory_container.listof_items;
+        return;
+      }
+      itemIndex = this.listof_extraitems.findIndex(e => e._id === newsave.parentItem);
+      saveIndex = this.chara.extra_characontainer.listof_items[itemIndex].listof_savingthrows.findIndex(e => e._id === newsave._id);
+      this.chara.extra_characontainer.listof_items[itemIndex].listof_savingthrows[saveIndex] = newsave;
+      this.listof_extraitems = this.chara.extra_characontainer.listof_items;
+      return;
+    }));
+
     // DELETED ITEM
+
     // DELETED ITEM ATTACK
     this.subscriptions.add(this.charaservice.listenfor('Deleted_item_attack').subscribe(data => {
       const delattack = data as Attack;
@@ -240,6 +259,29 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
     }));
 
     // DELETED ITEM SAVE
+    this.subscriptions.add(this.charaservice.listenfor('Deleted_item_save').subscribe(data => {
+      const delsave = data as Savethrows;
+      let itemIndex = this.chara.equipped_itemcontainer.listof_items.findIndex(e => e._id = delsave.parentItem);
+      let saveIndex;
+      if (itemIndex !== -1) {
+        saveIndex = this.chara.equipped_itemcontainer.listof_items[itemIndex].listof_savingthrows.findIndex(e => e._id === delsave._id);
+        this.chara.equipped_itemcontainer.listof_items[itemIndex].listof_savingthrows.splice(saveIndex, 1);
+        this.listof_equipmentitems = this.chara.equipped_itemcontainer.listof_items;
+        return;
+      }
+      itemIndex = this.chara.inventory_container.listof_items.findIndex(e => e._id = delsave.parentItem);
+      if (itemIndex !== -1) {
+        saveIndex = this.chara.inventory_container.listof_items[itemIndex].listof_savingthrows.findIndex(e => e._id === delsave._id);
+        this.chara.inventory_container.listof_items[itemIndex].listof_savingthrows.splice(saveIndex, 1);
+        this.listof_inventoryitems = this.chara.inventory_container.listof_items;
+        return;
+      }
+      itemIndex = this.chara.extra_characontainer.listof_items.findIndex(e => e._id = delsave.parentItem);
+      saveIndex = this.chara.inventory_container.listof_items[itemIndex].listof_savingthrows.findIndex(e => e._id === delsave._id);
+      this.chara.inventory_container.listof_items[itemIndex].listof_savingthrows.splice(saveIndex, 1);
+      this.listof_extraitems = this.chara.extra_characontainer.listof_items;
+      return;
+    }));
 
     // MOVED ITEM BETWEEN CONTAINER
     this.subscriptions.add(this.charaservice.listenfor('Updated_one_container').subscribe(data => {
@@ -249,6 +291,7 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
       this.listof_extraitems = this.chara.extra_characontainer.listof_items as Items[];
     }));
 
+    // UPDATED ITEM ARMOR_MODIFIER
     this.subscriptions.add(this.charaservice.listenfor('Updated_selected_armormod').subscribe(data => {
       // data is armormod
       // update this.chara and local list
