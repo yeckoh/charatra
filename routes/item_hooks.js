@@ -51,6 +51,8 @@ module.exports = function(socket) {
     // when 'update selected item' gets fired... UPDATE_ONE
     socket.on('Update_selected_item', function(sent_in_data) {
         Item.findByIdAndUpdate(sent_in_data.item._id, sent_in_data.item, {new: true}, function(err, updatedItem) {
+            console.log('updated item');
+            socket.emit('Updated_one_item', updatedItem);
             socket.broadcast.in(sent_in_data.charaid).emit('Updated_one_item', updatedItem);
         });
     });

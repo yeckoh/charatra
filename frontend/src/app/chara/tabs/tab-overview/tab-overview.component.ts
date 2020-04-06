@@ -4,10 +4,13 @@ import { CharaService } from 'src/app/shared/chara.service';
 import { Chara } from 'src/app/shared/chara.model';
 import { ModifierPipe } from 'src/app/pipes/modifier.pipe';
 import evaluate, { registerFunction } from 'ts-expression-evaluator';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, Observer } from 'rxjs';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { DialogStatComponent } from 'src/app/dialogs/dialog-stat/dialog-stat.component';
 import { Classes } from 'src/app/shared/classes.model';
+import { ArmorMod } from 'src/app/shared/armor-mod.model';
+import { Items } from 'src/app/shared/items.model';
+import { TabInventoryComponent } from '../tab-inventory/tab-inventory.component';
 
 @Component({
   selector: 'app-tab-overview',
@@ -35,6 +38,7 @@ export class TabOverviewComponent implements OnInit, OnDestroy {
   /// GRAB HIGHEST AC TOTAL FROM ITEMS AND PUT IT HERE OR SOMETHING
   // tslint:disable: variable-name
   private calc_ac;
+  private armorMods = [] as ArmorMod[];
 
   private strSave;
   private dexSave;
@@ -94,6 +98,8 @@ export class TabOverviewComponent implements OnInit, OnDestroy {
   private currentHitpoints = 256;
   private initiative;
   private level: number; // THIS GETS MODIFIED FROM CLASSES, ITS REALLY READ-ONLY HERE
+
+  public finishswappingitems;
 
   constructor(private charaservice: CharaService,
               private modpipe: ModifierPipe,
@@ -203,6 +209,7 @@ export class TabOverviewComponent implements OnInit, OnDestroy {
       this.currentHitpoints = this.chara.current_hitpoints;
 
       this.initiative = this.regularFormula(this.chara.formuolis.initiative);
+      this.pullAllInventoryArmorMods();
     }));
 
     this.subscriptions.add(this.charaservice.listenfor('Updated_selected_class').subscribe(data => {
@@ -215,6 +222,39 @@ export class TabOverviewComponent implements OnInit, OnDestroy {
       this.currentHitpoints = this.chara.current_hitpoints;
     }));
 
+    this.subscriptions.add(this.charaservice.listenfor('Updated_one_container').subscribe(data => {
+      this.pullAllInventoryArmorMods();
+    }));
+
+    this.subscriptions.add(this.charaservice.listenfor('Updated_one_item').subscribe(data => {
+      const inventorychecker = data as Items;
+      if (!inventorychecker.applyarmor) {
+        return;
+      }
+      // otherwise check if its in the inventory container, then check if the armormod is already in the local armormods list
+      const itemIndex = this.chara.equipped_itemcontainer.listof_items.findIndex(e => e._id === inventorychecker._id);
+      if (itemIndex !== -1) {
+        const localArmorIndex = this.armorMods.findIndex(e => e._id === inventorychecker.armormod._id);
+        if (localArmorIndex !== -1) {
+          this.armorMods[localArmorIndex] = inventorychecker.armormod;
+          this.updateArmorClass();
+          return;
+        }
+        // in inventory container and isnt in our local list for some reason
+        this.armorMods.push(inventorychecker.armormod);
+        this.updateArmorClass();
+      }
+      // otherwise its not in the inventory container
+    }));
+
+    this.subscriptions.add(this.charaservice.listenfor('Updated_selected_armormod').subscribe(data => {
+      const updatedarmor = data as ArmorMod;
+      const armorIndex = this.armorMods.findIndex(e => e._id === updatedarmor._id);
+      if (armorIndex !== -1) {
+        this.armorMods[armorIndex] = updatedarmor;
+      }
+      this.updateArmorClass();
+    }));
   }
 
   // modify a stat and update the character onclose
@@ -228,7 +268,39 @@ export class TabOverviewComponent implements OnInit, OnDestroy {
   }
 
 
+  pullAllInventoryArmorMods() {
+    this.armorMods.length = 0;
+    this.chara.equipped_itemcontainer.listof_items.forEach(e => {
+      this.armorMods.push(e.armormod);
+    });
+    this.updateArmorClass();
+  }
 
+  updateArmorClass() {
+    this.calc_ac = this.chara.stats.baseAC;
+    let baseac: number = Number.MIN_SAFE_INTEGER;
+    let additionalac = 0;
+    let maxac: number = Number.MAX_SAFE_INTEGER;
+    this.armorMods.forEach(element => {
+      if (element.usebase && element.baseac > baseac) {
+        baseac = element.baseac;
+      }
+      if (element.usemax && element.maxac < maxac) {
+        maxac = element.maxac;
+      }
+      if (element.useadd) {
+        additionalac += element.addac as number;
+      }
+  });
+    this.calc_ac += this.dexMod as number;
+    if (this.calc_ac > maxac) {
+      this.calc_ac = maxac;
+    }
+    if (this.calc_ac < baseac) {
+      this.calc_ac = baseac as number;
+    }
+    this.calc_ac += additionalac as number;
+}
 
 
 
