@@ -255,6 +255,12 @@ export class TabOverviewComponent implements OnInit, OnDestroy {
       }
       this.updateArmorClass();
     }));
+
+    this.subscriptions.add(this.charaservice.listenfor('Deleted_one_item').subscribe(data => {
+      // data is an itemid
+      // might as well just do the same thing as the updated_one_container
+      this.pullAllInventoryArmorMods();
+    }));
   }
 
   // modify a stat and update the character onclose

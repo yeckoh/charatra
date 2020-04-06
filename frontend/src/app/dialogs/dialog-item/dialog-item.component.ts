@@ -182,7 +182,13 @@ export class DialogItemComponent implements OnInit, OnDestroy {
 
 
 
-    // close dialog if item deletion is this one
+    // close dialog if item deletion is this one. Actual item removal is handled in INVENTORY-TAB
+    this.subscriptions.add(this.charaservice.listenfor('Deleted_one_item').subscribe(data => {
+      const delitem = data as Items;
+      if (delitem._id === this.thisItem._id) {
+        this.thisDialog.close();
+      }
+    }));
   }
 
 
@@ -275,6 +281,28 @@ export class DialogItemComponent implements OnInit, OnDestroy {
       armormod: this.thisItem.armormod
     };
     this.charaservice.sendback('Update_selected_armormod', armorAndUserId);
+  }
+
+  sendItemDelete() {
+
+    const itemAndUserId = {
+      charaid: this.charaservice.CharaId,
+      itemid: this.thisItem._id,
+      parentid: undefined
+    };
+    switch (this.whichContainer) {
+      case 'inventory':
+        itemAndUserId.parentid = this.inventory._id;
+        break;
+      case 'carried':
+        itemAndUserId.parentid = this.carried._id;
+        break;
+      case 'extra':
+        itemAndUserId.parentid = this.extra._id;
+        break;
+    }
+    this.charaservice.sendback('Delete_selected_item', itemAndUserId);
+    this.thisDialog.close();
   }
 
   newAttack() {
