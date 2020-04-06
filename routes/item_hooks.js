@@ -12,6 +12,7 @@ module.exports = function(socket) {
 
     // when 'make_new_item' gets fired... CREATE_ONE
     socket.on('Make_new_item', function(sent_in_data) {
+        // data is .containerid .charaid
         let newitem = new Item({
             _id: mongoose.Types.ObjectId(),
             selected_color: 'rgb(127, 0, 0)',
@@ -23,20 +24,21 @@ module.exports = function(socket) {
             value: 0,
             attunement: false,
             applyarmor: false,
-            armormod: ArmorMod.MakeNewItemArmor(_id),
+            armormod: undefined,
             // equipped: false,
             // listof_itemsfeatures: [],
             // listof_spells
             listof_attacks: [],
             listof_savingthrows: []
         });
+        newitem.armormod =  ArmorMod.MakeNewItemArmor(newitem._id);
 
         Item.SaveItem(newitem);
 
-        Container.AddToListofitems(sent_in_data.container_id, newitem._id);
+        Container.AddToListofitems(sent_in_data.containerid, newitem._id);
 
         socket.emit('Created_new_item', newitem);
-        socket.broadcast.in(sent_in_data.container_id).emit('Created_new_item', newitem);
+        socket.broadcast.in(sent_in_data.charaid).emit('Created_new_item', newitem);
     });
 
 

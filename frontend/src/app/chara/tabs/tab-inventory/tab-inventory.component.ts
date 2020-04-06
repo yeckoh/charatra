@@ -73,8 +73,10 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
     this.subscriptions.add(this.charaservice.listenfor('Created_new_item').subscribe(data => {
       // always go into inventory
       const newitem = data as Items;
-      this.listof_inventoryitems.push(newitem);
-      // this.inventory.listof_items.push(newitem);
+      // this.listof_inventoryitems.push(newitem);
+      this.chara.inventory_container.listof_items.push(newitem);
+      // TODO
+      // add newitemid to container.ids?
     }));
 
     // the item wasn't moved, we just updated it's properties
@@ -332,6 +334,15 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
 
   openItemDialog(selected_item, container_name) {
     this.matDialog.open(DialogItemComponent, {data: {item: selected_item, container: container_name, chara: this.chara}});
+  }
+
+  makeNewItem() {
+    // sendback
+    const containerAndCharaid = {
+      charaid: this.charaservice.CharaId,
+      containerid: this.chara.inventory_container._id
+    };
+    this.charaservice.sendback('Make_new_item', containerAndCharaid);
   }
 
   // drop(event: CdkDragDrop<Items[]>) {

@@ -308,6 +308,11 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
 
     // deleted one spell
 
+    this.subscriptions.add(this.charaservice.listenfor('Created_new_item').subscribe(data => {
+      // add to local items[] only
+      // tab-inventory handles adding to this.chara.inventorylist
+    }));
+
     this.subscriptions.add(this.charaservice.listenfor('Created_new_attack').subscribe(data => {
       // data is a new attack
       // look for item parent, oof.
