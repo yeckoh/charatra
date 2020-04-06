@@ -100,8 +100,8 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
       if (itemIndex !== -1) {
         this.netWorth -= this.listof_inventoryitems[itemIndex].value * this.listof_inventoryitems[itemIndex].count; // subtract old from networth
         this.totalWeight -= this.listof_inventoryitems[itemIndex].weight * this.listof_inventoryitems[itemIndex].count; // subtract old from weight
-        this.netWorth -= this.listof_equipmentitems[itemIndex].value * this.listof_equipmentitems[itemIndex].count;
-        this.totalWeight -= this.listof_equipmentitems[itemIndex].weight * this.listof_equipmentitems[itemIndex].count; // subtract old from weight
+        this.netWorth -= this.listof_inventoryitems[itemIndex].value * this.listof_inventoryitems[itemIndex].count;
+        this.totalWeight -= this.listof_inventoryitems[itemIndex].weight * this.listof_inventoryitems[itemIndex].count; // subtract old from weight
         this.chara.inventory_container.listof_items[itemIndex].applyarmor = updateditem.applyarmor;
         this.chara.inventory_container.listof_items[itemIndex].attunement = updateditem.attunement;
         this.chara.inventory_container.listof_items[itemIndex].count = updateditem.count;
@@ -111,7 +111,7 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
         this.chara.inventory_container.listof_items[itemIndex].weight = updateditem.weight;
         this.netWorth += updateditem.value * updateditem.count; // add new to networth
         this.totalWeight += updateditem.weight * updateditem.count; // add new to weight
-        this.listof_equipmentitems[itemIndex] = this.chara.inventory_container.listof_items[itemIndex]; // replace old item with new item
+        this.listof_inventoryitems[itemIndex] = this.chara.inventory_container.listof_items[itemIndex]; // replace old item with new item
         return;
       }
       itemIndex = this.listof_extraitems.findIndex(e => e._id === updateditem._id); // EXTRA LIST
