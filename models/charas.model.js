@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 Container = require('./containers.model');
 Feature = require('./features.model');
-// require('./classes.model');
+Classes = require('./classes.model');
 require('./skill_profs.model');
 // require('./spell_list.model');
 
@@ -76,7 +76,7 @@ var CharaSchema = mongoose.Schema({
   listof_charafeatures: [{type: mongoose.Schema.Types.ObjectId, ref: 'Features'}], // a list of features
   chara_class: {type: mongoose.Schema.Types.ObjectId, ref: 'Classes'},
   chara_spelllist: {type: mongoose.Schema.Types.ObjectId, ref: 'Spell_list'},
-  
+
 
   special_stuff: {
     superiority_dice: Number,
@@ -266,6 +266,8 @@ module.exports.DeleteCascading = function(charaids) {
       containers.push(element.equipped_itemcontainer, element.inventory_container, element.extra_characontainer);
       featureids.push(...element.listof_charafeatures);
     });
+    console.log("oh hello other_name");
+    Classes.DeleteCascading(charas.chara_class);
     Container.DeleteCascading(containers);
     Feature.DeleteCascading(featureids);
   });
