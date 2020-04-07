@@ -266,7 +266,7 @@ module.exports.DeleteCascading = function(charaids) {
       containers.push(element.equipped_itemcontainer, element.inventory_container, element.extra_characontainer);
       featureids.push(...element.listof_charafeatures);
     });
-    console.log("oh hello other_name");
+    console.log(charas.chara_class.toString());
     Classes.DeleteCascading(charas.chara_class);
     Container.DeleteCascading(containers);
     Feature.DeleteCascading(featureids);
