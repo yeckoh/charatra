@@ -262,12 +262,13 @@ module.exports.DeleteCascading = function(charaids) {
   Character.find().where('_id').in(charaids).exec().then((charas) => {
     let containers = [];
     let featureids = [];
+    let classids   = [];
     charas.forEach(element => {
       containers.push(element.equipped_itemcontainer, element.inventory_container, element.extra_characontainer);
       featureids.push(...element.listof_charafeatures);
+      classids.push(element.chara_class);
     });
-    console.log(charas.chara_class.toString());
-    Classes.DeleteCascading(charas.chara_class);
+    Classes.DeleteCascading(charaids);
     Container.DeleteCascading(containers);
     Feature.DeleteCascading(featureids);
   });
