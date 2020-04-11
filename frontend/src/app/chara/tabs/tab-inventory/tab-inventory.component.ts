@@ -307,8 +307,8 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
       this.listof_extraitems = this.chara.extra_characontainer.listof_items as Items[];
 
       this.totalWeight = 0;
-      for(let item of this.listof_equipmentitems) { this.totalWeight += item.weight; }
-      for(let item of this.listof_inventoryitems) { this.totalWeight += item.weight; }
+      for(let item of this.listof_equipmentitems) { this.totalWeight += item.weight * item.count; }
+      for(let item of this.listof_inventoryitems) { this.totalWeight += item.weight * item.count; }
       }));
 
     // UPDATED ITEM ARMOR_MODIFIER
