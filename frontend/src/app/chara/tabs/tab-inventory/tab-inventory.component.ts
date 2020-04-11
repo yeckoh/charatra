@@ -305,7 +305,11 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
       this.listof_equipmentitems = this.chara.equipped_itemcontainer.listof_items as Items[];
       this.listof_inventoryitems = this.chara.inventory_container.listof_items as Items[];
       this.listof_extraitems = this.chara.extra_characontainer.listof_items as Items[];
-    }));
+
+      this.totalWeight = 0;
+      for(let item of this.listof_equipmentitems) { this.totalWeight += item.weight; }
+      for(let item of this.listof_inventoryitems) { this.totalWeight += item.weight; }
+      }));
 
     // UPDATED ITEM ARMOR_MODIFIER
     this.subscriptions.add(this.charaservice.listenfor('Updated_selected_armormod').subscribe(data => {
