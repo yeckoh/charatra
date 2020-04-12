@@ -1,6 +1,33 @@
 <div>
   <button mat-button (click)='makeNewSpell()'>make new spell</button>
-  <div *ngFor="let spell of chara.chara_spelllist.listof_spells">
-    <label>a spell exists here</label>
+
+<!-- spells go here -->
+<td style='vertical-align: top;'>
+  <div style='display: flex; flex-wrap: wrap;'>
+
+    <div *ngFor="let spell of chara.chara_spelllist.listof_spells">
+      <div style='max-width: 20rem; width: 20rem; padding: 6px;'>
+      <div class='mat-elevation-z8' [style.background-color]="spell.selected_color">
+      <mat-card-title style='padding: 6px;' (click)='openSpellDialog(spell)'>
+        <label style='padding:0px; margin: 0px;'>{{spell.spellname}}</label>
+      </mat-card-title>
+
+      <mat-card style='padding: 0px; border-radius: 0px'>
+        <mat-card-content style='padding: 1rem; font-size: 16px; white-space: pre-wrap;'>
+          {{nonRegularFormula(spell.descript)}}
+        </mat-card-content>
+      </mat-card>
+      </div>
+    </div>
   </div>
+
+
+
+
+
+
+
+
+
+
 </div>
