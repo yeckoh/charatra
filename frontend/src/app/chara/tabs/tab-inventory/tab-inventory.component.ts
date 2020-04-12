@@ -161,17 +161,6 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
       this.chara.extra_characontainer.listof_items[itemIndex].weight = updateditem.weight;
       this.listof_extraitems[itemIndex] = this.chara.extra_characontainer.listof_items[itemIndex];
 
-      this.totalWeight = 0;
-      this.netWorth = 0;
-      for(let item of this.listof_equipmentitems) {
-        this.netWorth += item.value * item.count;
-        this.totalWeight += item.weight * item.count;
-      }
-      for(let item of this.listof_inventoryitems) {
-        this.netWorth += item.value * item.count;
-        this.totalWeight += item.weight * item.count;
-      }
-
     }));
 
 
@@ -394,6 +383,19 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
       containerid: this.chara.inventory_container._id
     };
     this.charaservice.sendback('Make_new_item', containerAndCharaid);
+  }
+
+  updateWeightAndNetWorth() {
+    this.totalWeight = 0;
+    this.netWorth = 0;
+    for(let item of this.listof_equipmentitems) {
+      this.netWorth += item.value * item.count;
+      this.totalWeight += item.weight * item.count;
+    }
+    for(let item of this.listof_inventoryitems) {
+      this.netWorth += item.value * item.count;
+      this.totalWeight += item.weight * item.count;
+    }
   }
 
   // drop(event: CdkDragDrop<Items[]>) {
