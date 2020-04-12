@@ -77,6 +77,17 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
       this.chara.inventory_container.listof_items.push(newitem);
       // TODO
       // add newitemid to container.ids?
+
+      this.totalWeight = 0;
+      this.netWorth = 0;
+      for(let item of this.listof_equipmentitems) {
+         this.totalWeight += item.weight * item.count;
+         this.netWorth += item.value * item.count;
+       }
+      for(let item of this.listof_inventoryitems) {
+         this.totalWeight += item.weight * item.count;
+         this.netWorth += item.value * item.count;
+      }
     }));
 
     // the item wasn't moved, we just updated it's properties
@@ -96,6 +107,18 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
         this.netWorth += updateditem.value * updateditem.count; // add new to networth
         this.totalWeight += updateditem.weight * updateditem.count; // add new to weight
         this.listof_equipmentitems[itemIndex] = this.chara.equipped_itemcontainer.listof_items[itemIndex]; // replace old item with new item
+
+        this.totalWeight = 0;
+        this.netWorth = 0;
+        for(let item of this.listof_equipmentitems) {
+          this.totalWeight += item.weight * item.count;
+          this.netWorth += item.value * item.count;
+        }
+        for(let item of this.listof_inventoryitems) {
+          this.netWorth += item.value * item.count;
+          this.totalWeight += item.weight * item.count;
+        }
+
         return;
       }
       itemIndex = this.listof_inventoryitems.findIndex(e => e._id === updateditem._id); // INVENTORY LIST
@@ -114,6 +137,18 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
         this.netWorth += updateditem.value * updateditem.count; // add new to networth
         this.totalWeight += updateditem.weight * updateditem.count; // add new to weight
         this.listof_inventoryitems[itemIndex] = this.chara.inventory_container.listof_items[itemIndex]; // replace old item with new item
+
+        this.totalWeight = 0;
+        this.netWorth = 0;
+        for(let item of this.listof_equipmentitems) {
+          this.totalWeight += item.weight * item.count;
+          this.netWorth += item.value * item.count;
+        }
+        for(let item of this.listof_inventoryitems) {
+          this.netWorth += item.value * item.count;
+          this.totalWeight += item.weight * item.count;
+        }
+
         return;
       }
       itemIndex = this.listof_extraitems.findIndex(e => e._id === updateditem._id); // EXTRA LIST
@@ -125,6 +160,18 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
       this.chara.extra_characontainer.listof_items[itemIndex].value = updateditem.value;
       this.chara.extra_characontainer.listof_items[itemIndex].weight = updateditem.weight;
       this.listof_extraitems[itemIndex] = this.chara.extra_characontainer.listof_items[itemIndex];
+
+      this.totalWeight = 0;
+      this.netWorth = 0;
+      for(let item of this.listof_equipmentitems) {
+        this.netWorth += item.value * item.count;
+        this.totalWeight += item.weight * item.count;
+      }
+      for(let item of this.listof_inventoryitems) {
+        this.netWorth += item.value * item.count;
+        this.totalWeight += item.weight * item.count;
+      }
+
     }));
 
 
