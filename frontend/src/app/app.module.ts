@@ -87,7 +87,8 @@ const appRoutes: Routes = [
       DialogSavingthrowComponent,
       DialogItemComponent,
       DialogPersonaComponent,
-      DialogClassesComponent
+      DialogClassesComponent,
+      DialogSpellComponent
     ],
   bootstrap: [AppComponent]
 })

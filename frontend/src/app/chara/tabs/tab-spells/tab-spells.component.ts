@@ -2,13 +2,12 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CharaService } from 'src/app/shared/chara.service';
 import { Chara } from 'src/app/shared/chara.model';
-import { Features } from 'src/app/shared/features.model';
-import { Items } from 'src/app/shared/items.model';
 import { Spells } from 'src/app/shared/spells.model';
 import { Classes } from 'src/app/shared/classes.model';
 import { ModifierPipe } from 'src/app/pipes/modifier.pipe';
-import { Attack } from 'src/app/shared/attack.model';
-import { Savethrows } from 'src/app/shared/savethrows.model';
+import evaluate, { registerFunction } from 'ts-expression-evaluator';
+import { DialogSpellComponent } from 'src/app/dialogs/dialog-spell/dialog-spell.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-tab-spells',
@@ -17,7 +16,8 @@ import { Savethrows } from 'src/app/shared/savethrows.model';
 })
 export class TabSpellsComponent implements OnInit, OnDestroy {
 
-  constructor(private charaservice: CharaService, private modPipe: ModifierPipe) { }
+  constructor(private charaservice: CharaService, private modPipe: ModifierPipe,
+              private spellDialog: MatDialog) { }
 
 
   BRACKET_EXPRESSION: RegExp = /\{(.*?)\}/g; // capture {*}    g is for global
@@ -68,7 +68,7 @@ export class TabSpellsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.subscriptions.add(this.charaservice.listenfor('Updated_one_chara').subscribe(data => {
+    this.subscriptions = (this.charaservice.listenfor('Updated_one_chara').subscribe(data => {
       // set up shorthand variables for the user to use in formulas
       this.chara = data as Chara;
       this.level = this.chara.chara_class.class_level;
