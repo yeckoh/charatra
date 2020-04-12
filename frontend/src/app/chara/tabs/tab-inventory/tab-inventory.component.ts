@@ -16,6 +16,7 @@ import { ArmorMod } from 'src/app/shared/armor-mod.model';
   templateUrl: './tab-inventory.component.html',
   styleUrls: ['./tab-inventory.component.css']
 })
+
 export class TabInventoryComponent implements OnInit, OnDestroy {
 
   constructor(private charaservice: CharaService,
@@ -32,6 +33,19 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
   private totalWeight = 0;
 
   private subscriptions: Subscription;
+
+  private updateWeightAndNetWorth = function() {
+      this.totalWeight = 0;
+      this.netWorth = 0;
+      for(let item of this.listof_equipmentitems) {
+        this.netWorth += item.value * item.count;
+        this.totalWeight += item.weight * item.count;
+      }
+      for(let item of this.listof_inventoryitems) {
+        this.netWorth += item.value * item.count;
+        this.totalWeight += item.weight * item.count;
+      }
+    };
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
@@ -78,16 +92,7 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
       // TODO
       // add newitemid to container.ids?
 
-      this.totalWeight = 0;
-      this.netWorth = 0;
-      for(let item of this.listof_equipmentitems) {
-         this.totalWeight += item.weight * item.count;
-         this.netWorth += item.value * item.count;
-       }
-      for(let item of this.listof_inventoryitems) {
-         this.totalWeight += item.weight * item.count;
-         this.netWorth += item.value * item.count;
-      }
+      this.updateWeightAndNetWorth();
     }));
 
     // the item wasn't moved, we just updated it's properties
@@ -108,16 +113,7 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
         this.totalWeight += updateditem.weight * updateditem.count; // add new to weight
         this.listof_equipmentitems[itemIndex] = this.chara.equipped_itemcontainer.listof_items[itemIndex]; // replace old item with new item
 
-        this.totalWeight = 0;
-        this.netWorth = 0;
-        for(let item of this.listof_equipmentitems) {
-          this.totalWeight += item.weight * item.count;
-          this.netWorth += item.value * item.count;
-        }
-        for(let item of this.listof_inventoryitems) {
-          this.netWorth += item.value * item.count;
-          this.totalWeight += item.weight * item.count;
-        }
+        this.updateWeightAndNetWorth();
 
         return;
       }
@@ -138,16 +134,7 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
         this.totalWeight += updateditem.weight * updateditem.count; // add new to weight
         this.listof_inventoryitems[itemIndex] = this.chara.inventory_container.listof_items[itemIndex]; // replace old item with new item
 
-        this.totalWeight = 0;
-        this.netWorth = 0;
-        for(let item of this.listof_equipmentitems) {
-          this.totalWeight += item.weight * item.count;
-          this.netWorth += item.value * item.count;
-        }
-        for(let item of this.listof_inventoryitems) {
-          this.netWorth += item.value * item.count;
-          this.totalWeight += item.weight * item.count;
-        }
+        this.updateWeightAndNetWorth();
 
         return;
       }
@@ -160,6 +147,8 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
       this.chara.extra_characontainer.listof_items[itemIndex].value = updateditem.value;
       this.chara.extra_characontainer.listof_items[itemIndex].weight = updateditem.weight;
       this.listof_extraitems[itemIndex] = this.chara.extra_characontainer.listof_items[itemIndex];
+
+      this.updateWeightAndNetWorth();
 
     }));
 
@@ -342,9 +331,7 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
       this.listof_inventoryitems = this.chara.inventory_container.listof_items as Items[];
       this.listof_extraitems = this.chara.extra_characontainer.listof_items as Items[];
 
-      this.totalWeight = 0;
-      for(let item of this.listof_equipmentitems) { this.totalWeight += item.weight * item.count; }
-      for(let item of this.listof_inventoryitems) { this.totalWeight += item.weight * item.count; }
+      this.updateWeightAndNetWorth();
       }));
 
     // UPDATED ITEM ARMOR_MODIFIER
@@ -385,18 +372,7 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
     this.charaservice.sendback('Make_new_item', containerAndCharaid);
   }
 
-  updateWeightAndNetWorth() {
-    this.totalWeight = 0;
-    this.netWorth = 0;
-    for(let item of this.listof_equipmentitems) {
-      this.netWorth += item.value * item.count;
-      this.totalWeight += item.weight * item.count;
-    }
-    for(let item of this.listof_inventoryitems) {
-      this.netWorth += item.value * item.count;
-      this.totalWeight += item.weight * item.count;
-    }
-  }
+
 
   // drop(event: CdkDragDrop<Items[]>) {
   //   moveItemInArray(this.listof_equipmentitems, event.previousIndex, event.currentIndex);
