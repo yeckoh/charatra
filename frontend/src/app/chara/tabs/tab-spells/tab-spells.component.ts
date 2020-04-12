@@ -124,10 +124,7 @@ export class TabSpellsComponent implements OnInit, OnDestroy {
             mutableInput = mutableInput.replace(result[0], evaluate(result[1], this));
             this.BRACKET_EXPRESSION.lastIndex = 0; // {0} is consumed by replace, now {0} is what was {1}
         }} else {
-          // if (mutableInput = evaluate(input, this)) { } // simple formula; {} is implied
           mutableInput = input; }
-        //   else {mutableInput = input; } // evaluation failed but didnt throw an error
-        // }
       return mutableInput;
     } catch (error) {
       return 'NaN';
@@ -149,9 +146,12 @@ export class TabSpellsComponent implements OnInit, OnDestroy {
 //     this.attackDialog.open(DialogSavingthrowComponent, {data: selected_save});
 // }
 
-  makeNewFeature() {
-    // SecretSocketComponent.newFeature(this.charaservice.CharaId);
-    this.charaservice.sendback('Make_new_feature', {chara_id: this.charaservice.CharaId});
+  makeNewSpell() {
+    const data = {
+      charaid: this.charaservice.CharaId,
+      spelllistid: this.chara.chara_spelllist._id
+    };
+    this.charaservice.sendback('Make_new_spell', data);
   }
 
   updateProf() {
