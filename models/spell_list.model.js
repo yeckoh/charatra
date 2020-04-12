@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-// require('./spells.model');
+const Spell = require('./spells.model');
 
 var Spell_listSchema = mongoose.Schema({
     selected_color: String,
@@ -29,3 +29,20 @@ module.exports.MakeNewList = function() {
 }
 
 // schema model functions -> {mongoose functions}
+
+
+module.exports.DeleteCascading = function(spelllistids) {
+    Spell_list.find().where('_id').in(spelllistids).exec().then((spelllist) => {
+        let spellids = [];
+        spelllist.forEach(element => {
+            spellids.push(...element.listof_spells);
+        });
+        Spell.DeleteCascading(spellids);
+    });
+    Spell_list.deleteMany({_id: spelllistids}).exec();
+}
+
+
+module.exports.AddToSpells = function(spelllistid, spellid) {
+    Spell_list.findByIdAndUpdate(spelllistid, {$push: {listof_spells: [spellid] }}).exec();
+}
