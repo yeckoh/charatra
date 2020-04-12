@@ -74,7 +74,7 @@ wsocket.on('connection', function(socket) {
   require('./routes/armormod_hooks')(socket);
   require('./routes/class_hooks')(socket);
   // require('./routes/spelllist_hooks')(socket);
-  // require('./routes/spell_hooks')(socket);
+  require('./routes/spell_hooks')(socket);
   require('./routes/feature_hooks')(socket);
   require('./routes/attack_hooks')(socket);
   // require('./routes/effect_hooks')(socket);

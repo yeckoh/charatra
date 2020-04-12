@@ -5,7 +5,7 @@ Container = require('./containers.model');
 Feature = require('./features.model');
 // require('./classes.model');
 require('./skill_profs.model');
-// require('./spell_list.model');
+Spell_List = require('./spell_list.model');
 
 /// TODO: HITDICE
 
@@ -262,12 +262,15 @@ module.exports.DeleteCascading = function(charaids) {
   Character.find().where('_id').in(charaids).exec().then((charas) => {
     let containers = [];
     let featureids = [];
+    let spelllists = [];
     charas.forEach(element => {
       containers.push(element.equipped_itemcontainer, element.inventory_container, element.extra_characontainer);
       featureids.push(...element.listof_charafeatures);
+      spelllists.push(element.chara_spelllist);
     });
     Container.DeleteCascading(containers);
     Feature.DeleteCascading(featureids);
+    Spell_List.DeleteCascading(spelllists);
   });
   Character.deleteMany({_id: charaids}).exec();
 }

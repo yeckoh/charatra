@@ -37,6 +37,7 @@ module.exports.DeleteCascading = function(spelllistids) {
         spelllist.forEach(element => {
             spellids.push(...element.listof_spells);
         });
+        console.log('calling spell deletion');
         Spell.DeleteCascading(spellids);
     });
     Spell_list.deleteMany({_id: spelllistids}).exec();

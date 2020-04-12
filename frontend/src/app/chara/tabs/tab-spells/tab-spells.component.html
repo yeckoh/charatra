@@ -1,1 +1,6 @@
-<p>tab-spells works!</p>
+<div>
+  <button mat-button (click)='makeNewSpell()'>make new spell</button>
+  <div *ngFor="let spell of chara.chara_spelllist.listof_spells">
+    <label>a spell exists here</label>
+  </div>
+</div>

@@ -20,6 +20,10 @@ var SpellSchema = mongoose.Schema({
   
 const Spell = module.exports = mongoose.model('Spells', SpellSchema);
   
+
+module.exports.SaveSpell = function(spell) {
+    spell.save();
+}
 // schema model functions -> {mongoose functions}
 
 module.exports.AddToListofattacks = function(spellid, atkid) {
@@ -41,5 +45,6 @@ module.exports.DeleteCascading = function(spellids) {
         Attack.DeleteCascading(atkids);
         Saves.DeleteCascading(saveids);
     });
+    console.log(spellids);
     Spell.deleteMany({_id: spellids}).exec();
 }
