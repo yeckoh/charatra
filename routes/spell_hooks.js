@@ -17,6 +17,7 @@ module.exports = function(socket) {
         // data is charaid, spelllistid
         let newspell = new Spell({
             _id: mongoose.Types.ObjectId(),
+            selected_color: 'tomato',
             spellname: 'new spell',
             descript: 'description goes here',
             lvl: 0,

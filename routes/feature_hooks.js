@@ -19,7 +19,7 @@ module.exports = function(socket) {
     socket.on('Make_new_feature', function(sent_in_data) {
         let newfeature = new Feature({
             _id: mongoose.Types.ObjectId(),
-            selected_color: 'rgb(127, 0, 0)',
+            selected_color: 'rgb(127, 127, 127)',
             feature_category: 0, // user defined feature separation names
 
             title: 'new feature',
@@ -44,15 +44,6 @@ module.exports = function(socket) {
         socket.broadcast.in(sent_in_data.chara_id).emit('Created_new_feature', newfeature);
     });
 
-
-    // when get all cahra features gets fired... READ_ALL
-    // socket.on('Get_all_chara_features', function(sent_in_data) {
-    //     // a_promise.then -> do stuff with the data
-    //     Feature.GetAllFeatures(sent_in_data.featureids).then(function(allFeatures) {
-    //         socket.emit('Read_all_chara_features', allFeatures);
-    //     });
-    // });
-
     // when 'update selected feature' gets fired... UPDATE_ONE
     socket.on('Update_selected_feature', function(sent_in_data) {
         Feature.findByIdAndUpdate(sent_in_data.feature._id, sent_in_data.feature, {new: true}, function(err, updatedFeature) {
@@ -63,7 +54,6 @@ module.exports = function(socket) {
 
     socket.on('Delete_selected_feature', function(sent_in_data) {
         // data consists of .featureid .charaid
-        console.log(sent_in_data);
         Feature.DeleteCascading(sent_in_data.featureid);
         Character.findByIdAndUpdate(sent_in_data.charaid, {$pull: {listof_charafeatures: sent_in_data.featureid }}).exec(); // remove from parent
         console.log('feature deleted');

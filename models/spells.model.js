@@ -3,6 +3,7 @@ const Attack = require('./attacks.model');
 const Saves = require('./savethrows.model');
 
 var SpellSchema = mongoose.Schema({
+    selected_color: String,
     spellname: String,
     descript: String,
     lvl: Number,
@@ -45,6 +46,5 @@ module.exports.DeleteCascading = function(spellids) {
         Attack.DeleteCascading(atkids);
         Saves.DeleteCascading(saveids);
     });
-    console.log(spellids);
     Spell.deleteMany({_id: spellids}).exec();
 }
