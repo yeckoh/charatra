@@ -25,22 +25,22 @@ var ArmorModSchema = mongoose.Schema({
   }
 
 
-  module.exports.MakeNewFeatureArmor = function(featureid) {
-    let newArmor = new ArmorMod({
-        parentFeature: featureid,
-        parentItem: undefined,
-        parentSepl: undefined,
+  // module.exports.MakeNewFeatureArmor = function(featureid) {
+  //   let newArmor = new ArmorMod({
+  //       parentFeature: featureid,
+  //       parentItem: undefined,
+  //       parentSepl: undefined,
 
-        usebase: true,
-        usemax: false,
-        useadd: false,
-        baseac: 10,
-        maxac: 128,
-        addac: 128
-    });
-    newArmor.save();
-    return newArmor._id;
-  }
+  //       usebase: true,
+  //       usemax: false,
+  //       useadd: false,
+  //       baseac: 10,
+  //       maxac: 128,
+  //       addac: 128
+  //   });
+  //   newArmor.save();
+  //   return newArmor._id;
+  // }
 
   module.exports.MakeNewItemArmor = function(itemid) {
     let newArmor = new ArmorMod({
@@ -64,7 +64,7 @@ var ArmorModSchema = mongoose.Schema({
     ArmorMod.deleteMany({_id: allids}).exec();
   }
 
-  module.exports.GetAllArmorModifiers = function(allids) {
-      var query = ArmorMod.find().where('_id').in(allids).exec();
-      return query;
-  }
+  // module.exports.GetAllArmorModifiers = function(allids) {
+  //     var query = ArmorMod.find().where('_id').in(allids).exec();
+  //     return query;
+  // }

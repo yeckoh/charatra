@@ -2,8 +2,8 @@
 const ArmorMod = require('../models/armor_modifiers.model');
 
 // parent models
-const Feature = require('../models/features.model');
-const Item = require('../models/items.model');
+// const Feature = require('../models/features.model');
+// const Item = require('../models/items.model');
 
 
 module.exports = function(socket) {

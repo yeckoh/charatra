@@ -42,7 +42,7 @@ module.exports = function(socket) {
     });
 
 
-    // when get all Item gets fired... READ_ALL
+    // READ_ALL
     socket.on('Get_all_container_items', function(sent_in_data) {
         // a_promise.then -> do stuff with the data
         Items.GetAllItems(sent_in_data.itemids).then(function(allItems) {
@@ -50,7 +50,7 @@ module.exports = function(socket) {
         });
     });
 
-    // when 'update selected item' gets fired... UPDATE_ONE
+    // UPDATE_ONE
     socket.on('Update_selected_item', function(sent_in_data) {
         Item.findByIdAndUpdate(sent_in_data.item._id, sent_in_data.item, {new: true}, function(err, updatedItem) {
             console.log('updated item');
@@ -59,8 +59,6 @@ module.exports = function(socket) {
         });
     });
 
-    /// TODO: BRING IN PARENT CONTAINER ID
-    /// TODO: DETERMINE FRONT LOGIC CASES: DO WE EMIT BROADCAST THE SAME OR DIFFERENT HOOKS?
     socket.on('Delete_selected_item', function(sent_in_data) {
         // data consists of .itemid .charaid .parentid
         Item.DeleteCascading(sent_in_data.itemid);

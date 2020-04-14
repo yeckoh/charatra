@@ -13,7 +13,7 @@ var mongoose = require('mongoose');
 module.exports = function(socket) {
     console.log("\x1b[34m"+'ws-loaded:'+"\x1b[0m"+'savingthrow_hooks');
 
-    // when 'make_new_Save' gets fired... CREATE_ONE
+    // CREATE_ONE
     socket.on('Make_new_save', function(sent_in_data) {
         let newsave = new Save({
             _id: mongoose.Types.ObjectId(),
@@ -39,15 +39,15 @@ module.exports = function(socket) {
     });
 
 
-    // when get all chara Saves gets fired... READ_ALL
-    socket.on('Get_all_saves', function(sent_in_data) {
-        // a_promise.then -> do stuff with the data
-        Save.GetAllSaves(sent_in_data.saveids).then(function(allsaves) {
-            socket.emit('Read_all_saves', allsaves);
-        });
-    });
+    // // READ_ALL
+    // socket.on('Get_all_saves', function(sent_in_data) {
+    //     // a_promise.then -> do stuff with the data
+    //     Save.GetAllSaves(sent_in_data.saveids).then(function(allsaves) {
+    //         socket.emit('Read_all_saves', allsaves);
+    //     });
+    // });
 
-    // when 'update selected Saves' gets fired... UPDATE_ONE
+    // UPDATE_ONE
     socket.on('Update_selected_save', function(sent_in_data) {
         // data is .save and .charaid
         Save.findByIdAndUpdate(sent_in_data.save._id, sent_in_data.save, {new: true}, function(err, updatedSave) {

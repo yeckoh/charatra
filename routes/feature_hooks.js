@@ -4,10 +4,6 @@ const Feature = require('../models/features.model');
 // parent model, for appending Feature:_id to listof_
 const Character = require('../models/charas.model');
 
-// nested testing only
-const Attack = require('../models/attacks.model');
-const Saves = require('../models/savethrows.model');
-
 // import mongoose just to generate a _id: right here, right now
 var mongoose = require('mongoose');
 
@@ -36,7 +32,6 @@ module.exports = function(socket) {
         // no more separate collections. update subdocuments!
         Feature.SaveFeature(newfeature);
 
-        // Character.AddToListoffeatures(sent_in_data.chara_id, newfeature);
         Character.AddToListoffeatures(sent_in_data.chara_id, newfeature._id);
 
 
@@ -44,7 +39,7 @@ module.exports = function(socket) {
         socket.broadcast.in(sent_in_data.chara_id).emit('Created_new_feature', newfeature);
     });
 
-    // when 'update selected feature' gets fired... UPDATE_ONE
+    // UPDATE_ONE
     socket.on('Update_selected_feature', function(sent_in_data) {
         Feature.findByIdAndUpdate(sent_in_data.feature._id, sent_in_data.feature, {new: true}, function(err, updatedFeature) {
             socket.emit('Updated_one_feature', updatedFeature); // send back to self, gotta replace list item then set selected to new listitem

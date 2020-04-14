@@ -11,7 +11,7 @@ var mongoose = require('mongoose');
 module.exports = function(socket) {
     console.log("\x1b[34m"+'ws-loaded:'+"\x1b[0m"+'container_hooks');
 
-    // when 'Make_new_Container' gets fired... CREATE_ONE
+    // CREATE_ONE
     socket.on('Make_new_container', function(sent_in_data) { // sent_in is a charaid
         let newcontainer = new Container({
             _id: mongoose.Types.ObjectId(),
@@ -31,15 +31,15 @@ module.exports = function(socket) {
     });
 
 
-    // when get all containers gets fired... READ_ALL
-    socket.on('Get_all_chara_containers', function(sent_in_data) { // sent_in is a list of containerids belonging to chara
-        // a_promise.then -> do stuff with the data
-        Container.GetAllContainers(sent_in_data.containerids).then(function(allContainers) {
-            socket.emit('Read_all_chara_containers', allContainers);
-        });
-    });
+    // // READ_ALL
+    // socket.on('Get_all_chara_containers', function(sent_in_data) { // sent_in is a list of containerids belonging to chara
+    //     // a_promise.then -> do stuff with the data
+    //     Container.GetAllContainers(sent_in_data.containerids).then(function(allContainers) {
+    //         socket.emit('Read_all_chara_containers', allContainers);
+    //     });
+    // });
 
-    // when 'update selected container' gets fired... UPDATE_ONE
+    // UPDATE_ONE
     socket.on('Update_selected_container', function(sent_in_data) {
       // sentindata is a .charaid, a .itemid, newcontainer, oldcontainer
       let swapids = {

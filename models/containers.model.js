@@ -18,7 +18,7 @@ module.exports.MakeNewEquipmentContainer = function() {
   let newContainer = new Container({
     name: 'Equipped',
     descript: 'Worn or active items go here',
-    listof_items: [Item.MakeNewItem(), Item.MakeNewItem()]
+    listof_items: []
   })
   newContainer.save();
   return newContainer._id;
@@ -28,7 +28,7 @@ module.exports.MakeNewInventoryContainer = function() {
   let newContainer = new Container({
     name: 'Inventory',
     descript: 'Your inventory',
-    listof_items: [Item.MakeNewItem(), Item.MakeNewItem()]
+    listof_items: []
   })
   newContainer.save();
   return newContainer._id;
@@ -38,7 +38,7 @@ module.exports.MakeExtraContainer = function() {
   let newContainer = new Container({
     name: 'Elsweyr',
     descript: 'Maybe its a hideyhole',
-    listof_items: [Item.MakeNewItem(), Item.MakeNewItem()]
+    listof_items: []
   })
   newContainer.save();
   return newContainer._id;
