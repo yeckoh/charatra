@@ -19,13 +19,13 @@ module.exports = function(socket) {
     socket.on('Make_new_feature', function(sent_in_data) {
         let newfeature = new Feature({
             _id: mongoose.Types.ObjectId(),
-            selected_color: 'rgb(127, 127, 127)',
+            selected_color: 'rgb(55, 55, 55)',
             feature_category: 0, // user defined feature separation names
 
             title: 'new feature',
             descript: 'descriptions go here',
-            uses: 1,
-            uses_left: 1,
+            uses: 0,
+            uses_left: 0,
             toggleable: false,
             is_enabled: true,
             listof_atks: [],

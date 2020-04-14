@@ -255,5 +255,4 @@ export class DialogFeatureComponent implements OnInit, OnDestroy {
     this.attackDialog.open(DialogSavingthrowComponent, {data: selected_save});
   }
 
-
 }

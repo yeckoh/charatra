@@ -163,9 +163,9 @@
     <mat-card-title style='padding: 6px;' (click)='openFeatureDialog(feature)'>
 
       <table style='width: 100%'>
-        <tr><td>
+        <tr><td style='font-size: 24px;'>
           {{feature.title}}
-        </td><td style='text-align: right; vertical-align: top; white-space: nowrap'>
+        </td><td style='text-align: right; vertical-align: top; white-space: nowrap; font-size: 24px;'>
           <label *ngIf="feature.uses != 0">{{feature.uses_left}}/{{feature.uses}}</label>
         </td></tr>
       </table>
@@ -176,6 +176,10 @@
       <mat-card-content style='padding: 1rem; font-size: 16px; white-space: pre-wrap;'>
         {{nonRegularFormula(feature.descript)}}
       </mat-card-content>
+      <mat-card-actions *ngIf="feature.uses != 0" class='cardactionbuttons' align='end'>
+        <button mat-button class='p500' [disabled]='feature.uses_left <= 0' (click)='decrementUsesLeft(feature)'>USE</button>
+        <button mat-button class='p500' (click)='resetUsesLeft(feature)'>RESET</button>
+      </mat-card-actions>
     </mat-card>
     </div>
   </div>

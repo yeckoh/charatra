@@ -132,6 +132,24 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
     this.profBonus = 1 + Math.ceil(this.chara.chara_class.class_level / 4); // evaluate cant use math atm. funcs so rest in rip for now
   }
 
+  decrementUsesLeft(feature) {
+    --feature.uses_left;
+    this.updateFeatureUses(feature);
+  }
+
+  resetUsesLeft(feature) {
+    feature.uses_left = feature.uses;
+    this.updateFeatureUses(feature);
+  }
+
+  updateFeatureUses(feature) {
+    const forwardingdata = {
+      feature,
+      charaid: this.charaservice.CharaId
+    };
+    this.charaservice.sendback('Update_selected_feature', forwardingdata);
+  }
+
   ngOnInit() {
 
     this.subscriptions = (this.charaservice.listenfor('Updated_one_chara').subscribe(data => {

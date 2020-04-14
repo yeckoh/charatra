@@ -5,6 +5,10 @@
   </div>
   <mat-form-field style='width: 100%;'><input matInput placeholder='title' (focus)='!titleFocus' (blur)='!titleFocus' (change)='sendFeatureDialogUpdate()' [(ngModel)]="feature.title" name='feature.title'></mat-form-field>
 
+  <div>
+    <mat-form-field><input matInput placeholder='uses (0 for none)' (change)='sendFeatureDialogUpdate()' [(ngModel)]='feature.uses' name='feature.uses'></mat-form-field>
+  </div>
+
   <div><mat-form-field class='dialogtext'>
     <textarea matInput class='dialogtext' placeholder='description' (focus)='!descriptFocus' (blur)='!descriptFocus' (change)='sendFeatureDialogUpdate()' style='overflow:hidden; resize: none;' [(ngModel)]="feature.descript" name='feature.descript'></textarea>
   </mat-form-field></div>
