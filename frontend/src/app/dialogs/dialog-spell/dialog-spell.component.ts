@@ -102,6 +102,20 @@ export class DialogSpellComponent implements OnInit, OnDestroy {
       this.level = this.chara.chara_class.class_level;
       this.updateProf();
     }));
+
+    this.subscriptions.add(this.charaservice.listenfor('Deleted_one_spell').subscribe(data => {
+      if (this.spell._id === data) {
+        this.thisDialog.close();
+      }
+    }));
+
+    this.subscriptions.add(this.charaservice.listenfor('Updated_one_spell').subscribe(data => {
+      const newspell = data as Spells;
+      if (this.spell._id === newspell._id) { // update local spell var
+        this.spell = this.chara.chara_spelllist.listof_spells.find(s => s._id === newspell._id);
+      }
+    }));
+
   }
 
 
@@ -129,15 +143,6 @@ export class DialogSpellComponent implements OnInit, OnDestroy {
     }
   }
 
-/*
-    // UPDATE_ONE
-    socket.on('Update_selected_spell', function(sent_in_data) {
-        // data is .spell obj .charaid
-    socket.on('Delete_selected_spell', function(sent_in_data) {
-        // data consists of .spellid .charaid
-*/
-
-
   sendSpellDialogUpdate() {
     const updateData = {
       spell: this.spell,
@@ -154,33 +159,6 @@ export class DialogSpellComponent implements OnInit, OnDestroy {
     this.charaservice.sendback('Delete_selected_spell', spellAndcharaId);
     this.thisDialog.close();
   }
-
-/*
-
-  sendItemDelete() {
-
-    const itemAndUserId = {
-      charaid: this.charaservice.CharaId,
-      itemid: this.thisItem._id,
-      parentid: undefined
-    };
-    switch (this.whichContainer) {
-      case 'inventory':
-        itemAndUserId.parentid = this.inventory._id;
-        break;
-      case 'carried':
-        itemAndUserId.parentid = this.carried._id;
-        break;
-      case 'extra':
-        itemAndUserId.parentid = this.extra._id;
-        break;
-    }
-    this.charaservice.sendback('Delete_selected_item', itemAndUserId);
-    this.thisDialog.close();
-  }
-
-*/
-
 
   newAttack() {
     const forwardingdata = {

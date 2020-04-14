@@ -23,7 +23,7 @@ export class TabSpellsComponent implements OnInit, OnDestroy {
   BRACKET_EXPRESSION: RegExp = /\{(.*?)\}/g; // capture {*}    g is for global
 
   chara: Chara = new Chara(); // chara is read_only really
-  spells = [] as Spells[];
+  // spells = [] as Spells[];
 
   // spellattacks = [] as Attack[];
   // spellsaves = [] as Savethrows[];
@@ -92,7 +92,7 @@ export class TabSpellsComponent implements OnInit, OnDestroy {
       this.wisDC = 8 + this.wisMod + this.profBonus;
       this.chaDC = 8 + this.chaMod + this.profBonus;
 
-      this.spells = this.chara.chara_spelllist.listof_spells;
+      // this.spells = this.chara.chara_spelllist.listof_spells;
 
       // // load attacks and saves
       // this.spellattacks.length = 0;
@@ -106,6 +106,20 @@ export class TabSpellsComponent implements OnInit, OnDestroy {
       this.updateProf();
     }));
 
+    this.subscriptions.add(this.charaservice.listenfor('Created_new_spell').subscribe(data => {
+      const newspell = data as Spells;
+      this.chara.chara_spelllist.listof_spells.push(newspell);
+    }));
+
+    this.subscriptions.add(this.charaservice.listenfor('Deleted_one_spell').subscribe(data => {
+      this.chara.chara_spelllist.listof_spells = this.chara.chara_spelllist.listof_spells.filter(s => s._id !== data) as [Spells];
+    }));
+
+    this.subscriptions.add(this.charaservice.listenfor('Updated_one_spell').subscribe(data => {
+      const newspell = data as Spells;
+      const spellIndex = this.chara.chara_spelllist.listof_spells.findIndex(s => s._id === newspell._id);
+      this.chara.chara_spelllist.listof_spells[spellIndex] = newspell;
+    }));
 
   }
 
