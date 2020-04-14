@@ -161,7 +161,15 @@
   <div style='max-width: 20rem; width: 20rem; padding: 6px;'>
     <div class='mat-elevation-z8' [style.background-color]="feature.selected_color">
     <mat-card-title style='padding: 6px;' (click)='openFeatureDialog(feature)'>
-      <label style='padding:0px; margin: 0px;'>{{feature.title}}</label>
+
+      <table style='width: 100%'>
+        <tr><td>
+          {{feature.title}}
+        </td><td style='text-align: right; vertical-align: top; white-space: nowrap'>
+          <label *ngIf="feature.uses != 0">{{feature.uses_left}}/{{feature.uses}}</label>
+        </td></tr>
+      </table>
+
     </mat-card-title>
 
     <mat-card style='padding: 0px; border-radius: 0px'>
