@@ -17,7 +17,7 @@ export class Spells {
   is_concentration: boolean;
   is_ritual: boolean;
   duration: string;
-  listof_spellattacks: Attack;
-  listof_spellsaves: Savethrows;
+  listof_spellattacks: [Attack];
+  listof_spellsaves: [Savethrows];
   // listof_spellsfeatures: [string];
 }

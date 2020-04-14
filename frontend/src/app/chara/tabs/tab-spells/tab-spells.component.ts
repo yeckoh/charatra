@@ -8,6 +8,8 @@ import { ModifierPipe } from 'src/app/pipes/modifier.pipe';
 import evaluate, { registerFunction } from 'ts-expression-evaluator';
 import { DialogSpellComponent } from 'src/app/dialogs/dialog-spell/dialog-spell.component';
 import { MatDialog } from '@angular/material';
+import { Attack } from 'src/app/shared/attack.model';
+import { Savethrows } from 'src/app/shared/savethrows.model';
 
 @Component({
   selector: 'app-tab-spells',
@@ -118,7 +120,83 @@ export class TabSpellsComponent implements OnInit, OnDestroy {
     this.subscriptions.add(this.charaservice.listenfor('Updated_one_spell').subscribe(data => {
       const newspell = data as Spells;
       const spellIndex = this.chara.chara_spelllist.listof_spells.findIndex(s => s._id === newspell._id);
-      this.chara.chara_spelllist.listof_spells[spellIndex] = newspell;
+      // this.chara.chara_spelllist.listof_spells[spellIndex] = newspell;
+      this.chara.chara_spelllist.listof_spells[spellIndex].cast_time = newspell.cast_time;
+      this.chara.chara_spelllist.listof_spells[spellIndex].descript = newspell.descript;
+      this.chara.chara_spelllist.listof_spells[spellIndex].duration = newspell.duration;
+      this.chara.chara_spelllist.listof_spells[spellIndex].is_concentration = newspell.is_concentration;
+      this.chara.chara_spelllist.listof_spells[spellIndex].is_ritual = newspell.is_ritual;
+      this.chara.chara_spelllist.listof_spells[spellIndex].is_somatic_component = newspell.is_somatic_component;
+      this.chara.chara_spelllist.listof_spells[spellIndex].is_verbal_component = newspell.is_verbal_component;
+      this.chara.chara_spelllist.listof_spells[spellIndex].lvl = newspell.lvl;
+      this.chara.chara_spelllist.listof_spells[spellIndex].range = newspell.range;
+      this.chara.chara_spelllist.listof_spells[spellIndex].selected_color = newspell.selected_color;
+      this.chara.chara_spelllist.listof_spells[spellIndex].spellname = newspell.spellname;
+    }));
+
+
+
+    this.subscriptions.add(this.charaservice.listenfor('Created_new_attack').subscribe(data => {
+      // data is a new attack
+      const newattack = data as Attack;
+      if (newattack.parentSpell === undefined) {
+        return;
+      }
+      // const filteredSpells = this.chara.chara_spelllist.listof_spells.filter(e => e._id === newattack.parentSpell);
+      this.chara.chara_spelllist.listof_spells.find(e => e._id === newattack.parentSpell).listof_spellattacks.push(newattack);
+    }));
+
+    this.subscriptions.add(this.charaservice.listenfor('Created_new_save').subscribe(data => {
+      // data is a new save
+      // look for save parent, oof.
+      const newsave = data as Savethrows;
+      if (newsave.parentSpell === undefined) {
+        return;
+      }
+      // const filteredSpells = this.chara.chara_spelllist.listof_spells.filter(e => e._id === newsave.parentSpell);
+      this.chara.chara_spelllist.listof_spells.find(e => e._id === newsave.parentSpell).listof_spellsaves.push(newsave);
+
+    }));
+
+
+    this.subscriptions.add(this.charaservice.listenfor('Updated_one_attack').subscribe(data => {
+      const newattack = data as Attack;
+      if (newattack.parentSpell === undefined) {
+        return;
+      }
+      const spellIndex = this.chara.chara_spelllist.listof_spells.findIndex(e => e._id === newattack.parentSpell);
+      const attackIndex = this.chara.chara_spelllist.listof_spells[spellIndex].listof_spellattacks.findIndex(e => e._id === newattack._id);
+      this.chara.chara_spelllist.listof_spells[spellIndex].listof_spellattacks[attackIndex] = newattack;
+    }));
+
+    this.subscriptions.add(this.charaservice.listenfor('Updated_one_save').subscribe(data => {
+      const newsave = data as Savethrows;
+      if (newsave.parentSpell === undefined) {
+        return;
+      }
+      const spellIndex = this.chara.chara_spelllist.listof_spells.findIndex(e => e._id === newsave.parentSpell);
+      const saveIndex = this.chara.chara_spelllist.listof_spells[spellIndex].listof_spellsaves.findIndex(e => e._id === newsave._id);
+      this.chara.chara_spelllist.listof_spells[spellIndex].listof_spellsaves[saveIndex] = newsave;
+    }));
+
+    this.subscriptions.add(this.charaservice.listenfor('Deleted_spell_attack').subscribe(data => {
+      // data is the deleted attack
+      const deletedattack = data as Attack;
+      const spellIndex = this.chara.chara_spelllist.listof_spells.findIndex(e => e._id === deletedattack.parentSpell);
+      if (spellIndex !== -1) { // was it a prepared spell? <-- UNIMPLEMENTED RIGHT NOW, ALWAYS TRUE
+        const attackIndex = this.chara.chara_spelllist.listof_spells[spellIndex].listof_spellattacks.findIndex(a => a._id === deletedattack._id);
+        this.chara.chara_spelllist.listof_spells[spellIndex].listof_spellattacks.splice(attackIndex, 1);
+      }
+    }));
+
+    this.subscriptions.add(this.charaservice.listenfor('Deleted_spell_save').subscribe(data => {
+      // data is the deleted save
+      const deletedsave = data as Savethrows;
+      const spellIndex = this.chara.chara_spelllist.listof_spells.findIndex(e => e._id === deletedsave.parentSpell);
+      if (spellIndex !== -1) { // was it a prepared spell? <-- UNIMPLEMENTED RIGHT NOW, ALWAYS TRUE
+        const saveIndex = this.chara.chara_spelllist.listof_spells[spellIndex].listof_spellsaves.findIndex(s => s._id === deletedsave._id);
+        this.chara.chara_spelllist.listof_spells[spellIndex].listof_spellsaves.splice(saveIndex, 1);
+      }
     }));
 
   }

@@ -161,7 +161,8 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
       // big money items
       this.features = this.chara.listof_charafeatures;
       this.items = this.chara.equipped_itemcontainer.listof_items;
-      // this.spells = this.chara.listof_spelllists.listof_spells;
+      this.spells = this.chara.chara_spelllist.listof_spells;
+      console.log('this.spells', this.spells);
 
       // load attacks and saves
       this.featureattacks.length = 0;
@@ -179,7 +180,11 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
         this.itemattacks.push(...element.listof_attacks); // use iterator notation to keep a single array
         this.itemsaves.push(...element.listof_savingthrows);
       });
-      // spellpopulate
+      this.spells.forEach(element => {
+        this.spellattacks.push(...element.listof_spellattacks);
+        this.spellsaves.push(...element.listof_spellsaves);
+      });
+      console.log('this.spellattacks', this.spellattacks);
     }));
 
     this.subscriptions.add(this.charaservice.listenfor('Updated_selected_class').subscribe(data => {
@@ -239,7 +244,7 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
       }
       // update item attack and save lists
       this.items = this.chara.equipped_itemcontainer.listof_items;
-      // this.spells = this.chara.listof_spelllists.listof_spells;
+      // this.spells = this.chara.chara_spelllist.listof_spells;
 
       // load attacks and saves
       this.itemattacks.length = 0;
@@ -253,7 +258,6 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
 
     this.subscriptions.add(this.charaservice.listenfor('Created_new_feature').subscribe(data => {
       this.features.push(data as Features);
-      console.log('heard creatednewfeature');
     }));
 
     this.subscriptions.add(this.charaservice.listenfor('Updated_one_feature').subscribe(data => {
@@ -306,11 +310,19 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
       this.items.splice(delIndex, 1);
     }));
 
-    // deleted one spell
+    this.subscriptions.add(this.charaservice.listenfor('Deleted_one_spell').subscribe(data => {
+      // data is spellid
+      // chara.spelllist.spells is handled by tab-spells. Update local list only
+      const delIndex = this.spells.findIndex(s => s._id === data);
 
-    this.subscriptions.add(this.charaservice.listenfor('Created_new_item').subscribe(data => {
-      // add to local items[] only
-      // tab-inventory handles adding to this.chara.inventorylist
+      this.spells[delIndex].listof_spellattacks.forEach(element => {
+        // this.varForIdToFilter = element._id;
+        this.spellattacks = this.spellattacks.filter(attack => attack._id !== element._id);
+      });
+
+      this.spells[delIndex].listof_spellsaves.forEach(element => {
+        this.spellsaves = this.spellsaves.filter(save => save._id !== element._id);
+      });
     }));
 
     this.subscriptions.add(this.charaservice.listenfor('Created_new_attack').subscribe(data => {
@@ -323,13 +335,18 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
       }
       console.log('itemattackfilter...'); // UNTESTED
       // modify logic to account for new spell attacks
-      const filteredattacks = this.items.filter(e => e._id === newattack.parentItem);
-      if (filteredattacks.length === 1) {
+      const filtereditems = this.items.filter(e => e._id === newattack.parentItem);
+      if (filtereditems.length === 1) {
         console.log('itemattackfilter success');
         this.itemattacks.push(newattack);
       }
-      // look through spellattacks list or do we separate all 3
+      const filteredspells = this.spells.filter(e => e._id === newattack.parentSpell);
+      if (filteredspells.length === 1) {
+        console.log('spellattackfilter success');
+        this.spellattacks.push(newattack);
+      }
     }));
+
     this.subscriptions.add(this.charaservice.listenfor('Created_new_save').subscribe(data => {
       // data is a new save
       // look for item parent, oof.
@@ -340,12 +357,17 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
       }
       console.log('itemsavefilter...'); // UNTESTED
       // modify logic to account for new spell saves
-      const filteredsaves = this.items.filter(e => e._id === newsave.parentItem);
-      if (filteredsaves.length === 1) {
+      const filtereditems = this.items.filter(e => e._id === newsave.parentItem);
+      if (filtereditems.length === 1) {
         console.log('itemsavefilter success');
         this.itemsaves.push(newsave);
       }
-      // look through spellattacks list or do we separate all 3
+
+      const filteredspells = this.spells.filter(e => e._id === newsave.parentSpell);
+      if (filteredspells.length === 1) {
+        console.log('spellsavefilter success');
+        this.spellsaves.push(newsave);
+      }
     }));
     // made new item attack ?
     // made new item save ?
@@ -368,7 +390,11 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
         this.featureattacks[attackIndex] = newattack;
         return;
       }
-      // spellattacks
+      attackIndex = this.spellattacks.findIndex(e => e._id === newattack._id);
+      if (attackIndex !== -1) {
+        this.spellattacks[attackIndex] = newattack;
+        return;
+      }
     }));
 
     this.subscriptions.add(this.charaservice.listenfor('Updated_one_save').subscribe(data => {
@@ -385,7 +411,11 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
         this.featuresaves[saveIndex] = newsave;
         return;
       }
-      // spellsaves
+      saveIndex = this.spellsaves.findIndex(e => e._id === newsave._id);
+      if (saveIndex !== -1) {
+        this.spellsaves[saveIndex] = newsave;
+        return;
+      }
     }));
 
     this.subscriptions.add(this.charaservice.listenfor('Deleted_item_attack').subscribe(data => {
@@ -405,9 +435,7 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
       if (attackIndex !== -1) { // was it from an active feature? <-- UNIMPLEMENTED RIGHT NOW, ALWAYS TRUE
         this.featureattacks.splice(attackIndex, 1); // remove from sidebarattack list
         const featureIndex = this.features.findIndex(e => e._id === deletedattack.parentFeature); // remove child from the feature in featurelist
-        // console.log('pre filter: ', this.features[featureIndex].listof_atks);
         this.features[featureIndex].listof_atks = this.features[featureIndex].listof_atks.filter(e => e._id !== deletedattack._id) as [Attack];
-        // console.log('post filter: ', this.features[featureIndex].listof_atks);
       }
     }));
     this.subscriptions.add(this.charaservice.listenfor('Deleted_spell_attack').subscribe(data => {
@@ -416,7 +444,7 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
       const attackIndex = this.spellattacks.findIndex(e => e._id === deletedattack._id);
       if (attackIndex !== -1) { // was it a prepared spell? <-- UNIMPLEMENTED RIGHT NOW, ALWAYS TRUE
         this.spellattacks.splice(attackIndex, 1);
-        // update the relevant parentspell to remove the attackid since it no longer exists
+        this.spells = this.chara.chara_spelllist.listof_spells;
       }
     }));
 
@@ -441,20 +469,15 @@ export class TabFeatureComponent implements OnInit, OnDestroy {
         this.features[featureIndex].listof_saves = this.features[featureIndex].listof_saves.filter(e => e._id !== deletedsave._id) as [Savethrows];
       }
     }));
-    // this.subscriptions.add(this.charaservice.listenfor('Deleted_spell_save').subscribe(data => {
-    //   // data is the deleted attack
-    //   const deletedsave = data as Savethrows;
-    //   const attackIndex = this.spellattacks.findIndex(e => e._id === deletedsave._id);
-    //   if (attackIndex !== -1) { // was it a prepared spell? <-- UNIMPLEMENTED RIGHT NOW, ALWAYS TRUE
-    //     this.spellattacks.splice(attackIndex, 1);
-    //     // update the relevant parentspell to remove the attackid since it no longer exists
-    //   }
-    // }));
-    // deleted feature save
-    // deleted item save
-    // deleted spell save
-
-
+    this.subscriptions.add(this.charaservice.listenfor('Deleted_spell_save').subscribe(data => {
+      // data is the deleted save
+      const deletedsave = data as Savethrows;
+      const saveIndex = this.spellsaves.findIndex(e => e._id === deletedsave._id);
+      if (saveIndex !== -1) { // was it a prepared spell? <-- UNIMPLEMENTED RIGHT NOW, ALWAYS TRUE
+        this.spellsaves.splice(saveIndex, 1);
+        this.spells = this.chara.chara_spelllist.listof_spells;
+      }
+    }));
 
   }
 }

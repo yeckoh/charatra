@@ -116,6 +116,11 @@ export class DialogSpellComponent implements OnInit, OnDestroy {
       }
     }));
 
+    // attack updates are handled by features-tab
+    /// THESE ARE HANDLED IN INVENTORY-TAB
+    // this.subscriptions.add(this.charaservice.listenfor('Created_new_attack').subscribe(data => {
+    // this.subscriptions.add(this.charaservice.listenfor('Created_new_save').subscribe(data => {
+    // this.subscriptions.add(this.charaservice.listenfor('Deleted_spell_attack').subscribe(data => {
   }
 
 
