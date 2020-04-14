@@ -5,24 +5,199 @@
 <td style='vertical-align: top;'>
   <div style='display: flex; flex-wrap: wrap;'>
 
+    <!-- cantrips -->
+    <div> <label class='attunementseparatorlabel'>Cantrips</label>
     <div *ngFor="let spell of chara.chara_spelllist.listof_spells">
-      <div style='max-width: 20rem; width: 20rem; padding: 6px;'>
+      <div *ngIf="spell.lvl == 0" class='cardColumn'>
       <div class='mat-elevation-z8' [style.background-color]="spell.selected_color">
-      <mat-card-title style='padding: 6px;' (click)='openSpellDialog(spell)'>
-        <label style='padding:0px; margin: 0px;'>{{spell.spellname}}</label>
+        <mat-card-title class='cardTitle' (click)='openSpellDialog(spell)'>
+        {{spell.spellname}}
       </mat-card-title>
-
       <mat-card style='padding: 0px; border-radius: 0px'>
-        <mat-card-content style='padding: 1rem; font-size: 16px; white-space: pre-wrap;'>
+        <mat-card-content class='cardDescrip'>
           {{nonRegularFormula(spell.descript)}}
         </mat-card-content>
       </mat-card>
       </div>
     </div>
   </div>
+  </div>
 
+      <!-- 1st lvl -->
+      <div> <label class='attunementseparatorlabel'>Level 1</label>
+        <div *ngFor="let spell of chara.chara_spelllist.listof_spells">
+          <div *ngIf="spell.lvl == 1" class='cardColumn'>
+          <div class='mat-elevation-z8' [style.background-color]="spell.selected_color">
+            <mat-card-title class='cardTitle' (click)='openSpellDialog(spell)'>
+            {{spell.spellname}}
+          </mat-card-title>
+          <mat-card style='padding: 0px; border-radius: 0px'>
+            <mat-card-content class='cardDescrip'>
+              {{nonRegularFormula(spell.descript)}}
+            </mat-card-content>
+          </mat-card>
+          </div>
+        </div>
+      </div>
+      </div>
 
+      <!-- 2nd lvl -->
+      <div> <label class='attunementseparatorlabel'>Level 2</label>
+        <div *ngFor="let spell of chara.chara_spelllist.listof_spells">
+          <div *ngIf="spell.lvl == 2" class='cardColumn'>
+          <div class='mat-elevation-z8' [style.background-color]="spell.selected_color">
+            <mat-card-title class='cardTitle' (click)='openSpellDialog(spell)'>
+            {{spell.spellname}}
+          </mat-card-title>
+          <mat-card style='padding: 0px; border-radius: 0px'>
+            <mat-card-content class='cardDescrip'>
+              {{nonRegularFormula(spell.descript)}}
+            </mat-card-content>
+          </mat-card>
+          </div>
+        </div>
+      </div>
+      </div>
 
+      <!-- 3rd lvl -->
+      <div> <label class='attunementseparatorlabel'>Level 3</label>
+        <div *ngFor="let spell of chara.chara_spelllist.listof_spells">
+          <div *ngIf="spell.lvl == 3" class='cardColumn'>
+          <div class='mat-elevation-z8' [style.background-color]="spell.selected_color">
+            <mat-card-title class='cardTitle' (click)='openSpellDialog(spell)'>
+            {{spell.spellname}}
+          </mat-card-title>
+          <mat-card style='padding: 0px; border-radius: 0px'>
+            <mat-card-content class='cardDescrip'>
+              {{nonRegularFormula(spell.descript)}}
+            </mat-card-content>
+          </mat-card>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <!-- 4th lvl -->
+      <div> <label class='attunementseparatorlabel'>Level 4</label>
+        <div *ngFor="let spell of chara.chara_spelllist.listof_spells">
+          <div *ngIf="spell.lvl == 4" class='cardColumn'>
+          <div class='mat-elevation-z8' [style.background-color]="spell.selected_color">
+            <mat-card-title class='cardTitle' (click)='openSpellDialog(spell)'>
+            {{spell.spellname}}
+          </mat-card-title>
+          <mat-card style='padding: 0px; border-radius: 0px'>
+            <mat-card-content class='cardDescrip'>
+              {{nonRegularFormula(spell.descript)}}
+            </mat-card-content>
+          </mat-card>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <!-- 5th lvl -->
+      <div> <label class='attunementseparatorlabel'>Level 5</label>
+        <div *ngFor="let spell of chara.chara_spelllist.listof_spells">
+          <div *ngIf="spell.lvl == 5" class='cardColumn'>
+          <div class='mat-elevation-z8' [style.background-color]="spell.selected_color">
+            <mat-card-title class='cardTitle' (click)='openSpellDialog(spell)'>
+            {{spell.spellname}}
+          </mat-card-title>
+          <mat-card style='padding: 0px; border-radius: 0px'>
+            <mat-card-content class='cardDescrip'>
+              {{nonRegularFormula(spell.descript)}}
+            </mat-card-content>
+          </mat-card>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <!-- 6th lvl -->
+      <div> <label class='attunementseparatorlabel'>Level 6</label>
+        <div *ngFor="let spell of chara.chara_spelllist.listof_spells">
+          <div *ngIf="spell.lvl == 6" class='cardColumn'>
+          <div class='mat-elevation-z8' [style.background-color]="spell.selected_color">
+            <mat-card-title class='cardTitle' (click)='openSpellDialog(spell)'>
+            {{spell.spellname}}
+          </mat-card-title>
+          <mat-card style='padding: 0px; border-radius: 0px'>
+            <mat-card-content class='cardDescrip'>
+              {{nonRegularFormula(spell.descript)}}
+            </mat-card-content>
+          </mat-card>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <!-- 7th lvl -->
+      <div> <label class='attunementseparatorlabel'>Level 7</label>
+        <div *ngFor="let spell of chara.chara_spelllist.listof_spells">
+          <div *ngIf="spell.lvl == 7" class='cardColumn'>
+          <div class='mat-elevation-z8' [style.background-color]="spell.selected_color">
+            <mat-card-title class='cardTitle' (click)='openSpellDialog(spell)'>
+            {{spell.spellname}}
+          </mat-card-title>
+          <mat-card style='padding: 0px; border-radius: 0px'>
+            <mat-card-content class='cardDescrip'>
+              {{nonRegularFormula(spell.descript)}}
+            </mat-card-content>
+          </mat-card>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <!-- 8th lvl -->
+      <div> <label class='attunementseparatorlabel'>Level 8</label>
+        <div *ngFor="let spell of chara.chara_spelllist.listof_spells">
+          <div *ngIf="spell.lvl == 8" class='cardColumn'>
+          <div class='mat-elevation-z8' [style.background-color]="spell.selected_color">
+            <mat-card-title class='cardTitle' (click)='openSpellDialog(spell)'>
+            {{spell.spellname}}
+          </mat-card-title>
+          <mat-card style='padding: 0px; border-radius: 0px'>
+            <mat-card-content class='cardDescrip'>
+              {{nonRegularFormula(spell.descript)}}
+            </mat-card-content>
+          </mat-card>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <!-- 9th lvl -->
+      <div> <label class='attunementseparatorlabel'>Level 9</label>
+        <div *ngFor="let spell of chara.chara_spelllist.listof_spells">
+          <div *ngIf="spell.lvl == 9" class='cardColumn'>
+          <div class='mat-elevation-z8' [style.background-color]="spell.selected_color">
+            <mat-card-title class='cardTitle' (click)='openSpellDialog(spell)'>
+            {{spell.spellname}}
+          </mat-card-title>
+          <mat-card style='padding: 0px; border-radius: 0px'>
+            <mat-card-content class='cardDescrip'>
+              {{nonRegularFormula(spell.descript)}}
+            </mat-card-content>
+          </mat-card>
+          </div>
+        </div>
+      </div>
+      </div>
+
+<!--
+
+          <table style='width: 100%'>
+            <tr><td>
+        {{spell.spellname}}
+        </td><td style='text-align: right; vertical-align: top; white-space: nowrap'>
+          <label *ngIf="spell.lvl == 0;else spelllvl">cantrip</label>
+          <ng-template #spelllvl>Lvl {{spell.lvl}}</ng-template>
+
+        </td></tr>
+        </table>
+
+-->
 
 
 

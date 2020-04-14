@@ -1,12 +1,17 @@
-.oBox {
-  min-width: 18rem;
-  padding: 1rem;
-  background-color:rgb(124, 62, 62);
+.cardColumn {
   max-width: 20rem;
+  width: 20rem;
+  padding: 6px;
 }
-.listitem {
-  margin: 1rem;
 
+.cardTitle {
+  padding: 6px;
+}
+
+.cardDescrip {
+  padding: 1rem;
+  font-size: 16px;
+  white-space: pre-wrap;
 }
 
 .spellItem {
@@ -44,46 +49,4 @@
   padding-bottom: 0.5rem;
 
   color: darkgray;
-}
-
-.tritem {
-  height: 2rem;
-  font-size: 16px;
-}
-
-.number {
-  text-align: right;
-  width: 42px;
-  padding-right: 6px;
-}
-
-.atkandsavediv {
-  width: 22rem;
-  padding: 8px;
-}
-
-.atkandsavecard {
-  padding: 0px;
-  border-radius: 0px;
-  max-width: 22rem;
-}
-
-.attackbonus {
-  font-size: 32px;
-  margin-right: 1rem;
-  padding-right: 1rem;
-}
-
-.originatorname {
-  font-weight: bold;
-  font-size: 18px;
-}
-
-.damagedice {
-  font-size: 18px;
-}
-
-.tableitem {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
 }
