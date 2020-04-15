@@ -37,14 +37,14 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
   private updateWeightAndNetWorth = function() {
       this.totalWeight = 0;
       this.netWorth = 0;
-      for(let item of this.listof_equipmentitems) {
+      this.listof_equipmentitems.forEach(item => {
         this.netWorth += item.value * item.count;
         this.totalWeight += item.weight * item.count;
-      }
-      for(let item of this.listof_inventoryitems) {
+      });
+      this.listof_inventoryitems.forEach(item => {
         this.netWorth += item.value * item.count;
         this.totalWeight += item.weight * item.count;
-      }
+      });
     };
 
   ngOnDestroy() {
