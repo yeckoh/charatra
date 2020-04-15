@@ -1,0 +1,52 @@
+.cardColumn {
+  max-width: 20rem;
+  width: 20rem;
+  padding: 6px;
+}
+
+.cardTitle {
+  padding: 6px;
+}
+
+.cardDescrip {
+  padding: 1rem;
+  font-size: 16px;
+  white-space: pre-wrap;
+}
+
+.spellItem {
+  display: flex;
+  justify-content: space-between;
+}
+
+.columnbox {
+  min-width: 20rem;
+  max-width: 24rem;
+}
+
+.columncontainer {
+  padding: 8px;
+  margin: 0px;
+  margin-bottom: 1rem;
+}
+
+.mat-card {
+  padding: 0px;
+  border-radius: 0px;
+  max-width: 22rem;
+}
+
+.noborders {
+  padding: 0px;
+  margin: 0px;
+  border-radius: 0px;
+  max-width: 22rem;
+}
+
+.attunementseparatorlabel {
+  padding: 1rem;
+  font-size: 18px;
+  padding-bottom: 0.5rem;
+
+  color: darkgray;
+}

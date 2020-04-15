@@ -3,6 +3,7 @@ const Attack = require('./attacks.model');
 const Saves = require('./savethrows.model');
 
 var SpellSchema = mongoose.Schema({
+    selected_color: String,
     spellname: String,
     descript: String,
     lvl: Number,
@@ -20,6 +21,10 @@ var SpellSchema = mongoose.Schema({
   
 const Spell = module.exports = mongoose.model('Spells', SpellSchema);
   
+
+module.exports.SaveSpell = function(spell) {
+    spell.save();
+}
 // schema model functions -> {mongoose functions}
 
 module.exports.AddToListofattacks = function(spellid, atkid) {

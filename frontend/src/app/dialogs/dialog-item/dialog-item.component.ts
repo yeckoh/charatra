@@ -148,6 +148,9 @@ export class DialogItemComponent implements OnInit, OnDestroy {
 
     this.subscriptions.add(this.charaservice.listenfor('Updated_one_item').subscribe(data => {
       const updateditem = data as Items;
+      if (updateditem._id !== this.thisItem._id) {
+        return;
+      }
       let itemIndex = this.inventory.listof_items.findIndex(e => e._id === updateditem._id); // EQUIPMENT LIST
       if (itemIndex !== -1) {
         this.inventory = this.chara.equipped_itemcontainer;

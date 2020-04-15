@@ -13,7 +13,7 @@ var mongoose = require('mongoose');
 module.exports = function(socket) {
     console.log("\x1b[34m"+'ws-loaded:'+"\x1b[0m"+'attack_hooks');
 
-    // when 'make_new_attack' gets fired... CREATE_ONE
+    // CREATE_ONE
     socket.on('Make_new_attack', function(sent_in_data) {
         let newattack = new Attack({
             _id: mongoose.Types.ObjectId(),
@@ -40,15 +40,15 @@ module.exports = function(socket) {
     });
 
 
-    // when get all chara attacks gets fired... READ_ALL
-    socket.on('Get_all_chara_attacks', function(sent_in_data) {
-        // a_promise.then -> do stuff with the data
-        Attack.GetAllAttacks(sent_in_data.attacksids).then(function(allattacks) {
-            socket.emit('Read_all_chara_attacks', allattacks);
-        });
-    });
+    // // READ_ALL
+    // socket.on('Get_all_chara_attacks', function(sent_in_data) {
+    //     // a_promise.then -> do stuff with the data
+    //     Attack.GetAllAttacks(sent_in_data.attacksids).then(function(allattacks) {
+    //         socket.emit('Read_all_chara_attacks', allattacks);
+    //     });
+    // });
 
-    // when 'update selected attacks' gets fired... UPDATE_ONE
+    // UPDATE_ONE
     socket.on('Update_selected_attack', function(sent_in_data) {
         // data is .attack and .charaid
         Attack.findByIdAndUpdate(sent_in_data.attack._id, sent_in_data.attack, {new: true}, function(err, updatedAttack) {

@@ -22,17 +22,17 @@ var SavingThrowSchema = mongoose.Schema({
     savethrowobj.save();
 }
 
-  // for testing subdoc popyulate only
-  module.exports.MakeASavingThrow = function() {
-    let newsave = new SavingThrow({
-      name: 'Fireball',
-      details: 'save for half',
-      saveDC: '{111} dex',
-      damage: '111'
-    });
-    newsave.save();
-    return newsave._id;
-  }
+  // // for testing subdoc popyulate only
+  // module.exports.MakeASavingThrow = function() {
+  //   let newsave = new SavingThrow({
+  //     name: 'Fireball',
+  //     details: 'save for half',
+  //     saveDC: '{111} dex',
+  //     damage: '111'
+  //   });
+  //   newsave.save();
+  //   return newsave._id;
+  // }
   
 
   module.exports.DeleteCascading = function(saveids) {

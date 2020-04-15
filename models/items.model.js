@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-// nested testing only
 const Attack = require('../models/attacks.model');
 const Saves = require('../models/savethrows.model');
 const ArmorMod = require('../models/armor_modifiers.model');
@@ -80,9 +79,3 @@ module.exports.DeleteCascading = function(itemids) {
     });
     Item.deleteMany({_id: itemids}).exec();
 }
-
-
-/*
-            listof_atks: [Attack.MakeNewAttack()],
-            listof_saves: [Saves.MakeASavingThrow()],
-*/

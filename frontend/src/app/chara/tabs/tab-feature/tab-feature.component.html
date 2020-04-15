@@ -53,7 +53,7 @@
               <label>Spells</label>
               <mat-divider></mat-divider>
               <!-- spell attacks go here -->
-<!--              <table *ngFor="let attack of spellattacks" class='tableitem'>
+              <table *ngFor="let attack of spellattacks" class='tableitem' (click)='openAttackDialog(attack)'>
                 <tr><td rowspan='3' class='attackbonus'>
                   <label *ngIf="nonRegularFormula(attack.atkbonus) > -1">+</label>
                   {{nonRegularFormula(attack.atkbonus)}}</td> <td class='originatorname'>{{attack.name}}</td>
@@ -69,7 +69,7 @@
                     </td>
                   </tr>
                 </table>
--->
+
         </mat-card-content>
       </mat-card>
       </div>
@@ -123,7 +123,7 @@
               <label>Spells</label>
               <mat-divider></mat-divider>
               <!-- spell attacks go here -->
-<!--              <table *ngFor="let save of spellsaves" class='tableitem'>
+              <table *ngFor="let save of spellsaves" class='tableitem' (click)='openSaveDialog(save)'>
                 <tr><td rowspan='3' class='attackbonus'>
                   {{nonRegularFormula(save.saveDC)}}</td> <td class='originatorname'>{{save.name}}</td>
                   </tr>
@@ -138,7 +138,6 @@
                     </td>
                   </tr>
                 </table>
--->
         </mat-card-content>
       </mat-card>
       </div>
@@ -162,13 +161,25 @@
   <div style='max-width: 20rem; width: 20rem; padding: 6px;'>
     <div class='mat-elevation-z8' [style.background-color]="feature.selected_color">
     <mat-card-title style='padding: 6px;' (click)='openFeatureDialog(feature)'>
-      <label style='padding:0px; margin: 0px;'>{{feature.title}}</label>
+
+      <table style='width: 100%'>
+        <tr><td style='font-size: 24px;'>
+          {{feature.title}}
+        </td><td style='text-align: right; vertical-align: top; white-space: nowrap; font-size: 24px;'>
+          <label *ngIf="feature.uses != 0">{{feature.uses_left}}/{{feature.uses}}</label>
+        </td></tr>
+      </table>
+
     </mat-card-title>
 
     <mat-card style='padding: 0px; border-radius: 0px'>
       <mat-card-content style='padding: 1rem; font-size: 16px; white-space: pre-wrap;'>
         {{nonRegularFormula(feature.descript)}}
       </mat-card-content>
+      <mat-card-actions *ngIf="feature.uses != 0" class='cardactionbuttons' align='end'>
+        <button mat-button class='p500' [disabled]='feature.uses_left <= 0' (click)='decrementUsesLeft(feature)'>USE</button>
+        <button mat-button class='p500' (click)='resetUsesLeft(feature)'>RESET</button>
+      </mat-card-actions>
     </mat-card>
     </div>
   </div>

@@ -18,10 +18,10 @@ module.exports.SaveClass = function(classobj) {
     classobj.save();
 }
 
-module.exports.GetAllClasses = function(allids) {
-    var query = Class.find().where('_id').in(allids).exec();
-    return query;
-}
+// module.exports.GetAllClasses = function(allids) {
+//     var query = Class.find().where('_id').in(allids).exec();
+//     return query;
+// }
 
 module.exports.MakeNewClass = function() {
     let newclass = new Class({

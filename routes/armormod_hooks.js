@@ -2,8 +2,8 @@
 const ArmorMod = require('../models/armor_modifiers.model');
 
 // parent models
-const Feature = require('../models/features.model');
-const Item = require('../models/items.model');
+// const Feature = require('../models/features.model');
+// const Item = require('../models/items.model');
 
 
 module.exports = function(socket) {
@@ -14,6 +14,7 @@ module.exports = function(socket) {
     socket.on('Update_selected_armormod', function(sent_in_data) {
         // data is .charaid .armormod
         ArmorMod.findByIdAndUpdate(sent_in_data.armormod._id, sent_in_data.armormod, {new: true}, function(err, updatedArmormod) {
+            console.log('armormod updated');
             socket.emit('Updated_selected_armormod', updatedArmormod);
             socket.in(sent_in_data.charaid).emit('Updated_selected_armormod', updatedArmormod);
         });

@@ -292,7 +292,7 @@ export class TabOverviewComponent implements OnInit, OnDestroy {
         baseac = element.baseac;
       }
       if (element.usemax && element.maxac < maxac) {
-        maxac = element.maxac;
+        maxac = element.maxac as number;
       }
       if (element.useadd) {
         additionalac += element.addac as number;
@@ -300,7 +300,7 @@ export class TabOverviewComponent implements OnInit, OnDestroy {
   });
     this.calc_ac += this.dexMod as number;
     if (this.calc_ac > maxac) {
-      this.calc_ac = maxac;
+      this.calc_ac = maxac as number;
     }
     if (this.calc_ac < baseac) {
       this.calc_ac = baseac as number;
