@@ -1,5 +1,4 @@
-TODO: replace the git repo name with MagicPages.
-
+# To get this project up and running
 step 1. install nodejs + npm
 
 step 2. install mongodb. mongo-compass is like mysqlworkbench, you can check records and CRUD. New connection: localhost:27017
