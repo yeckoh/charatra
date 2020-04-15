@@ -2,7 +2,7 @@
   <mat-sidenav #drawer mode="side" opened fixedInViewport='true' (mouseleave)='drawer.opened=false' (mouseenter)='drawer.opened=true'>
       <mat-nav-list style='min-width: 10rem;'>
         <a *ngIf=!authServ.isLoggedIn [routerLink]="['/signin']"><mat-list-item>Sign in</mat-list-item></a>
-        <a *ngIf=authServ.isLoggedIn href="#" (click)="onSignoutClick()"><mat-list-item>Sign out</mat-list-item></a>
+        <a *ngIf=authServ.isLoggedIn href="#" (click)="onSignoutClick(); chara.persona.name = 'Sign in'"><mat-list-item>Sign out</mat-list-item></a>
         <a *ngIf=authServ.isLoggedIn [routerLink]="['/home']"><mat-list-item>Home</mat-list-item></a>
         <hr>
         <div>
@@ -14,7 +14,8 @@
 
   <mat-sidenav-content (mouseenter)='drawer.opened=false'>
     <mat-toolbar class='mat-elevation-z7' (mouseleave)='drawer.opened=false' (mouseenter)='drawer.opened=true'>
-      <span>hello</span>
+      <span *ngIf='!authServ.isLoggedIn; else charaname'>Sign in</span>
+      <ng-template #charaname><span>{{chara.persona.name}}</span></ng-template>
     </mat-toolbar>
     <router-outlet></router-outlet>
   </mat-sidenav-content>

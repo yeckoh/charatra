@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./dialog-attack.component.scss']
 })
 export class DialogAttackComponent implements OnInit, OnDestroy {
-  private attack: Attack;
+  attack: Attack;
 
   constructor(private charaservice: CharaService,
               @Inject(MAT_DIALOG_DATA) data,

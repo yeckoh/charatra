@@ -22,15 +22,15 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
   constructor(private charaservice: CharaService,
               private matDialog: MatDialog) { }
 
-  private chara: Chara = new Chara();
+  chara: Chara = new Chara();
   // tslint:disable: variable-name
   // tslint:disable: max-line-length
-  private listof_equipmentitems = [] as Items[];
-  private listof_inventoryitems = [] as Items[];
-  private listof_extraitems = [] as Items[];
+  listof_equipmentitems = [] as Items[];
+  listof_inventoryitems = [] as Items[];
+  listof_extraitems = [] as Items[];
 
-  private netWorth = 0;
-  private totalWeight = 0;
+  netWorth = 0;
+  totalWeight = 0;
 
   private subscriptions: Subscription;
 

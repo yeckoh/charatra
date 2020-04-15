@@ -15,12 +15,13 @@ import { Subscription } from 'rxjs';
 })
 export class SidenavComponent implements OnInit, OnDestroy {
 
-  constructor(private authServ: AuthService,
+  constructor(public authServ: AuthService,
               private router: Router,
               private alohaSnackBar: MatSnackBar,
               private charaservice: CharaService) { }
 
-  private allcharas = [];
+  allcharas = [];
+  chara = new Chara();
 
   private subscriptions: Subscription;
 
@@ -29,6 +30,10 @@ export class SidenavComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    if (this.charaservice.UserRoom === undefined) {
+      this.chara.persona.name = 'Select a character';
+    }
+    this.chara.persona.name = 'Select a character';
     this.subscriptions = (this.charaservice.listenfor('Read_all_user_charas').subscribe((data) => {
         this.allcharas = data as Chara[];
         console.log('readallcharas\n', data);
@@ -37,6 +42,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
     this.subscriptions.add(this.charaservice.listenfor('Updated_one_chara').subscribe((data) => {
       const replacementIndex = this.allcharas.findIndex(e => e._id === (data as Chara)._id);
       this.allcharas[replacementIndex] = data as Chara;
+      this.chara = data as Chara;
     }));
 
     this.subscriptions.add(this.charaservice.listenfor('Created_new_chara').subscribe((data) => {

@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./dialog-savingthrow.component.scss']
 })
 export class DialogSavingthrowComponent implements OnInit, OnDestroy {
-  private save: Savethrows;
+  save: Savethrows;
 
   constructor(private charaservice: CharaService,
               @Inject(MAT_DIALOG_DATA) data,

@@ -18,86 +18,86 @@ import { TabInventoryComponent } from '../tab-inventory/tab-inventory.component'
   styleUrls: ['./tab-overview.component.scss']
 })
 export class TabOverviewComponent implements OnInit, OnDestroy {
-  private chara: Chara = new Chara();
+  chara: Chara = new Chara();
     // pulled straight
-  private str;
-  private dex;
-  private con;
-  private int;
-  private wis;
-  private cha;
+  str;
+  dex;
+  con;
+  int;
+  wis;
+  cha;
 
   // calculated
-  private strMod;
-  private dexMod;
-  private conMod;
-  private intMod;
-  private wisMod;
-  private chaMod;
+  strMod;
+  dexMod;
+  conMod;
+  intMod;
+  wisMod;
+  chaMod;
 
   /// GRAB HIGHEST AC TOTAL FROM ITEMS AND PUT IT HERE OR SOMETHING
   // tslint:disable: variable-name
-  private calc_ac;
+  calc_ac;
   private armorMods = [] as ArmorMod[];
 
-  private strSave;
-  private dexSave;
-  private conSave;
-  private intSave;
-  private wisSave;
-  private chaSave;
+  strSave;
+  dexSave;
+  conSave;
+  intSave;
+  wisSave;
+  chaSave;
 
-  private strSaveIsProficient;
-  private dexSaveIsProficient;
-  private conSaveIsProficient;
-  private intSaveIsProficient;
-  private wisSaveIsProficient;
-  private chaSaveIsProficient;
+  strSaveIsProficient;
+  dexSaveIsProficient;
+  conSaveIsProficient;
+  intSaveIsProficient;
+  wisSaveIsProficient;
+  chaSaveIsProficient;
 
 
-  private acrobatics;
-  private handling;
-  private arcana;
-  private athletics;
-  private deception;
-  private history;
-  private insight;
-  private intimidation;
-  private investigation;
-  private medicine;
-  private nature;
-  private perception;
-  private performance;
-  private persuasion;
-  private religion;
-  private sleight;
-  private stealth;
-  private survival;
+  acrobatics;
+  handling;
+  arcana;
+  athletics;
+  deception;
+  history;
+  insight;
+  intimidation;
+  investigation;
+  medicine;
+  nature;
+  perception;
+  performance;
+  persuasion;
+  religion;
+  sleight;
+  stealth;
+  survival;
 
-  private acrobaticsIsProficient;
-  private handlingIsProficient;
-  private arcanaIsProficient;
-  private athleticsIsProficient;
-  private deceptionIsProficient;
-  private historyIsProficient;
-  private insightIsProficient;
-  private intimidationIsProficient;
-  private investigationIsProficient;
-  private medicineIsProficient;
-  private natureIsProficient;
-  private perceptionIsProficient;
-  private performanceIsProficient;
-  private persuasionIsProficient;
-  private religionIsProficient;
-  private sleightIsProficient;
-  private stealthIsProficient;
-  private survivalIsProficient;
+  acrobaticsIsProficient;
+  handlingIsProficient;
+  arcanaIsProficient;
+  athleticsIsProficient;
+  deceptionIsProficient;
+  historyIsProficient;
+  insightIsProficient;
+  intimidationIsProficient;
+  investigationIsProficient;
+  medicineIsProficient;
+  natureIsProficient;
+  perceptionIsProficient;
+  performanceIsProficient;
+  persuasionIsProficient;
+  religionIsProficient;
+  sleightIsProficient;
+  stealthIsProficient;
+  survivalIsProficient;
 
-  private profBonus = 0;
-  private totalHitpoints = 1337;
-  private currentHitpoints = 256;
-  private initiative;
-  private level: number; // THIS GETS MODIFIED FROM CLASSES, ITS REALLY READ-ONLY HERE
+  profBonus = 0;
+  totalHitpoints = 1337;
+  currentHitpoints = 256;
+  initiative;
+  level: number; // THIS GETS MODIFIED FROM CLASSES, ITS REALLY READ-ONLY HERE
 
   public finishswappingitems;
 
