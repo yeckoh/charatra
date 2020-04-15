@@ -31,14 +31,17 @@ module.exports = function(socket) {
             listof_attacks: [],
             listof_savingthrows: []
         });
-        newitem.armormod =  ArmorMod.MakeNewItemArmor(newitem._id);
+        let armormod = ArmorMod.MakeNewItemArmor(newitem._id);
+        newitem.armormod =  armormod._id;
 
         Item.SaveItem(newitem);
 
         Container.AddToListofitems(sent_in_data.containerid, newitem._id);
-
-        socket.emit('Created_new_item', newitem);
-        socket.broadcast.in(sent_in_data.charaid).emit('Created_new_item', newitem);
+        
+        let returnitem = newitem;
+        returnitem.armormod = armormod;
+        socket.emit('Created_new_item', returnitem);
+        socket.broadcast.in(sent_in_data.charaid).emit('Created_new_item', returnitem);
     });
 
 

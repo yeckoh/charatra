@@ -73,10 +73,7 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
     this.subscriptions.add(this.charaservice.listenfor('Created_new_item').subscribe(data => {
       // always go into inventory
       const newitem = data as Items;
-      // this.listof_inventoryitems.push(newitem);
       this.chara.inventory_container.listof_items.push(newitem);
-      // TODO
-      // add newitemid to container.ids?
     }));
 
     // the item wasn't moved, we just updated it's properties
@@ -302,9 +299,9 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
     // MOVED ITEM BETWEEN CONTAINER
     this.subscriptions.add(this.charaservice.listenfor('Updated_one_container').subscribe(data => {
       // update local list only, chara.* gets updated in features-tab
-      this.listof_equipmentitems = this.chara.equipped_itemcontainer.listof_items as Items[];
-      this.listof_inventoryitems = this.chara.inventory_container.listof_items as Items[];
-      this.listof_extraitems = this.chara.extra_characontainer.listof_items as Items[];
+      this.listof_equipmentitems = this.chara.equipped_itemcontainer.listof_items;
+      this.listof_inventoryitems = this.chara.inventory_container.listof_items;
+      this.listof_extraitems = this.chara.extra_characontainer.listof_items;
     }));
 
     // UPDATED ITEM ARMOR_MODIFIER

@@ -56,15 +56,10 @@ var ArmorModSchema = mongoose.Schema({
         addac: 128
     });
     newArmor.save();
-    return newArmor._id;
+    return newArmor;
   }
 
 
   module.exports.DeleteCascading = function(allids) {
     ArmorMod.deleteMany({_id: allids}).exec();
   }
-
-  // module.exports.GetAllArmorModifiers = function(allids) {
-  //     var query = ArmorMod.find().where('_id').in(allids).exec();
-  //     return query;
-  // }

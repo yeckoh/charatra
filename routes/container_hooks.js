@@ -52,7 +52,7 @@ module.exports = function(socket) {
             swapids.oldcontainer = sent_in_data.oldcontainer._id;
           socket.emit('Updated_one_container', swapids);
           socket.broadcast.in(sent_in_data.charaid).emit('Updated_one_container', swapids);
-          console.log('moved successfully, tell everyone what was swapped and where');
+          console.log('item swapped');
         });
     });
 
