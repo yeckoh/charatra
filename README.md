@@ -1,45 +1,48 @@
-# To get this project up and running
 step 1. install nodejs + npm
 
 step 2. install mongodb. mongo-compass is like mysqlworkbench, you can check records and CRUD. New connection: localhost:27017
 
 step 3. specify a path for the database collections. mongo\bin\mongod.exe --dbpath [path to a folder]
 
-step 4. use npm to install module dependencies. /charatra/ npm install
+step 4. use npm to install module dependencies. /magicpages/ npm install
 
-step 5. run nodejs. /charatra/node server
+step 5. run nodejs. /magicpages/node server
 
-step 6. in a separate shell, run Angular. /charatra/frontend/ng serve
+step 6. in a separate shell, run Angular. /magicpages/frontend/ng serve
 
 step 7. in a browser, connect to: http://localhost:4200
 
 # ~~charatra~~ MagicPages
 you might need to npm i -g @angular/cli
 
-Angular: /charatra/frontend/
+Angular: /magicpages/frontend/
 
-NodeJS: /charatra/
+NodeJS: /magicpages/
 
-PassportJS: /charatra/controllers/passport.js <--(used by /models/user)
+PassportJS: /magicpages/controllers/passport.js <--(used by /models/user)
 
-Mongoose Schemas: /charatra/models/
+Mongoose Schemas: /magicpages/models/
 
-socket.io is loaded in /charatra/server.js
+socket.io is loaded in /magicpages/server.js
 
-Backend WebSocket Hooks (listeners + emitters): /charatra/routes/*_hooks.js
+Backend WebSocket Hooks (listeners + emitters): /magicpages/routes/*_hooks.js
 
-Frontend WebSocket Hooks: /charatra/frontend/src/app/*.component.ts (not all components have listeners)
+Frontend WebSocket Hooks: /magicpages/frontend/src/app/*.component.ts (not all components have listeners)
 
-Frontend Websocket listenfor() and sendback(): /charatra/frontend/src/app/shared/chara.service.ts
+Frontend Websocket listenfor() and sendback(): /magicpages/frontend/src/app/shared/chara.service.ts
 
-# to (sort of) deploy, change localhost:4200 urls in:
-Express CORS origin policy <---- /charatra/server.js
+# to (sort of) deploy, change localhost:xxxx urls in:
+Express CORS origin policy <---- /magicpages/server.js <==== [.use(cors()) to allow all incoming]
 
-Angular user auth httproute <---- /charatra/frontend/src/app/shared/auth.service.ts
+Angular user auth httproute <---- /magicpages/frontend/src/app/shared/auth.service.ts <==== NodeJS target url
 
-Angular socket connection target url <---- /charatra/frontend/src/app/shared/chara.service.ts
+Angular socket connection target url <---- /magicpages/frontend/src/app/shared/chara.service.ts <==== NodeJS target url
 
-Run ng server --host (ip4)
+Run ng server --host (ip4) <==== simulate build on development machine
+
+OR ng build --prod <---- will compile to /frontend/dist/ <==== host this on apache or something
+
+Run /magicpages/ node server
 
 Make sure the appropriate ports are open if necessary
 
