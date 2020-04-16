@@ -36,6 +36,5 @@ module.exports.MakeNewClass = function() {
 }
 
 module.exports.DeleteCascading = function(classid) {
-  console.log(classid.toString());
-  Class.deleteMany({_id: classid.toString()}).exec();
+  Class.deleteMany({_id: classid}).exec();
 }
