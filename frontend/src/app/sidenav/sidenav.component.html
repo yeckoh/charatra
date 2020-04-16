@@ -14,8 +14,9 @@
 
   <mat-sidenav-content (mouseenter)='drawer.opened=false'>
     <mat-toolbar class='mat-elevation-z7' (mouseleave)='drawer.opened=false' (mouseenter)='drawer.opened=true'>
-      <span *ngIf='!authServ.isLoggedIn; else charaname'>Sign in</span>
-      <ng-template #charaname><span>{{chara.persona.name}}</span></ng-template>
+      <span *ngIf='!authServ.isLoggedIn; else loggedin'>Sign in</span>
+      <ng-template #loggedin><span *ngIf='charaservice.CharaId === undefined; else charaname'>Select a character</span></ng-template>
+      <ng-template #charaname><span>{{chara.persona.name}}   {{chara.persona.race}} - {{chara.chara_class.class_name}} {{chara.chara_class.class_level}}</span></ng-template>
     </mat-toolbar>
     <router-outlet></router-outlet>
   </mat-sidenav-content>

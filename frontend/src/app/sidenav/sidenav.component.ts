@@ -18,7 +18,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
   constructor(public authServ: AuthService,
               private router: Router,
               private alohaSnackBar: MatSnackBar,
-              private charaservice: CharaService) { }
+              public charaservice: CharaService) { }
 
   allcharas = [];
   chara = new Chara();
