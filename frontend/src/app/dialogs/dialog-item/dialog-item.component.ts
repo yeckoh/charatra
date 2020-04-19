@@ -53,6 +53,12 @@ export class DialogItemComponent implements OnInit, OnDestroy {
                 this.intMod = this.modPipe.transform(this.int);
                 this.wisMod = this.modPipe.transform(this.wis);
                 this.chaMod = this.modPipe.transform(this.cha);
+                this.strDC = 8 + this.strMod + this.profBonus;
+                this.dexDC = 8 + this.dexMod + this.profBonus;
+                this.conDC = 8 + this.conMod + this.profBonus;
+                this.intDC = 8 + this.intMod + this.profBonus;
+                this.wisDC = 8 + this.wisMod + this.profBonus;
+                this.chaDC = 8 + this.chaMod + this.profBonus;
                }
 
     thisItem: Items;

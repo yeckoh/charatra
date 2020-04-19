@@ -1,3 +1,13 @@
+.outterWraper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.personaCard {
+  min-width: 20rem;
+  padding: 6px;
+}
+
 .cardColumn {
   max-width: 20rem;
   width: 20rem;

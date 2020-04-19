@@ -6,7 +6,7 @@ import { Chara } from 'src/app/shared/chara.model';
 import { MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { DialogItemComponent } from 'src/app/dialogs/dialog-item/dialog-item.component';
-import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+// import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import { Attack } from 'src/app/shared/attack.model';
 import { Savethrows } from 'src/app/shared/savethrows.model';
 import { ArmorMod } from 'src/app/shared/armor-mod.model';
@@ -270,6 +270,7 @@ export class TabInventoryComponent implements OnInit, OnDestroy {
       this.listof_inventoryitems = this.chara.inventory_container.listof_items as Items[];
       this.listof_extraitems = this.chara.extra_characontainer.listof_items as Items[];
 
+      this.updateWeightAndNetWorth();
     }));
 
     // DELETED ITEM ATTACK

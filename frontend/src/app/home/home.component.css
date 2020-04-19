@@ -1,13 +1,15 @@
-.my-card {
-  color: primary;
-  min-width: 150px;
-  max-width: 300px;
-  width: 100%;
+.outterWraper {
+  display: flex;
+  flex-wrap: wrap;
 }
 
-.my-form {
-  color: accent;
-  min-width: 150px;
-  max-width: 500px;
-  width: 100%;
+.cardColumn {
+  max-width: 20rem;
+  width: 20rem;
+  padding: 6px;
+}
+
+.columnbox {
+  min-width: 20rem;
+  max-width: 24rem;
 }
