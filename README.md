@@ -34,6 +34,8 @@ Frontend Websocket listenfor() and sendback(): /magicpages/frontend/src/app/shar
 # to (sort of) deploy, change localhost:xxxx urls in:
 Express CORS origin policy <---- /magicpages/server.js <==== [.use(cors()) to allow all incoming]
 
+Database connection <---- /magicpages/dbconnect.js <==== database url
+
 Angular user auth httproute <---- /magicpages/frontend/src/app/shared/auth.service.ts <==== NodeJS target url
 
 Angular socket connection target url <---- /magicpages/frontend/src/app/shared/chara.service.ts <==== NodeJS target url
